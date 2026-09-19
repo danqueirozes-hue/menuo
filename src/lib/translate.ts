@@ -12,14 +12,18 @@ function sleep(ms: number) {
 }
 
 /**
- * Publishing a menu can fire dozens of translation calls back to back (every
- * dish x every language). Free-tier translation APIs rate-limit bursts like
- * that with 429s, so retry with backoff instead of giving up on the first hit.
+ * Publishing translates in small batches that get retried by the caller
+ * (see src/lib/translation-progress.ts) — a pair that fails here just stays
+ * untranslated and gets picked up again on the next batch a moment later.
+ * So it's better to fail fast than to sit in a long backoff: one stubborn
+ * call blocking here for 20+s can push a whole batch past Netlify's edge
+ * timeout, which used to abort the client's connection mid-publish even
+ * though the server-side work was still completing fine underneath it.
  */
 async function fetchWithRetry(
   url: string,
   options: RequestInit,
-  maxRetries = 5
+  maxRetries = 1
 ): Promise<Response> {
   for (let attempt = 0; ; attempt++) {
     const res = await fetch(url, options);
@@ -27,8 +31,8 @@ async function fetchWithRetry(
 
     const retryAfter = parseFloat(res.headers.get("retry-after") ?? "");
     const backoffMs = Number.isFinite(retryAfter)
-      ? retryAfter * 1000
-      : Math.min(1000 * 2 ** attempt, 8000) + Math.random() * 250;
+      ? Math.min(retryAfter * 1000, 1500)
+      : 500 + Math.random() * 500;
 
     await sleep(backoffMs);
   }

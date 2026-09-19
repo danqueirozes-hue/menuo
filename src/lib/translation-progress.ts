@@ -14,9 +14,11 @@ type MenuWithContent = {
 
 const TRANSLATE_CONCURRENCY = 5;
 // Keep every batch small enough that a single request always finishes well
-// inside a serverless function's execution window, no matter how big the
-// menu is — a large menu just takes more batches, not a slower request.
-export const TRANSLATE_BATCH_SIZE = 20;
+// inside Netlify's edge timeout (~26-30s), no matter how big the menu is —
+// a large menu just takes more batches, not a slower request. Combined with
+// the tight retry budget in translate.ts, worst case per batch stays a few
+// seconds even when the translation provider is rate-limiting.
+export const TRANSLATE_BATCH_SIZE = 10;
 
 function targetLanguagesFor(menu: MenuWithContent): string[] {
   return LANGUAGES.map((l) => l.code).filter((code) => code !== menu.defaultLanguage);
