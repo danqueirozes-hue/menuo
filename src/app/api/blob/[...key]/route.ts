@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isNetlifyRuntime } from "@/lib/runtime";
 
 // Serves files stored via Netlify Blobs (see src/lib/uploads.ts). Only
 // reachable in production — locally, uploads are plain static files under
@@ -6,7 +7,7 @@ import { NextResponse } from "next/server";
 export async function GET(_req: Request, { params }: { params: Promise<{ key: string[] }> }) {
   const { key } = await params;
 
-  if (!process.env.NETLIFY) {
+  if (!isNetlifyRuntime()) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
