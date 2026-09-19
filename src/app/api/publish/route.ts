@@ -9,13 +9,27 @@ import {
 import { LANGUAGES } from "@/lib/languages";
 import { translateText } from "@/lib/translate";
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+// Publishing can need ~150+ translation calls (dishes x languages) for a
+// small menu. Running them one at a time was taking well over a minute,
+// long enough to look "stuck" or hit a proxy/function timeout. A small
+// concurrency pool cuts that dramatically while fetchWithRetry (see
+// src/lib/translate.ts) still backs off on 429s from any single worker.
+const TRANSLATE_CONCURRENCY = 5;
 
-// Small pacing gap between translation calls. Free-tier providers rate-limit
-// bursts, and publishing fires one call per dish/section per language.
-const TRANSLATE_PACING_MS = 120;
+async function mapWithConcurrency<T>(
+  items: T[],
+  limit: number,
+  fn: (item: T) => Promise<void>
+): Promise<void> {
+  let next = 0;
+  async function worker() {
+    while (next < items.length) {
+      const item = items[next++];
+      await fn(item);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+}
 
 export async function POST(req: Request) {
   const userId = await getCurrentUserId();
@@ -60,20 +74,19 @@ export async function POST(req: Request) {
         (t) => t.language
       )
     );
-    for (const lang of targetLanguages) {
-      if (existingSectionLangs.has(lang)) continue;
-      await sleep(TRANSLATE_PACING_MS);
+    const pendingSectionLangs = targetLanguages.filter((lang) => !existingSectionLangs.has(lang));
+    await mapWithConcurrency(pendingSectionLangs, TRANSLATE_CONCURRENCY, async (lang) => {
       const result = await translateText(section.name, lang);
       // Only cache real translations. If no provider is configured, skip
       // persisting so this language is retried once a provider is added,
       // instead of permanently caching the untranslated source text.
-      if (!result.translated) continue;
+      if (!result.translated) return;
       await prisma.sectionTranslation.upsert({
         where: { sectionId_language: { sectionId: section.id, language: lang } },
         create: { sectionId: section.id, language: lang, name: result.text },
         update: { name: result.text },
       });
-    }
+    });
 
     for (const item of section.items) {
       const existingItemLangs = new Set(
@@ -81,14 +94,13 @@ export async function POST(req: Request) {
           (t) => t.language
         )
       );
-      for (const lang of targetLanguages) {
-        if (existingItemLangs.has(lang)) continue;
-        await sleep(TRANSLATE_PACING_MS);
+      const pendingItemLangs = targetLanguages.filter((lang) => !existingItemLangs.has(lang));
+      await mapWithConcurrency(pendingItemLangs, TRANSLATE_CONCURRENCY, async (lang) => {
         const [name, description] = await Promise.all([
           translateText(item.name, lang),
           translateText(item.description ?? "", lang),
         ]);
-        if (!name.translated) continue;
+        if (!name.translated) return;
         await prisma.itemTranslation.upsert({
           where: { menuItemId_language: { menuItemId: item.id, language: lang } },
           create: {
@@ -99,7 +111,7 @@ export async function POST(req: Request) {
           },
           update: { name: name.text, description: description.text },
         });
-      }
+      });
     }
   }
 
