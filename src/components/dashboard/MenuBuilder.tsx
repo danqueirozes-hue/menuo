@@ -1,10 +1,20 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { Plus } from "lucide-react";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { SectionEditor } from "./SectionEditor";
+import { SortableSection } from "./SortableSection";
 import { ItemEditor } from "./ItemEditor";
 import { ClientSection, ClientItem, SECTION_SUGGESTIONS } from "./types";
 import { DietaryFlags } from "@/lib/dietary-tags";
@@ -33,6 +43,11 @@ export function MenuBuilder({
     null
   );
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 150, tolerance: 5 } })
+  );
+
   async function addSection(name: string) {
     if (!name.trim()) return;
     const created = await api<ClientSection>("/api/sections", {
@@ -54,25 +69,37 @@ export function MenuBuilder({
     await api(`/api/sections/${id}`, { method: "DELETE" });
   }
 
-  async function moveSection(id: string, direction: "up" | "down") {
-    const index = sections.findIndex((s) => s.id === id);
-    const swapWith = direction === "up" ? index - 1 : index + 1;
-    if (swapWith < 0 || swapWith >= sections.length) return;
+  function handleSectionDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
 
-    const next = [...sections];
-    [next[index], next[swapWith]] = [next[swapWith], next[index]];
-    setSections(next);
+    const oldIndex = sections.findIndex((s) => s.id === active.id);
+    const newIndex = sections.findIndex((s) => s.id === over.id);
+    if (oldIndex === -1 || newIndex === -1) return;
 
-    await Promise.all([
-      api(`/api/sections/${next[index].id}`, {
-        method: "PATCH",
-        body: JSON.stringify({ position: index }),
-      }),
-      api(`/api/sections/${next[swapWith].id}`, {
-        method: "PATCH",
-        body: JSON.stringify({ position: swapWith }),
-      }),
-    ]);
+    const reordered = arrayMove(sections, oldIndex, newIndex);
+    setSections(reordered);
+
+    Promise.all(
+      reordered.map((s, index) =>
+        api(`/api/sections/${s.id}`, {
+          method: "PATCH",
+          body: JSON.stringify({ position: index }),
+        })
+      )
+    );
+  }
+
+  function reorderItems(sectionId: string, items: ClientItem[]) {
+    setSections((prev) => prev.map((s) => (s.id === sectionId ? { ...s, items } : s)));
+    Promise.all(
+      items.map((item, index) =>
+        api(`/api/items/${item.id}`, {
+          method: "PATCH",
+          body: JSON.stringify({ position: index }),
+        })
+      )
+    );
   }
 
   async function saveItem(
@@ -116,21 +143,28 @@ export function MenuBuilder({
 
   return (
     <div className="space-y-8">
-      {sections.map((section, index) => (
-        <SectionEditor
-          key={section.id}
-          section={section}
-          currency={currency}
-          canMoveUp={index > 0}
-          canMoveDown={index < sections.length - 1}
-          onRename={(name) => renameSection(section.id, name)}
-          onDelete={() => deleteSection(section.id)}
-          onMove={(direction) => moveSection(section.id, direction)}
-          onAddItem={() => setItemEditor({ sectionId: section.id })}
-          onEditItem={(item) => setItemEditor({ sectionId: section.id, item })}
-          onDeleteItem={(item) => deleteItem(section.id, item)}
-        />
-      ))}
+      <DndContext
+        id="sections-dnd"
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleSectionDragEnd}
+      >
+        <SortableContext items={sections.map((s) => s.id)} strategy={verticalListSortingStrategy}>
+          {sections.map((section) => (
+            <SortableSection
+              key={section.id}
+              section={section}
+              currency={currency}
+              onRename={(name) => renameSection(section.id, name)}
+              onDelete={() => deleteSection(section.id)}
+              onReorderItems={(items) => reorderItems(section.id, items)}
+              onAddItem={() => setItemEditor({ sectionId: section.id })}
+              onEditItem={(item) => setItemEditor({ sectionId: section.id, item })}
+              onDeleteItem={(item) => deleteItem(section.id, item)}
+            />
+          ))}
+        </SortableContext>
+      </DndContext>
 
       <div className="rounded-xl border border-dashed border-border p-6">
         <p className="text-sm font-medium text-ink">Add a new section</p>
