@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Input, Label } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { resizeImageForUpload } from "@/lib/resize-image";
 
 type Restaurant = {
   name: string;
@@ -38,8 +39,9 @@ export function SettingsForm({ restaurantId, restaurant }: { restaurantId: strin
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
+    const resized = await resizeImageForUpload(file);
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", resized);
     const res = await fetch("/api/upload", { method: "POST", body: formData });
     const data = await res.json();
     setUploading(false);

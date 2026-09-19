@@ -6,6 +6,7 @@ import { Input, Label, Textarea } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { ClientItem } from "./types";
 import { DIETARY_TAGS, DietaryKey, DietaryFlags } from "@/lib/dietary-tags";
+import { resizeImageForUpload } from "@/lib/resize-image";
 
 export function ItemEditor({
   initial,
@@ -47,8 +48,9 @@ export function ItemEditor({
     setUploading(true);
     setError(null);
 
+    const resized = await resizeImageForUpload(file);
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", resized);
     const res = await fetch("/api/upload", { method: "POST", body: formData });
     const data = await res.json();
     setUploading(false);
