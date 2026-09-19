@@ -6,5 +6,8 @@
 
 # Netlify auto-detects Next.js and applies its Next Runtime plugin — no
 # [[plugins]] block needed. `prisma migrate deploy` applies any pending
-# database migrations right before each build, using the DATABASE_URL
-# Netlify's Postgres (Neon) integration sets automatically.
+# database migrations right before each build, using DATABASE_URL
+# (pooled) and DIRECT_URL (direct) set by the "Prisma Postgres" Netlify
+# extension. The native "Netlify Database" integration does NOT work
+# here — its Postgres role lacks CREATE on the public schema, which
+# `prisma migrate deploy` requires.
