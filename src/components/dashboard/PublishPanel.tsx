@@ -33,25 +33,52 @@ export function PublishPanel({
   const [pdfLang, setPdfLang] = useState(defaultLanguage);
   const [downloadingPdf, setDownloadingPdf] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
-  const [slow, setSlow] = useState(false);
+  const [translating, setTranslating] = useState(false);
+  const [translationsRemaining, setTranslationsRemaining] = useState<number | null>(null);
+
+  // Publishing itself is instant. Translating into 20 languages is separate
+  // work, done in small bounded batches (see /api/publish/translate) so a
+  // single request never has to carry a whole menu's worth of translation
+  // calls — that's what used to make big menus time out or look stuck.
+  async function runTranslationBatches() {
+    setTranslating(true);
+    let consecutiveFailures = 0;
+    try {
+      while (true) {
+        const res = await fetch("/api/publish/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ menuId }),
+        });
+        if (!res.ok) {
+          consecutiveFailures++;
+          if (consecutiveFailures >= 3) {
+            setError("Translating hit a snag. Click \"Update translations\" to pick up where it left off.");
+            break;
+          }
+          continue;
+        }
+        consecutiveFailures = 0;
+        const data = await res.json();
+        setTranslationsRemaining(data.remaining);
+        if (data.done) break;
+      }
+    } finally {
+      setTranslating(false);
+      setTranslationsRemaining(null);
+      router.refresh();
+    }
+  }
 
   async function togglePublish(publish: boolean) {
     setLoading(true);
     setError(null);
     setNeedsSubscription(false);
-    setSlow(false);
-    // Translating a full menu into 20 languages is dozens of API calls and
-    // can take a while. Most of that time nothing visible happens, so let
-    // people know it's still working instead of leaving a bare spinner.
-    const slowTimer = setTimeout(() => setSlow(true), 8000);
-    const controller = new AbortController();
-    const abortTimer = setTimeout(() => controller.abort(), 90_000);
     try {
       const res = await fetch("/api/publish", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ menuId, publish }),
-        signal: controller.signal,
       });
       const data = await res.json();
       if (!res.ok) {
@@ -64,18 +91,13 @@ export function PublishPanel({
         setTimeout(() => setRefreshed(false), 3000);
       }
       router.refresh();
+      if (publish && data.pendingTranslations > 0) {
+        setTranslationsRemaining(data.pendingTranslations);
+        runTranslationBatches();
+      }
     } catch {
-      // Translation work already in progress on the server keeps running
-      // even if this request gets cut off client-side — already-translated
-      // languages are cached, so trying again shortly picks up where it
-      // left off instead of starting over.
-      setError(
-        "This is taking longer than expected. It may still be finishing in the background — wait a minute and try again."
-      );
+      setError("Something went wrong. Please try again.");
     } finally {
-      clearTimeout(slowTimer);
-      clearTimeout(abortTimer);
-      setSlow(false);
       setLoading(false);
     }
   }
@@ -136,11 +158,6 @@ export function PublishPanel({
           >
             {loading ? "Publishing…" : "Publish menu"}
           </Button>
-          {slow && (
-            <p className="mt-3 text-xs text-ink-soft">
-              Translating your menu into 20 languages — this can take up to a minute.
-            </p>
-          )}
         </div>
       ) : (
         <div className="space-y-6">
@@ -206,21 +223,22 @@ export function PublishPanel({
           </div>
 
           {error && <p className="text-sm text-red-600">{error}</p>}
-          {refreshed && <p className="text-sm text-green">Translations updated.</p>}
-          {slow && (
+          {refreshed && !translating && <p className="text-sm text-green">Translations updated.</p>}
+          {translating && (
             <p className="text-xs text-ink-soft">
-              Translating your menu into 20 languages — this can take up to a minute.
+              Translating your menu…
+              {translationsRemaining !== null && ` ${translationsRemaining} left`}
             </p>
           )}
           <div className="flex flex-wrap gap-3">
             <Button
               variant="outline"
               onClick={() => togglePublish(true)}
-              disabled={loading}
+              disabled={loading || translating}
             >
-              <RefreshCw size={16} /> {loading ? "Updating…" : "Update translations"}
+              <RefreshCw size={16} /> {translating ? "Translating…" : loading ? "Updating…" : "Update translations"}
             </Button>
-            <Button variant="outline" onClick={() => togglePublish(false)} disabled={loading}>
+            <Button variant="outline" onClick={() => togglePublish(false)} disabled={loading || translating}>
               {loading ? "Unpublishing…" : "Unpublish menu"}
             </Button>
           </div>
