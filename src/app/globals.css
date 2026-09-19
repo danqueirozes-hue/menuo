@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f3ec;
+  --foreground: #0b2d5b;
+  --ink: #0b2d5b;
+  --ink-soft: #4d5f7a;
+  --paper: #f7f3ec;
+  --panel: #ffffff;
+  --border: #e3dcc9;
+  --amber: #ffb020;
+  --amber-soft: #ffcf70;
+  --navy: #0b2d5b;
+  --navy-soft: #123a73;
+  --green: #6b8f6b;
+  --font-display: var(--font-manrope);
+  --font-body: var(--font-manrope);
+  --font-slogan: var(--font-montserrat);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-paper: var(--paper);
+  --color-panel: var(--panel);
+  --color-border: var(--border);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+  --color-navy: var(--navy);
+  --color-navy-soft: var(--navy-soft);
+  --color-green: var(--green);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+  --font-slogan: var(--font-slogan);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-slogan {
+  font-family: var(--font-slogan);
+}
+
+.amber-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--amber), transparent);
+}

@@ -1,0 +1,10 @@
+[build]
+  command = "prisma migrate deploy && npm run build"
+
+[build.environment]
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Netlify auto-detects Next.js and applies its Next Runtime plugin — no
+# [[plugins]] block needed. `prisma migrate deploy` applies any pending
+# database migrations right before each build, using the DATABASE_URL
+# Netlify's Postgres (Neon) integration sets automatically.

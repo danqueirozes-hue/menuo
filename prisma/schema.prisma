@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  passwordHash String
+  name         String
+  restaurants  Restaurant[]
+  subscription Subscription?
+  createdAt    DateTime      @default(now())
+}
+
+/// Which of the plans in src/lib/plans.ts the account is on, and its Stripe
+/// billing status. Plan pricing/limits are defined in code, not here.
+model Subscription {
+  id                   String    @id @default(cuid())
+  userId               String    @unique
+  user                 User      @relation(fields: [userId], references: [id])
+  plan                 String
+  status               String    @default("incomplete") // incomplete | active | trialing | past_due | canceled
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  currentPeriodEnd     DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+}
+
+model Restaurant {
+  id          String   @id @default(cuid())
+  name        String
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  logoUrl     String?
+  address     String?
+  city        String?
+  country     String?
+  currency    String   @default("EUR")
+  accentColor String   @default("#FFB020")
+  menus       Menu[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Menu {
+  id              String        @id @default(cuid())
+  restaurantId    String
+  restaurant      Restaurant    @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  name            String        @default("Main Menu")
+  slug            String        @unique
+  defaultLanguage String        @default("en")
+  isPublished     Boolean       @default(false)
+  publishedAt     DateTime?
+  sections        MenuSection[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model MenuSection {
+  id           String               @id @default(cuid())
+  menuId       String
+  menu         Menu                 @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  name         String
+  position     Int                  @default(0)
+  items        MenuItem[]
+  translations SectionTranslation[]
+  createdAt    DateTime             @default(now())
+}
+
+model MenuItem {
+  id           String             @id @default(cuid())
+  sectionId    String
+  section      MenuSection        @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  name         String
+  description  String?
+  priceCents   Int
+  photoUrl     String?
+  position     Int                @default(0)
+  isAvailable  Boolean            @default(true)
+  isVegetarian Boolean            @default(false)
+  isVegan      Boolean            @default(false)
+  isGlutenFree Boolean            @default(false)
+  hasSeafood   Boolean            @default(false)
+  translations ItemTranslation[]
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+}
+
+model SectionTranslation {
+  id        String      @id @default(cuid())
+  sectionId String
+  section   MenuSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  language  String
+  name      String
+
+  @@unique([sectionId, language])
+}
+
+model ItemTranslation {
+  id          String   @id @default(cuid())
+  menuItemId  String
+  menuItem    MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  language    String
+  name        String
+  description String?
+
+  @@unique([menuItemId, language])
+}
