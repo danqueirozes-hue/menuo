@@ -3,17 +3,17 @@ const CARD_HEIGHT = 1400;
 const NAVY = "#0b2d5b";
 const AMBER = "#ffb020";
 
-// The Menuo "speech bubble" mark on its own (the amber bubble + white bars
-// that stands in for the "o" in the wordmark) — used isolated over the QR
-// code's white finder area, the same way it appears embossed on the plaque
-// in the brand reference. Kept as a literal string so the card can be
-// drawn in one pass with no extra network fetch.
+// The Menuo mark used over the QR center: a solid navy disc (its own
+// backing, opaque enough to sit directly on the QR modules with no extra
+// white plate) with the amber circle + white bars from the favicon inside.
+// Kept as a literal string so the card can be drawn in one pass with no
+// extra network fetch.
 const BUBBLE_MARK_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <path d="M18 78 L36 62 L36 76 Z" fill="#FFB020" />
-  <circle cx="54" cy="46" r="34" fill="#FFB020" />
-  <rect x="33" y="35" width="42" height="8" rx="4" fill="#FFFFFF" />
-  <rect x="33" y="46" width="42" height="8" rx="4" fill="#FFFFFF" />
-  <rect x="33" y="57" width="28" height="8" rx="4" fill="#FFFFFF" />
+  <circle cx="50" cy="50" r="48" fill="#0B2D5B" />
+  <circle cx="50" cy="50" r="32" fill="#FFB020" />
+  <rect x="31" y="40" width="38" height="7" rx="3.5" fill="#FFFFFF" />
+  <rect x="31" y="50" width="38" height="7" rx="3.5" fill="#FFFFFF" />
+  <rect x="31" y="60" width="25" height="7" rx="3.5" fill="#FFFFFF" />
 </svg>`;
 
 const WORDMARK_SRC = "/brand/menuo-wordmark-negative.png";
@@ -119,18 +119,12 @@ export async function drawQrCard(
   ctx.fillRect(qrX, qrY, qrSize, qrSize);
   ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
 
-  // Menuo bubble mark over the QR center, on its own white plate — QR was
-  // generated at error-correction level H specifically so it stays
-  // scannable with this covered.
-  const plateRadius = 58;
+  // Menuo mark over the QR center — its navy disc is opaque enough to sit
+  // directly on the QR modules. QR was generated at error-correction level
+  // H specifically so it stays scannable with this covered.
   const centerX = CARD_WIDTH / 2;
   const centerY = qrY + qrSize / 2;
-  ctx.fillStyle = "#ffffff";
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, plateRadius, 0, Math.PI * 2);
-  ctx.fill();
-
-  const markSize = 88;
+  const markSize = 104;
   ctx.drawImage(bubbleMark, centerX - markSize / 2, centerY - markSize / 2, markSize, markSize);
 
   // Caption below the QR
