@@ -3,16 +3,21 @@ const CARD_HEIGHT = 1400;
 const NAVY = "#0b2d5b";
 const AMBER = "#ffb020";
 
-// Inlined src/app/icon.svg — the little navy/amber "menu lines" mark. Kept
-// as a literal string so the card can be drawn in one pass with no extra
-// network fetch (and no risk of a fetch failing/being slow mid-render).
-const ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
-  <rect width="40" height="40" rx="8" fill="#0B2D5B" />
-  <circle cx="20" cy="20" r="13" fill="#FFB020" />
-  <rect x="12.5" y="16.2" width="15" height="2.6" rx="1.3" fill="#FFFFFF" />
-  <rect x="12.5" y="20.4" width="15" height="2.6" rx="1.3" fill="#FFFFFF" />
-  <rect x="12.5" y="24.6" width="10" height="2.6" rx="1.3" fill="#FFFFFF" />
+// The Menuo "speech bubble" mark on its own (the amber bubble + white bars
+// that stands in for the "o" in the wordmark) — used isolated over the QR
+// code's white finder area, the same way it appears embossed on the plaque
+// in the brand reference. Kept as a literal string so the card can be
+// drawn in one pass with no extra network fetch.
+const BUBBLE_MARK_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <path d="M18 78 L36 62 L36 76 Z" fill="#FFB020" />
+  <circle cx="54" cy="46" r="34" fill="#FFB020" />
+  <rect x="33" y="35" width="42" height="8" rx="4" fill="#FFFFFF" />
+  <rect x="33" y="46" width="42" height="8" rx="4" fill="#FFFFFF" />
+  <rect x="33" y="57" width="28" height="8" rx="4" fill="#FFFFFF" />
 </svg>`;
+
+const WORDMARK_SRC = "/brand/menuo-wordmark-negative.png";
+const WORDMARK_ASPECT = 604 / 155;
 
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -64,9 +69,10 @@ export async function drawQrCard(
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
-  const [qrImage, iconImage, fontFamily] = await Promise.all([
+  const [qrImage, bubbleMark, wordmark, fontFamily] = await Promise.all([
     loadImage(qrDataUrl),
-    loadImage(`data:image/svg+xml;base64,${btoa(ICON_SVG)}`),
+    loadImage(`data:image/svg+xml;base64,${btoa(BUBBLE_MARK_SVG)}`),
+    loadImage(WORDMARK_SRC),
     displayFontFamily(),
   ]);
 
@@ -113,16 +119,19 @@ export async function drawQrCard(
   ctx.fillRect(qrX, qrY, qrSize, qrSize);
   ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
 
-  // Menuo mark over the QR center — QR was generated at error-correction
-  // level H specifically so it stays scannable with this covered.
-  const iconSize = 96;
-  ctx.drawImage(
-    iconImage,
-    (CARD_WIDTH - iconSize) / 2,
-    qrY + (qrSize - iconSize) / 2,
-    iconSize,
-    iconSize
-  );
+  // Menuo bubble mark over the QR center, on its own white plate — QR was
+  // generated at error-correction level H specifically so it stays
+  // scannable with this covered.
+  const plateRadius = 58;
+  const centerX = CARD_WIDTH / 2;
+  const centerY = qrY + qrSize / 2;
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, plateRadius, 0, Math.PI * 2);
+  ctx.fill();
+
+  const markSize = 88;
+  ctx.drawImage(bubbleMark, centerX - markSize / 2, centerY - markSize / 2, markSize, markSize);
 
   // Caption below the QR
   ctx.font = `600 34px ${fontFamily}`;
@@ -131,13 +140,14 @@ export async function drawQrCard(
   ctx.fillText("Scan for your menu", CARD_WIDTH / 2, captionY);
   ctx.fillText("in your language.", CARD_WIDTH / 2, captionY + 46);
 
-  // "Powered by [icon]" signature at the bottom
+  // "Powered by [Menuo wordmark]" signature at the bottom
   const poweredByText = "Powered by";
   ctx.font = `500 26px ${fontFamily}`;
   const poweredWidth = ctx.measureText(poweredByText).width;
-  const badgeSize = 34;
-  const gap = 10;
-  const groupWidth = poweredWidth + gap + badgeSize;
+  const wordmarkHeight = 34;
+  const wordmarkWidth = wordmarkHeight * WORDMARK_ASPECT;
+  const gap = 12;
+  const groupWidth = poweredWidth + gap + wordmarkWidth;
   const groupStartX = CARD_WIDTH / 2 - groupWidth / 2;
   const signatureY = CARD_HEIGHT - 70;
 
@@ -145,11 +155,11 @@ export async function drawQrCard(
   ctx.fillStyle = "rgba(255,255,255,0.85)";
   ctx.fillText(poweredByText, groupStartX, signatureY);
   ctx.drawImage(
-    iconImage,
+    wordmark,
     groupStartX + poweredWidth + gap,
-    signatureY - badgeSize + 6,
-    badgeSize,
-    badgeSize
+    signatureY - wordmarkHeight + 6,
+    wordmarkWidth,
+    wordmarkHeight
   );
   ctx.textAlign = "center";
 }
