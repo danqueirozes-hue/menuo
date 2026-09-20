@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Check, Copy, Download, RefreshCw, Printer, Lock } from "lucide-react";
 import { LANGUAGES } from "@/lib/languages";
+import { drawQrCard, canvasToPngBlob } from "@/lib/qr-card";
 
 export function PublishPanel({
   menuId,
@@ -35,6 +36,31 @@ export function PublishPanel({
   const [pdfError, setPdfError] = useState<string | null>(null);
   const [translating, setTranslating] = useState(false);
   const [translationsRemaining, setTranslationsRemaining] = useState<number | null>(null);
+  const cardCanvasRef = useRef<HTMLCanvasElement>(null);
+  const [cardReady, setCardReady] = useState(false);
+
+  useEffect(() => {
+    if (!qrDataUrl || !cardCanvasRef.current) return;
+    setCardReady(false);
+    drawQrCard(cardCanvasRef.current, { restaurantName, qrDataUrl })
+      .then(() => setCardReady(true))
+      .catch(() => setCardReady(false));
+  }, [qrDataUrl, restaurantName]);
+
+  async function downloadCard() {
+    const canvas = cardCanvasRef.current;
+    if (!canvas) return;
+    const blob = await canvasToPngBlob(canvas);
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${restaurantName.toLowerCase().replace(/\s+/g, "-")}-menuo-table-card.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
 
   // Publishing itself is instant. Translating into 20 languages is separate
   // work, done in small bounded batches (see /api/publish/translate) so a
@@ -167,15 +193,21 @@ export function PublishPanel({
 
           {qrDataUrl && (
             <div className="flex flex-col items-center rounded-xl border border-border bg-panel p-8">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={qrDataUrl} alt={`QR code for ${restaurantName}`} className="h-56 w-56" />
-              <a
-                href={qrDataUrl}
-                download={`menuo-${restaurantName.toLowerCase().replace(/\s+/g, "-")}-qr.png`}
-                className="mt-5 inline-flex items-center gap-2 text-sm text-amber hover:underline"
+              <canvas
+                ref={cardCanvasRef}
+                className="w-64 rounded-lg shadow-md"
+                aria-label={`Table card with QR code for ${restaurantName}`}
+              />
+              <p className="mt-4 text-xs text-ink-soft">
+                A print-ready table card — not just the raw QR code.
+              </p>
+              <button
+                onClick={downloadCard}
+                disabled={!cardReady}
+                className="mt-3 inline-flex items-center gap-2 text-sm text-amber hover:underline disabled:opacity-50"
               >
-                <Download size={16} /> Download QR code
-              </a>
+                <Download size={16} /> Download table card
+              </button>
             </div>
           )}
 
