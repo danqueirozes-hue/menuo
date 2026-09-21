@@ -1,9 +1,14 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { Check } from "lucide-react";
-import { PLAN_ORDER, PLANS } from "@/lib/plans";
+import { PLAN_ORDER, PLANS, formatPlanPrice, BillingInterval } from "@/lib/plans";
 import { LandingDict } from "@/lib/landing-content";
 
 export function Pricing({ dict }: { dict: LandingDict["pricing"] }) {
+  const [interval, setInterval] = useState<BillingInterval>("monthly");
+
   return (
     <section id="pricing" className="bg-paper py-24">
       <div className="mx-auto max-w-6xl px-6">
@@ -13,7 +18,33 @@ export function Pricing({ dict }: { dict: LandingDict["pricing"] }) {
           <p className="mt-4 text-ink-soft">{dict.subtitle}</p>
         </div>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 flex items-center justify-center gap-3">
+          <div className="inline-flex rounded-full border border-border bg-panel p-1">
+            <button
+              onClick={() => setInterval("monthly")}
+              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+                interval === "monthly" ? "bg-navy text-paper" : "text-ink-soft hover:text-ink"
+              }`}
+            >
+              {dict.monthly}
+            </button>
+            <button
+              onClick={() => setInterval("annual")}
+              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+                interval === "annual" ? "bg-navy text-paper" : "text-ink-soft hover:text-ink"
+              }`}
+            >
+              {dict.annual}
+            </button>
+          </div>
+          {interval === "annual" && (
+            <span className="rounded-full bg-green/15 px-3 py-1 text-xs font-medium text-green">
+              {dict.annualNote}
+            </span>
+          )}
+        </div>
+
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {PLAN_ORDER.map((key) => {
             const plan = PLANS[key];
             const isMostPopular = key === "business";
@@ -30,7 +61,9 @@ export function Pricing({ dict }: { dict: LandingDict["pricing"] }) {
                   </span>
                 )}
                 <p className="font-display text-lg text-ink">{plan.name}</p>
-                <p className="font-display mt-1 text-2xl text-amber">{plan.priceLabel}</p>
+                <p className="font-display mt-1 text-2xl text-amber">
+                  {formatPlanPrice(plan, interval)}
+                </p>
                 <p className="mt-1 text-xs text-ink-soft">{plan.tagline}</p>
                 <ul className="mt-5 space-y-2 text-sm text-ink-soft">
                   {plan.features.map((f) => (
@@ -40,7 +73,7 @@ export function Pricing({ dict }: { dict: LandingDict["pricing"] }) {
                   ))}
                 </ul>
                 <Link
-                  href={`/signup?plan=${key}`}
+                  href={`/signup?plan=${key}&interval=${interval}`}
                   className={`mt-6 block rounded-full px-4 py-2.5 text-center text-sm font-medium transition-colors ${
                     isMostPopular
                       ? "bg-amber text-navy hover:bg-amber-soft"

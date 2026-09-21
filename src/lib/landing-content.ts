@@ -35,7 +35,16 @@ export type LandingDict = {
   benefits: { eyebrow: string; title: string; subtitle: string; items: BenefitItem[] };
   how: { eyebrow: string; title: string; steps: Step[] };
   languagesSection: { eyebrow: string; title: string; subtitle: string };
-  pricing: { eyebrow: string; title: string; subtitle: string; cta: string; note: string };
+  pricing: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    cta: string;
+    note: string;
+    monthly: string;
+    annual: string;
+    annualNote: string;
+  };
   cta: { titlePrefix: string; titleHighlight: string; titleSuffix: string; subtitle: string; button: string };
 };
 
@@ -133,7 +142,10 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Every plan includes all 20 languages, QR codes and PDF export. Upgrade anytime as you grow.",
       cta: "Subscribe",
-      note: "Prices in EUR, billed monthly. Cancel anytime.",
+      note: "Prices in EUR. Cancel anytime.",
+      monthly: "Monthly",
+      annual: "Annual",
+      annualNote: "2 months free",
     },
     cta: {
       titlePrefix: "Give every guest your",
@@ -238,7 +250,10 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Todos los planes incluyen los 20 idiomas, códigos QR y exportación en PDF. Cambia de plan cuando quieras.",
       cta: "Suscribirse",
-      note: "Precios en EUR, facturación mensual. Cancela cuando quieras.",
+      note: "Precios en EUR. Cancela cuando quieras.",
+      monthly: "Mensual",
+      annual: "Anual",
+      annualNote: "2 meses gratis",
     },
     cta: {
       titlePrefix: "Ofrece a cada cliente tu",
@@ -343,7 +358,10 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Todos os planos incluem os 20 idiomas, códigos QR e exportação em PDF. Faça upgrade quando quiser.",
       cta: "Assinar",
-      note: "Preços em EUR, cobrança mensal. Cancele quando quiser.",
+      note: "Preços em EUR. Cancele quando quiser.",
+      monthly: "Mensal",
+      annual: "Anual",
+      annualNote: "2 meses grátis",
     },
     cta: {
       titlePrefix: "Dê a cada cliente o seu",
@@ -448,7 +466,10 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Ogni piano include tutte le 20 lingue, codici QR ed esportazione PDF. Aggiorna il piano quando vuoi.",
       cta: "Abbonati",
-      note: "Prezzi in EUR, fatturazione mensile. Annulla quando vuoi.",
+      note: "Prezzi in EUR. Annulla quando vuoi.",
+      monthly: "Mensile",
+      annual: "Annuale",
+      annualNote: "2 mesi gratis",
     },
     cta: {
       titlePrefix: "Offri a ogni ospite il tuo",
@@ -553,7 +574,10 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Jeder Plan enthält alle 20 Sprachen, QR-Codes und PDF-Export. Jederzeit upgradebar.",
       cta: "Abonnieren",
-      note: "Preise in EUR, monatliche Abrechnung. Jederzeit kündbar.",
+      note: "Preise in EUR. Jederzeit kündbar.",
+      monthly: "Monatlich",
+      annual: "Jährlich",
+      annualNote: "2 Monate gratis",
     },
     cta: {
       titlePrefix: "Geben Sie jedem Gast Ihre",
@@ -658,7 +682,10 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Chaque formule inclut les 20 langues, les codes QR et l'export PDF. Changez de formule à tout moment.",
       cta: "S'abonner",
-      note: "Prix en EUR, facturation mensuelle. Annulable à tout moment.",
+      note: "Prix en EUR. Annulable à tout moment.",
+      monthly: "Mensuel",
+      annual: "Annuel",
+      annualNote: "2 mois offerts",
     },
     cta: {
       titlePrefix: "Offrez à chaque client votre",

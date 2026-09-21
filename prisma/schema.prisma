@@ -25,6 +25,7 @@ model Subscription {
   userId               String    @unique
   user                 User      @relation(fields: [userId], references: [id])
   plan                 String
+  interval             String    @default("monthly") // monthly | annual (annual = 10x monthly, 2 months free)
   status               String    @default("incomplete") // incomplete | active | trialing | past_due | canceled
   stripeCustomerId     String?
   stripeSubscriptionId String?

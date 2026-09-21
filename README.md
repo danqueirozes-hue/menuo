@@ -56,12 +56,18 @@ branding (name, logo, address, currency).
 Plans are defined in code (`src/lib/plans.ts`), not in the database — there
 are only four fixed tiers:
 
-| Plan | Price | Establishments | Menus per establishment |
-|---|---|---|---|
-| Essential | €29/mo | 1 | 1 |
-| Business | €39/mo | 1 | 3 |
-| Hospitality | €49/mo | 1 | 10 |
-| Multi-location | from €99/mo | 5 | 5 |
+| Plan | Monthly | Annual (2 months free) | Establishments | Menus per establishment |
+|---|---|---|---|---|
+| Essential | €29/mo | €290/yr | 1 | 1 |
+| Business | €39/mo | €390/yr | 1 | 3 |
+| Hospitality | €49/mo | €490/yr | 1 | 10 |
+| Multi-location | from €99/mo | from €990/yr | 5 | 5 |
+
+Annual price is always 10x the monthly price (`priceCentsFor` in
+`src/lib/plans.ts`) — customers get 2 months free by prepaying annually.
+Each interval needs its own Stripe Price object (see `.env.example`'s
+`STRIPE_PRICE_*_ANNUAL` vars); the `Subscription.interval` column tracks
+which one a customer is on.
 
 An account with **no active subscription** can still build a single menu
 for a single establishment (so people can try the product before paying),

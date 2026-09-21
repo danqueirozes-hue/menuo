@@ -26,18 +26,21 @@ export async function POST(req: Request) {
       const checkoutSession = event.data.object as Stripe.Checkout.Session;
       const userId = checkoutSession.metadata?.userId ?? checkoutSession.client_reference_id;
       const plan = checkoutSession.metadata?.plan;
+      const interval = checkoutSession.metadata?.interval === "annual" ? "annual" : "monthly";
       if (userId && plan) {
         await prisma.subscription.upsert({
           where: { userId },
           create: {
             userId,
             plan,
+            interval,
             status: "active",
             stripeCustomerId: (checkoutSession.customer as string) ?? undefined,
             stripeSubscriptionId: (checkoutSession.subscription as string) ?? undefined,
           },
           update: {
             plan,
+            interval,
             status: "active",
             stripeCustomerId: (checkoutSession.customer as string) ?? undefined,
             stripeSubscriptionId: (checkoutSession.subscription as string) ?? undefined,

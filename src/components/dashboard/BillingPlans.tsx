@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { PLAN_ORDER, PLANS, PlanKey } from "@/lib/plans";
+import { PLAN_ORDER, PLANS, PlanKey, BillingInterval, formatPlanPrice } from "@/lib/plans";
 
 export function BillingPlans({
   currentPlan,
@@ -14,6 +14,7 @@ export function BillingPlans({
   status: string | null;
 }) {
   const searchParams = useSearchParams();
+  const [interval, setInterval] = useState<BillingInterval>("monthly");
   const [loadingPlan, setLoadingPlan] = useState<PlanKey | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [cancelling, setCancelling] = useState(false);
@@ -27,19 +28,21 @@ export function BillingPlans({
     if (searchParams.get("canceled") === "1") setNotice("Checkout was canceled — no changes were made.");
 
     const requestedPlan = searchParams.get("plan") as PlanKey | null;
+    const requestedInterval: BillingInterval = searchParams.get("interval") === "annual" ? "annual" : "monthly";
     if (requestedPlan && PLAN_ORDER.includes(requestedPlan) && requestedPlan !== currentPlan) {
-      subscribe(requestedPlan);
+      setInterval(requestedInterval);
+      subscribe(requestedPlan, requestedInterval);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
-  async function subscribe(plan: PlanKey) {
+  async function subscribe(plan: PlanKey, intervalOverride?: BillingInterval) {
     setLoadingPlan(plan);
     setError(null);
     const res = await fetch("/api/billing/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ plan }),
+      body: JSON.stringify({ plan, interval: intervalOverride ?? interval }),
     });
     const data = await res.json();
     setLoadingPlan(null);
@@ -65,6 +68,32 @@ export function BillingPlans({
       )}
       {error && <div className="mb-6 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>}
 
+      <div className="mb-6 flex items-center gap-3">
+        <div className="inline-flex rounded-full border border-border bg-panel p-1">
+          <button
+            onClick={() => setInterval("monthly")}
+            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+              interval === "monthly" ? "bg-navy text-paper" : "text-ink-soft hover:text-ink"
+            }`}
+          >
+            Monthly
+          </button>
+          <button
+            onClick={() => setInterval("annual")}
+            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+              interval === "annual" ? "bg-navy text-paper" : "text-ink-soft hover:text-ink"
+            }`}
+          >
+            Annual
+          </button>
+        </div>
+        {interval === "annual" && (
+          <span className="rounded-full bg-green/15 px-3 py-1 text-xs font-medium text-green">
+            2 months free
+          </span>
+        )}
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         {PLAN_ORDER.map((key) => {
           const plan = PLANS[key];
@@ -77,7 +106,7 @@ export function BillingPlans({
               }`}
             >
               <p className="font-display text-xl text-ink">{plan.name}</p>
-              <p className="font-display mt-1 text-2xl text-amber">{plan.priceLabel}</p>
+              <p className="font-display mt-1 text-2xl text-amber">{formatPlanPrice(plan, interval)}</p>
               <p className="mt-1 text-xs text-ink-soft">{plan.tagline}</p>
               <ul className="mt-4 space-y-1.5 text-sm text-ink-soft">
                 {plan.features.map((f) => (

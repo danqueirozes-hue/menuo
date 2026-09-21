@@ -14,6 +14,7 @@ function SignupForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const plan = searchParams.get("plan");
+  const interval = searchParams.get("interval") === "annual" ? "annual" : "monthly";
 
   const [name, setName] = useState("");
   const [restaurantName, setRestaurantName] = useState("");
@@ -49,7 +50,7 @@ function SignupForm() {
       return;
     }
 
-    router.push(plan ? `/dashboard/billing?plan=${plan}` : "/dashboard");
+    router.push(plan ? `/dashboard/billing?plan=${plan}&interval=${interval}` : "/dashboard");
   }
 
   return (

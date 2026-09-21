@@ -1,10 +1,11 @@
 export type PlanKey = "essential" | "business" | "hospitality" | "multi-location";
+export type BillingInterval = "monthly" | "annual";
 
 export type Plan = {
   key: PlanKey;
   name: string;
-  priceCents: number;
-  priceLabel: string; // how the price is displayed ("€29/mo", "From €99/mo")
+  priceCents: number; // monthly price, in cents
+  isFromPrice?: boolean; // shows "From €X" instead of "€X" (multi-location scales with locations)
   maxEstablishments: number;
   maxMenusPerEstablishment: number;
   tagline: string;
@@ -16,7 +17,6 @@ export const PLANS: Record<PlanKey, Plan> = {
     key: "essential",
     name: "Essential",
     priceCents: 2900,
-    priceLabel: "€29/mo",
     maxEstablishments: 1,
     maxMenusPerEstablishment: 1,
     tagline: "1 menu · 1 establishment",
@@ -30,7 +30,6 @@ export const PLANS: Record<PlanKey, Plan> = {
     key: "business",
     name: "Business",
     priceCents: 3900,
-    priceLabel: "€39/mo",
     maxEstablishments: 1,
     maxMenusPerEstablishment: 3,
     tagline: "Up to 3 menus · 1 establishment",
@@ -44,7 +43,6 @@ export const PLANS: Record<PlanKey, Plan> = {
     key: "hospitality",
     name: "Hospitality",
     priceCents: 4900,
-    priceLabel: "€49/mo",
     maxEstablishments: 1,
     maxMenusPerEstablishment: 10,
     tagline: "Up to 10 menus · 1 establishment",
@@ -58,7 +56,7 @@ export const PLANS: Record<PlanKey, Plan> = {
     key: "multi-location",
     name: "Multi-location",
     priceCents: 9900,
-    priceLabel: "From €99/mo",
+    isFromPrice: true,
     maxEstablishments: 5,
     maxMenusPerEstablishment: 5,
     tagline: "Up to 5 establishments · up to 5 menus each",
@@ -74,6 +72,19 @@ export const PLAN_ORDER: PlanKey[] = ["essential", "business", "hospitality", "m
 
 export function getPlan(key: string): Plan | null {
   return (PLANS as Record<string, Plan>)[key] ?? null;
+}
+
+/** Annual billing charges 10x the monthly price — 2 months free. */
+export function priceCentsFor(plan: Plan, interval: BillingInterval): number {
+  return interval === "annual" ? plan.priceCents * 10 : plan.priceCents;
+}
+
+export function formatPlanPrice(plan: Plan, interval: BillingInterval): string {
+  const cents = priceCentsFor(plan, interval);
+  const amount = Math.round(cents / 100);
+  const prefix = plan.isFromPrice ? "From " : "";
+  const suffix = interval === "annual" ? "/yr" : "/mo";
+  return `${prefix}€${amount}${suffix}`;
 }
 
 /** Ceiling applied to accounts with no active paid subscription: they can

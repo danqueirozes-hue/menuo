@@ -3,9 +3,12 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getPlan, PLAN_ORDER } from "@/lib/plans";
-import { getStripe, hasStripeConfigured, getStripePriceId } from "@/lib/stripe";
+import { getStripe, getStripePriceId } from "@/lib/stripe";
 
-const schema = z.object({ plan: z.enum(PLAN_ORDER as [string, ...string[]]) });
+const schema = z.object({
+  plan: z.enum(PLAN_ORDER as [string, ...string[]]),
+  interval: z.enum(["monthly", "annual"]).default("monthly"),
+});
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -18,10 +21,11 @@ export async function POST(req: Request) {
   if (!parsed.success) return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
   const plan = getPlan(parsed.data.plan);
   if (!plan) return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
+  const { interval } = parsed.data;
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const stripe = getStripe();
-  const priceId = getStripePriceId(plan.key);
+  const priceId = getStripePriceId(plan.key, interval);
 
   if (!stripe || !priceId) {
     // No payment processor configured yet: activate the subscription
@@ -30,8 +34,8 @@ export async function POST(req: Request) {
     // real Stripe keys + price IDs to replace this with real billing.
     await prisma.subscription.upsert({
       where: { userId },
-      create: { userId, plan: plan.key, status: "active" },
-      update: { plan: plan.key, status: "active" },
+      create: { userId, plan: plan.key, interval, status: "active" },
+      update: { plan: plan.key, interval, status: "active" },
     });
     return NextResponse.json({ devMode: true, url: `${siteUrl}/dashboard/billing?activated=1` });
   }
@@ -46,8 +50,8 @@ export async function POST(req: Request) {
     success_url: `${siteUrl}/dashboard/billing?success=1`,
     cancel_url: `${siteUrl}/dashboard/billing?canceled=1`,
     client_reference_id: userId,
-    metadata: { userId, plan: plan.key },
-    subscription_data: { metadata: { userId, plan: plan.key } },
+    metadata: { userId, plan: plan.key, interval },
+    subscription_data: { metadata: { userId, plan: plan.key, interval } },
   });
 
   if (!checkoutSession.url) {
