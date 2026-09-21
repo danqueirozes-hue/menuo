@@ -64,9 +64,9 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       titleHighlight: "Every language.",
       subtitle:
         "MENUO turns your paper menu into an elegant digital menu, translated instantly into 20 languages, accessed with a single QR code — no app, no download, no awkward guesswork.",
-      ctaPrimary: "Build your menu — it's free to start",
+      ctaPrimary: "Build your menu",
       ctaSecondary: "See how it works",
-      note: "No credit card required · Ready in minutes",
+      note: "Ready in minutes",
     },
     benefits: {
       eyebrow: "Why MENUO",
@@ -172,9 +172,9 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       titleHighlight: "Todos los idiomas.",
       subtitle:
         "MENUO convierte tu carta en papel en un menú digital elegante, traducido al instante a 20 idiomas y accesible con un simple código QR — sin app, sin descargas, sin conjeturas incómodas.",
-      ctaPrimary: "Crea tu menú — empieza gratis",
+      ctaPrimary: "Crea tu menú",
       ctaSecondary: "Ver cómo funciona",
-      note: "Sin tarjeta de crédito · Listo en minutos",
+      note: "Listo en minutos",
     },
     benefits: {
       eyebrow: "Por qué MENUO",
@@ -280,9 +280,9 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       titleHighlight: "Todos os idiomas.",
       subtitle:
         "O MENUO transforma a sua carta em papel num menu digital elegante, traduzido instantaneamente para 20 idiomas e acessível com um único código QR — sem aplicação, sem downloads, sem adivinhações.",
-      ctaPrimary: "Crie o seu menu — comece gratuitamente",
+      ctaPrimary: "Crie o seu menu",
       ctaSecondary: "Ver como funciona",
-      note: "Sem cartão de crédito · Pronto em minutos",
+      note: "Pronto em minutos",
     },
     benefits: {
       eyebrow: "Porquê o MENUO",
@@ -388,9 +388,9 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       titleHighlight: "Ogni lingua.",
       subtitle:
         "MENUO trasforma il tuo menu cartaceo in un elegante menu digitale, tradotto all'istante in 20 lingue e accessibile con un semplice codice QR — niente app, niente download, niente equivoci.",
-      ctaPrimary: "Crea il tuo menu — inizia gratis",
+      ctaPrimary: "Crea il tuo menu",
       ctaSecondary: "Scopri come funziona",
-      note: "Nessuna carta di credito richiesta · Pronto in pochi minuti",
+      note: "Pronto in pochi minuti",
     },
     benefits: {
       eyebrow: "Perché MENUO",
@@ -496,9 +496,9 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       titleHighlight: "Jede Sprache.",
       subtitle:
         "MENUO verwandelt Ihre Papier-Speisekarte in eine elegante digitale Speisekarte, sofort in 20 Sprachen übersetzt und über einen einzigen QR-Code zugänglich — keine App, kein Download, kein unsicheres Rätselraten.",
-      ctaPrimary: "Speisekarte erstellen — kostenlos starten",
+      ctaPrimary: "Speisekarte erstellen",
       ctaSecondary: "So funktioniert's",
-      note: "Keine Kreditkarte nötig · In wenigen Minuten startklar",
+      note: "In wenigen Minuten startklar",
     },
     benefits: {
       eyebrow: "Warum MENUO",
@@ -604,9 +604,9 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       titleHighlight: "Toutes les langues.",
       subtitle:
         "MENUO transforme votre carte papier en un élégant menu numérique, traduit instantanément en 20 langues et accessible via un simple code QR — sans application, sans téléchargement, sans devinettes gênantes.",
-      ctaPrimary: "Créez votre menu — gratuit pour commencer",
+      ctaPrimary: "Créez votre menu",
       ctaSecondary: "Voir comment ça marche",
-      note: "Sans carte bancaire · Prêt en quelques minutes",
+      note: "Prêt en quelques minutes",
     },
     benefits: {
       eyebrow: "Pourquoi MENUO",
