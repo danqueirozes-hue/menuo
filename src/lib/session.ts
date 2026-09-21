@@ -7,6 +7,13 @@ export async function getCurrentUserId(): Promise<string | null> {
   return session?.user?.id ?? null;
 }
 
+export async function requireAdminUserId(): Promise<string | null> {
+  const userId = await getCurrentUserId();
+  if (!userId) return null;
+  const user = await prisma.user.findUnique({ where: { id: userId }, select: { isAdmin: true } });
+  return user?.isAdmin ? userId : null;
+}
+
 export async function getSubscription(userId: string) {
   return prisma.subscription.findUnique({ where: { userId } });
 }

@@ -13,6 +13,7 @@ model User {
   email        String        @unique
   passwordHash String
   name         String
+  isAdmin      Boolean       @default(false)
   restaurants  Restaurant[]
   subscription Subscription?
   createdAt    DateTime      @default(now())
