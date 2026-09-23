@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Check, Copy, Download, RefreshCw, Printer, Lock } from "lucide-react";
 import { LANGUAGES } from "@/lib/languages";
 import { drawQrCard, canvasToPngBlob } from "@/lib/qr-card";
+import { TranslationProgress } from "@/components/dashboard/TranslationProgress";
 
 export function PublishPanel({
   menuId,
@@ -36,6 +37,7 @@ export function PublishPanel({
   const [pdfError, setPdfError] = useState<string | null>(null);
   const [translating, setTranslating] = useState(false);
   const [translationsRemaining, setTranslationsRemaining] = useState<number | null>(null);
+  const [translationTotal, setTranslationTotal] = useState<number | null>(null);
   const cardCanvasRef = useRef<HTMLCanvasElement>(null);
   const [cardReady, setCardReady] = useState(false);
 
@@ -66,8 +68,9 @@ export function PublishPanel({
   // work, done in small bounded batches (see /api/publish/translate) so a
   // single request never has to carry a whole menu's worth of translation
   // calls — that's what used to make big menus time out or look stuck.
-  async function runTranslationBatches() {
+  async function runTranslationBatches(initialTotal?: number) {
     setTranslating(true);
+    setTranslationTotal(initialTotal ?? null);
     let consecutiveFailures = 0;
     try {
       while (true) {
@@ -87,11 +90,16 @@ export function PublishPanel({
         consecutiveFailures = 0;
         const data = await res.json();
         setTranslationsRemaining(data.remaining);
+        // First response of a run started without a known total (e.g.
+        // clicking "Update translations" directly) — back into the total
+        // from what's left plus what this batch just attempted.
+        setTranslationTotal((prev) => prev ?? data.remaining + data.translatedInBatch);
         if (data.done) break;
       }
     } finally {
       setTranslating(false);
       setTranslationsRemaining(null);
+      setTranslationTotal(null);
       router.refresh();
     }
   }
@@ -119,7 +127,7 @@ export function PublishPanel({
       router.refresh();
       if (publish && data.pendingTranslations > 0) {
         setTranslationsRemaining(data.pendingTranslations);
-        runTranslationBatches();
+        runTranslationBatches(data.pendingTranslations);
       }
     } catch {
       setError("Something went wrong. Please try again.");
@@ -256,11 +264,10 @@ export function PublishPanel({
 
           {error && <p className="text-sm text-red-600">{error}</p>}
           {refreshed && !translating && <p className="text-sm text-green">Translations updated.</p>}
-          {translating && (
-            <p className="text-xs text-ink-soft">
-              Translating your menu…
-              {translationsRemaining !== null && ` ${translationsRemaining} left`}
-            </p>
+          {translating && translationTotal && translationsRemaining !== null && (
+            <TranslationProgress
+              percent={Math.round(((translationTotal - translationsRemaining) / translationTotal) * 100)}
+            />
           )}
           <div className="flex flex-wrap gap-3">
             <Button

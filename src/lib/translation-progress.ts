@@ -12,13 +12,14 @@ type MenuWithContent = {
   }[];
 };
 
-const TRANSLATE_CONCURRENCY = 5;
+const TRANSLATE_CONCURRENCY = 8;
 // Keep every batch small enough that a single request always finishes well
 // inside Netlify's edge timeout (~26-30s), no matter how big the menu is —
 // a large menu just takes more batches, not a slower request. Combined with
-// the tight retry budget in translate.ts, worst case per batch stays a few
-// seconds even when the translation provider is rate-limiting.
-export const TRANSLATE_BATCH_SIZE = 10;
+// the tight retry budget in translate.ts and bulk (not per-item) lookups in
+// findPendingBatch below, there's enough headroom to run a bigger batch than
+// before without risking that timeout.
+export const TRANSLATE_BATCH_SIZE = 20;
 
 function targetLanguagesFor(menu: MenuWithContent): string[] {
   return LANGUAGES.map((l) => l.code).filter((code) => code !== menu.defaultLanguage);
@@ -53,39 +54,62 @@ type Task =
 
 /** Finds up to `limit` not-yet-translated (entity, language) pairs, in a
  * stable order, so repeated calls make steady forward progress through the
- * whole menu without ever redoing work. */
+ * whole menu without ever redoing work.
+ *
+ * This fetches every existing translation for the menu in two bulk queries
+ * up front, instead of one query per section/item. The earlier per-item
+ * version re-scanned already-translated dishes from the start on every
+ * single batch call — harmless for a small menu, but it meant adding 15
+ * dishes to an already-translated 15-dish menu made *every* batch call pay
+ * for re-checking all 30, not just the 15 that actually needed work. This
+ * version's cost depends only on the menu's total size (two queries), not
+ * on how many batches it takes to drain the pending work.
+ */
 async function findPendingBatch(menu: MenuWithContent, limit: number): Promise<Task[]> {
   const targetLanguages = targetLanguagesFor(menu);
+  const sectionIds = menu.sections.map((s) => s.id);
+  const itemIds = menu.sections.flatMap((s) => s.items.map((i) => i.id));
+
+  const [sectionTranslations, itemTranslations] = await Promise.all([
+    sectionIds.length
+      ? prisma.sectionTranslation.findMany({
+          where: { sectionId: { in: sectionIds } },
+          select: { sectionId: true, language: true },
+        })
+      : [],
+    itemIds.length
+      ? prisma.itemTranslation.findMany({
+          where: { menuItemId: { in: itemIds } },
+          select: { menuItemId: true, language: true },
+        })
+      : [],
+  ]);
+
+  const doneSectionLangs = new Map<string, Set<string>>();
+  for (const t of sectionTranslations) {
+    if (!doneSectionLangs.has(t.sectionId)) doneSectionLangs.set(t.sectionId, new Set());
+    doneSectionLangs.get(t.sectionId)!.add(t.language);
+  }
+  const doneItemLangs = new Map<string, Set<string>>();
+  for (const t of itemTranslations) {
+    if (!doneItemLangs.has(t.menuItemId)) doneItemLangs.set(t.menuItemId, new Set());
+    doneItemLangs.get(t.menuItemId)!.add(t.language);
+  }
+
   const tasks: Task[] = [];
 
-  for (const section of menu.sections) {
-    if (tasks.length >= limit) break;
-    const existing = new Set(
-      (
-        await prisma.sectionTranslation.findMany({
-          where: { sectionId: section.id },
-          select: { language: true },
-        })
-      ).map((t) => t.language)
-    );
+  outer: for (const section of menu.sections) {
+    const done = doneSectionLangs.get(section.id) ?? new Set();
     for (const lang of targetLanguages) {
-      if (tasks.length >= limit) break;
-      if (!existing.has(lang)) tasks.push({ kind: "section", sectionId: section.id, text: section.name, lang });
+      if (tasks.length >= limit) break outer;
+      if (!done.has(lang)) tasks.push({ kind: "section", sectionId: section.id, text: section.name, lang });
     }
 
     for (const item of section.items) {
-      if (tasks.length >= limit) break;
-      const existingItem = new Set(
-        (
-          await prisma.itemTranslation.findMany({
-            where: { menuItemId: item.id },
-            select: { language: true },
-          })
-        ).map((t) => t.language)
-      );
+      const doneI = doneItemLangs.get(item.id) ?? new Set();
       for (const lang of targetLanguages) {
-        if (tasks.length >= limit) break;
-        if (!existingItem.has(lang)) {
+        if (tasks.length >= limit) break outer;
+        if (!doneI.has(lang)) {
           tasks.push({
             kind: "item",
             itemId: item.id,
