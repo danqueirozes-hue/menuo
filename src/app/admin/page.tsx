@@ -40,6 +40,7 @@ export default async function AdminPage() {
       email: user.email,
       createdAt: user.createdAt.toISOString(),
       restaurants: user.restaurants.map((r) => r.name),
+      planKey: sub?.plan ?? null,
       planName: plan?.name ?? null,
       interval: (sub?.interval as BillingInterval) ?? null,
       status: sub?.status ?? null,
