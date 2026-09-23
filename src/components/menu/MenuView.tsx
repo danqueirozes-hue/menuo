@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { formatPrice } from "@/lib/currency";
@@ -9,6 +9,7 @@ import { Logo } from "@/components/ui/Logo";
 import { DIETARY_TAGS, DietaryKey, dietaryLabel } from "@/lib/dietary-tags";
 import { menuString } from "@/lib/menu-strings";
 import { DietaryFilter } from "@/components/menu/DietaryFilter";
+import { SectionNav } from "@/components/menu/SectionNav";
 
 type ItemTranslation = { language: string; name: string; description: string | null };
 type SectionTranslation = { language: string; name: string };
@@ -93,6 +94,30 @@ export function MenuView({
       .filter((section) => section.items.length > 0);
   }, [restaurant.sections, activeFilters]);
 
+  const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
+  const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
+
+  useEffect(() => {
+    if (print) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActiveSectionId(entry.target.id);
+        }
+      },
+      // Treat a section as "active" once it's crossed into the top ~30% of
+      // the viewport, just below the sticky nav — matches how apps like
+      // iFood highlight the category you're actually looking at.
+      { rootMargin: "-96px 0px -70% 0px" }
+    );
+    for (const el of sectionRefs.current.values()) observer.observe(el);
+    return () => observer.disconnect();
+  }, [visibleSections, print]);
+
+  function scrollToSection(id: string) {
+    sectionRefs.current.get(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
     <div dir={language.rtl ? "rtl" : "ltr"} className="min-h-screen bg-paper pb-24">
       <header className="relative flex flex-col items-center bg-navy px-6 py-14 text-center text-paper">
@@ -127,13 +152,32 @@ export function MenuView({
         )}
       </header>
 
+      {!print && (
+        <SectionNav
+          sections={visibleSections.map((s) => ({
+            id: s.id,
+            label: sectionName(s, lang, restaurant.defaultLanguage),
+          }))}
+          activeId={activeSectionId}
+          onSelect={scrollToSection}
+        />
+      )}
+
       <main className="mx-auto max-w-2xl px-6 py-14">
         {visibleSections.length === 0 && (
           <p className="text-center text-sm text-ink-soft">{menuString("noMatches", lang)}</p>
         )}
 
         {visibleSections.map((section) => (
-          <section key={section.id} className="mb-14">
+          <section
+            key={section.id}
+            id={section.id}
+            ref={(el) => {
+              if (el) sectionRefs.current.set(section.id, el);
+              else sectionRefs.current.delete(section.id);
+            }}
+            className="mb-14 scroll-mt-24"
+          >
             <div className="mb-6 flex items-center gap-4">
               <h2 className="font-display whitespace-nowrap text-xl text-ink">
                 {sectionName(section, lang, restaurant.defaultLanguage)}
