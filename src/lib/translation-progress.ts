@@ -12,10 +12,20 @@ type MenuWithContent = {
   }[];
 };
 
-// 5 held up reliably in testing; pushing it to 8 tripped DeepL free-tier's
-// concurrent-request limit hard enough to 429 almost every call, which
-// stalled progress far worse than the extra concurrency ever saved.
-const TRANSLATE_CONCURRENCY = 5;
+// Even 5 concurrent calls turned out to sustain enough request volume to
+// trip DeepL free-tier's rate limit under real usage (not just synthetic
+// stress tests) — a 429 cascade that stalls progress far worse than the
+// concurrency ever saved. Staying low and pacing every call (see
+// TRANSLATE_PACING_MS below) trades peak speed for actually finishing.
+const TRANSLATE_CONCURRENCY = 2;
+// Minimum gap before every DeepL call, on top of concurrency — this bounds
+// the steady-state request rate even if DeepL's real per-second limit is
+// lower than concurrency alone would respect.
+const TRANSLATE_PACING_MS = 200;
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 // Keep every batch small enough that a single request always finishes well
 // inside Netlify's edge timeout (~26-30s), no matter how big the menu is —
 // a large menu just takes more batches, not a slower request. Bulk (not
@@ -136,6 +146,7 @@ export async function runTranslationBatch(
   const tasks = await findPendingBatch(menu, TRANSLATE_BATCH_SIZE);
 
   await mapWithConcurrency(tasks, TRANSLATE_CONCURRENCY, async (task) => {
+    await sleep(TRANSLATE_PACING_MS);
     if (task.kind === "section") {
       const result = await translateText(task.text, task.lang);
       if (!result.translated) return;
@@ -145,10 +156,12 @@ export async function runTranslationBatch(
         update: { name: result.text },
       });
     } else {
-      const [name, description] = await Promise.all([
-        translateText(task.name, task.lang),
-        translateText(task.description, task.lang),
-      ]);
+      // Sequential, not Promise.all — keeps actual simultaneous DeepL
+      // requests equal to TRANSLATE_CONCURRENCY instead of silently
+      // doubling it for every item task.
+      const name = await translateText(task.name, task.lang);
+      await sleep(TRANSLATE_PACING_MS);
+      const description = await translateText(task.description, task.lang);
       if (!name.translated) return;
       await prisma.itemTranslation.upsert({
         where: { menuItemId_language: { menuItemId: task.itemId, language: task.lang } },
