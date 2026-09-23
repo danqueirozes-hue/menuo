@@ -37,7 +37,7 @@ export function NewMenuForm({ restaurantId }: { restaurantId: string }) {
 
   if (!open) {
     return (
-      <Button onClick={() => setOpen(true)} className="bg-amber text-navy hover:bg-amber-soft">
+      <Button onClick={() => setOpen(true)} variant="amber">
         + New menu
       </Button>
     );

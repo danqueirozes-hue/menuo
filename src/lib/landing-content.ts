@@ -35,6 +35,7 @@ export type LandingDict = {
   benefits: { eyebrow: string; title: string; subtitle: string; items: BenefitItem[] };
   how: { eyebrow: string; title: string; steps: Step[] };
   languagesSection: { eyebrow: string; title: string; subtitle: string };
+  tableGallery: { eyebrow: string; title: string; subtitle: string };
   pricing: {
     eyebrow: string;
     title: string;
@@ -135,6 +136,12 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       title: "Speak to every guest, in their own words",
       subtitle:
         "The main languages of every continent, ready from day one — with more added as MENUO grows.",
+    },
+    tableGallery: {
+      eyebrow: "On every table",
+      title: "Elegant at every table, in every language",
+      subtitle:
+        "From a candlelit dinner in Paris to a seaside bistro — a single scan turns MENUO into a menu your guests actually understand.",
     },
     pricing: {
       eyebrow: "Simple pricing",
@@ -244,6 +251,12 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Los principales idiomas de cada continente, listos desde el primer día — con más añadiéndose a medida que MENUO crece.",
     },
+    tableGallery: {
+      eyebrow: "En cada mesa",
+      title: "Elegante en cada mesa, en cualquier idioma",
+      subtitle:
+        "De una cena a la luz de las velas en París a un bistró junto al mar — un simple escaneo convierte a MENUO en un menú que tus clientes realmente entienden.",
+    },
     pricing: {
       eyebrow: "Precios simples",
       title: "Elige el plan que se ajusta a tu restaurante",
@@ -351,6 +364,12 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       title: "Fale com cada cliente nas suas próprias palavras",
       subtitle:
         "Os principais idiomas de cada continente, prontos desde o primeiro dia — com mais a serem adicionados à medida que o MENUO cresce.",
+    },
+    tableGallery: {
+      eyebrow: "Em cada mesa",
+      title: "Elegante em cada mesa, em qualquer idioma",
+      subtitle:
+        "De um jantar à luz de velas em Paris a um bistrô à beira-mar — um simples scan transforma o MENUO num menu que os seus clientes realmente entendem.",
     },
     pricing: {
       eyebrow: "Preços simples",
@@ -460,6 +479,12 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Le lingue principali di ogni continente, pronte fin dal primo giorno — con altre in arrivo man mano che MENUO cresce.",
     },
+    tableGallery: {
+      eyebrow: "Ad ogni tavolo",
+      title: "Elegante ad ogni tavolo, in ogni lingua",
+      subtitle:
+        "Da una cena a lume di candela a Parigi a un bistrot sul mare — una semplice scansione trasforma MENUO in un menu che i tuoi ospiti capiscono davvero.",
+    },
     pricing: {
       eyebrow: "Prezzi semplici",
       title: "Scegli il piano adatto al tuo ristorante",
@@ -568,6 +593,12 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Die wichtigsten Sprachen jedes Kontinents, von Anfang an verfügbar — mit weiteren, während MENUO wächst.",
     },
+    tableGallery: {
+      eyebrow: "An jedem Tisch",
+      title: "Elegant an jedem Tisch, in jeder Sprache",
+      subtitle:
+        "Von einem Candle-Light-Dinner in Paris bis zu einem Bistro am Meer — ein einfacher Scan macht MENUO zu einer Speisekarte, die Ihre Gäste wirklich verstehen.",
+    },
     pricing: {
       eyebrow: "Einfache Preise",
       title: "Wählen Sie den passenden Plan für Ihr Restaurant",
@@ -675,6 +706,12 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       title: "Parlez à chaque client dans sa propre langue",
       subtitle:
         "Les principales langues de chaque continent, disponibles dès le premier jour — et d'autres à venir à mesure que MENUO grandit.",
+    },
+    tableGallery: {
+      eyebrow: "À chaque table",
+      title: "Élégant à chaque table, dans toutes les langues",
+      subtitle:
+        "D'un dîner aux chandelles à Paris à un bistrot en bord de mer — un simple scan transforme MENUO en un menu que vos clients comprennent vraiment.",
     },
     pricing: {
       eyebrow: "Tarifs simples",

@@ -9,7 +9,7 @@ export function CTA({ dict }: { dict: LandingDict["cta"] }) {
           {dict.titlePrefix} <span className="text-amber">{dict.titleHighlight}</span> {dict.titleSuffix}
         </h2>
         <p className="max-w-lg text-paper/70">{dict.subtitle}</p>
-        <LinkButton href="/signup" className="bg-amber text-navy hover:bg-amber-soft">
+        <LinkButton href="/signup" variant="amber">
           {dict.button}
         </LinkButton>
       </div>

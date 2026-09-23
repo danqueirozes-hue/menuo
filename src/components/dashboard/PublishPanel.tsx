@@ -186,7 +186,8 @@ export function PublishPanel({
           </p>
           {error && !needsSubscription && <p className="mt-3 text-sm text-red-600">{error}</p>}
           <Button
-            className="mt-5 bg-amber text-navy hover:bg-amber-soft"
+            variant="amber"
+            className="mt-5"
             onClick={() => togglePublish(true)}
             disabled={loading}
           >

@@ -129,7 +129,8 @@ export function BillingPlans({
                 </div>
               ) : (
                 <Button
-                  className="mt-5 w-full bg-amber text-navy hover:bg-amber-soft"
+                  variant="amber"
+                  className="mt-5 w-full"
                   onClick={() => subscribe(key)}
                   disabled={loadingPlan !== null}
                 >

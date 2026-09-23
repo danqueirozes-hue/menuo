@@ -3,6 +3,7 @@ import { Hero } from "@/components/landing/Hero";
 import { Benefits } from "@/components/landing/Benefits";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { LanguagesShowcase } from "@/components/landing/LanguagesShowcase";
+import { TableGallery } from "@/components/landing/TableGallery";
 import { Pricing } from "@/components/landing/Pricing";
 import { CTA } from "@/components/landing/CTA";
 import { Footer } from "@/components/landing/Footer";
@@ -19,6 +20,7 @@ export default function Home() {
         <Benefits dict={dict.benefits} />
         <HowItWorks dict={dict.how} />
         <LanguagesShowcase dict={dict.languagesSection} />
+        <TableGallery dict={dict.tableGallery} />
         <Pricing dict={dict.pricing} />
         <CTA dict={dict.cta} />
       </main>
