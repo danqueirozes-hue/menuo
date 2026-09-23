@@ -26,12 +26,13 @@ const TRANSLATE_PACING_MS = 200;
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-// Keep every batch small enough that a single request always finishes well
-// inside Netlify's edge timeout (~26-30s), no matter how big the menu is —
-// a large menu just takes more batches, not a slower request. Bulk (not
-// per-item) lookups in findPendingBatch below mean a bigger batch size no
-// longer costs extra discovery time, so this can stay generous.
-export const TRANSLATE_BATCH_SIZE = 20;
+
+// Confirmed in production: under sustained DeepL throttling, a batch of 20
+// at this pacing/concurrency can take 23-26s — uncomfortably close to
+// Netlify's ~26-30s edge timeout. Smaller batches cost nothing extra now
+// that discovery is a bulk query (see findPendingBatch below), so trade a
+// few more HTTP round trips for real safety margin.
+export const TRANSLATE_BATCH_SIZE = 10;
 
 function targetLanguagesFor(menu: MenuWithContent): string[] {
   return LANGUAGES.map((l) => l.code).filter((code) => code !== menu.defaultLanguage);
