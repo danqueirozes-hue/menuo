@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireOwnedRestaurant, getSubscription, getEffectiveLimits } from "@/lib/session";
 import { NewMenuForm } from "@/components/dashboard/NewMenuForm";
+import { DuplicateMenuButton } from "@/components/dashboard/DuplicateMenuButton";
 
 export default async function MenusListPage({
   params,
@@ -38,14 +39,17 @@ export default async function MenusListPage({
               <p className="font-display text-lg text-ink">{menu.name}</p>
               <p className="text-xs text-ink-soft">/m/{menu.slug}</p>
             </Link>
-            <Link
-              href={`/dashboard/r/${restaurantId}/menus/${menu.id}/publish`}
-              className={`rounded-full px-3 py-1 text-xs hover:underline ${
-                menu.isPublished ? "bg-green/15 text-green" : "bg-amber-soft/40 text-ink-soft"
-              }`}
-            >
-              {menu.isPublished ? "Live" : "Draft"} · Publish
-            </Link>
+            <div className="flex items-center gap-3">
+              <DuplicateMenuButton menuId={menu.id} restaurantId={restaurantId} disabled={!canAddMenu} />
+              <Link
+                href={`/dashboard/r/${restaurantId}/menus/${menu.id}/publish`}
+                className={`rounded-full px-3 py-1 text-xs hover:underline ${
+                  menu.isPublished ? "bg-green/15 text-green" : "bg-amber-soft/40 text-ink-soft"
+                }`}
+              >
+                {menu.isPublished ? "Live" : "Draft"} · Publish
+              </Link>
+            </div>
           </div>
         ))}
       </div>
