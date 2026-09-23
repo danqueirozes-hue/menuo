@@ -12,13 +12,15 @@ type MenuWithContent = {
   }[];
 };
 
-const TRANSLATE_CONCURRENCY = 8;
+// 5 held up reliably in testing; pushing it to 8 tripped DeepL free-tier's
+// concurrent-request limit hard enough to 429 almost every call, which
+// stalled progress far worse than the extra concurrency ever saved.
+const TRANSLATE_CONCURRENCY = 5;
 // Keep every batch small enough that a single request always finishes well
 // inside Netlify's edge timeout (~26-30s), no matter how big the menu is —
-// a large menu just takes more batches, not a slower request. Combined with
-// the tight retry budget in translate.ts and bulk (not per-item) lookups in
-// findPendingBatch below, there's enough headroom to run a bigger batch than
-// before without risking that timeout.
+// a large menu just takes more batches, not a slower request. Bulk (not
+// per-item) lookups in findPendingBatch below mean a bigger batch size no
+// longer costs extra discovery time, so this can stay generous.
 export const TRANSLATE_BATCH_SIZE = 20;
 
 function targetLanguagesFor(menu: MenuWithContent): string[] {
