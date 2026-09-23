@@ -10,6 +10,8 @@ export type ClientItem = {
   isVegan: boolean;
   isGlutenFree: boolean;
   hasSeafood: boolean;
+  isSpecialty: boolean;
+  isNew: boolean;
 };
 
 export type ClientSection = {

@@ -23,6 +23,8 @@ type Item = {
   isVegan: boolean;
   isGlutenFree: boolean;
   hasSeafood: boolean;
+  isSpecialty: boolean;
+  isNew: boolean;
   translations: ItemTranslation[];
 };
 

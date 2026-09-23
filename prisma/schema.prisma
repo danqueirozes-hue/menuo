@@ -90,6 +90,8 @@ model MenuItem {
   isVegan      Boolean            @default(false)
   isGlutenFree Boolean            @default(false)
   hasSeafood   Boolean            @default(false)
+  isSpecialty  Boolean            @default(false)
+  isNew        Boolean            @default(false)
   translations ItemTranslation[]
   createdAt    DateTime           @default(now())
   updatedAt    DateTime           @updatedAt

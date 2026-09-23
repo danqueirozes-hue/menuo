@@ -33,6 +33,8 @@ export function ItemEditor({
     isVegan: initial?.isVegan ?? false,
     isGlutenFree: initial?.isGlutenFree ?? false,
     hasSeafood: initial?.hasSeafood ?? false,
+    isSpecialty: initial?.isSpecialty ?? false,
+    isNew: initial?.isNew ?? false,
   });
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);

@@ -14,6 +14,8 @@ const schema = z.object({
   isVegan: z.boolean().optional(),
   isGlutenFree: z.boolean().optional(),
   hasSeafood: z.boolean().optional(),
+  isSpecialty: z.boolean().optional(),
+  isNew: z.boolean().optional(),
 });
 
 async function assertOwnership(itemId: string, userId: string) {

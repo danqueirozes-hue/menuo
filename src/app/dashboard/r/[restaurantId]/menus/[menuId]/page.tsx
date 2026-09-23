@@ -46,6 +46,8 @@ export default async function MenuBuilderPage({
       isVegan: i.isVegan,
       isGlutenFree: i.isGlutenFree,
       hasSeafood: i.hasSeafood,
+      isSpecialty: i.isSpecialty,
+      isNew: i.isNew,
     })),
   }));
 

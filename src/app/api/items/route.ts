@@ -13,6 +13,8 @@ const schema = z.object({
   isVegan: z.boolean().optional().default(false),
   isGlutenFree: z.boolean().optional().default(false),
   hasSeafood: z.boolean().optional().default(false),
+  isSpecialty: z.boolean().optional().default(false),
+  isNew: z.boolean().optional().default(false),
 });
 
 export async function POST(req: Request) {
@@ -23,8 +25,19 @@ export async function POST(req: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid item data" }, { status: 400 });
   }
-  const { sectionId, name, description, price, photoUrl, isVegetarian, isVegan, isGlutenFree, hasSeafood } =
-    parsed.data;
+  const {
+    sectionId,
+    name,
+    description,
+    price,
+    photoUrl,
+    isVegetarian,
+    isVegan,
+    isGlutenFree,
+    hasSeafood,
+    isSpecialty,
+    isNew,
+  } = parsed.data;
 
   const section = await prisma.menuSection.findUnique({
     where: { id: sectionId },
@@ -48,6 +61,8 @@ export async function POST(req: Request) {
       isVegan,
       isGlutenFree,
       hasSeafood,
+      isSpecialty,
+      isNew,
     },
   });
 
