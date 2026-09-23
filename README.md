@@ -92,18 +92,30 @@ caching the result in `SectionTranslation` / `ItemTranslation`. Editing a
 dish's name or description clears its cached translations so they get
 regenerated on the next publish.
 
-Translation is done through a pluggable provider (`src/lib/translate.ts`):
+Translation is done through a chain of pluggable providers (`src/lib/
+translate.ts`), tried in order with automatic fallback:
 
-- Set `DEEPL_API_KEY` (recommended, best quality for European languages) or
-  `GOOGLE_TRANSLATE_API_KEY` in `.env` to enable real translation.
-- **Without a key**, MENUO does not fabricate translations — it keeps the
-  original text for every language. This is intentional: showing guests a
-  fake translation would be worse than showing the source text. Add a key
-  before onboarding real restaurants.
-- Translation calls are paced and retried with backoff (`src/lib/
-  translate.ts`, `src/app/api/publish/route.ts`) since free-tier providers
-  rate-limit bursts — publishing fires one call per dish/section per
-  language.
+- **Azure Translator** (`AZURE_TRANSLATOR_KEY` + `AZURE_TRANSLATOR_REGION`)
+  — tried first. Its free tier has no concurrent-request limit (only a
+  characters-per-hour cap), which fits this app's bursty "many short
+  translations at once" pattern much better than DeepL's free tier does.
+- **DeepL** (`DEEPL_API_KEY`) — tried next if Azure isn't configured or
+  fails for a given call. Generally the best translation quality for
+  European languages, but its free tier rate-limits concurrent requests
+  hard enough to stall a large publish.
+- **Google Translate** (`GOOGLE_TRANSLATE_API_KEY`) — last resort.
+- Configuring more than one is genuine redundancy, not just a startup
+  choice: if the first configured provider throws (rate-limited, down,
+  whatever) for a specific call, the next one is tried immediately for
+  that same text before giving up.
+- **Without any key**, MENUO does not fabricate translations — it keeps
+  the original text for every language. This is intentional: showing
+  guests a fake translation would be worse than showing the source text.
+  Add at least one provider before onboarding real restaurants.
+- Translation calls are paced and retried with a short backoff (`src/lib/
+  translate.ts`, `src/lib/translation-progress.ts`) since free-tier
+  providers rate-limit bursts — publishing fires one call per dish/section
+  per language, batched to stay well under Netlify's function timeout.
 
 ## Dietary filters
 
