@@ -26,10 +26,11 @@ export function EstablishmentSwitcher({
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
 
-  if (restaurants.length <= 1) {
-    return <p className="truncate text-sm text-ink-soft">{current.name}</p>;
-  }
-
+  // Previously this returned a plain, non-interactive label whenever there
+  // was only one restaurant — which hid "Add establishment" for every
+  // account that hadn't already found some other way to add a second one.
+  // The dropdown now always renders; it just skips the restaurant list
+  // (nothing to switch to yet) when there's only one.
   return (
     <div ref={ref} className="relative">
       <button
@@ -42,19 +43,20 @@ export function EstablishmentSwitcher({
 
       {open && (
         <div className="absolute left-0 z-20 mt-1 w-56 rounded-lg border border-border bg-panel py-1 shadow-lg">
-          {restaurants.map((r) => (
-            <Link
-              key={r.id}
-              href={`/dashboard/r/${r.id}`}
-              onClick={() => setOpen(false)}
-              className={`block truncate px-3 py-2 text-sm hover:bg-paper ${
-                r.id === current.id ? "text-amber" : "text-ink"
-              }`}
-            >
-              {r.name}
-            </Link>
-          ))}
-          <div className="mt-1 border-t border-border pt-1">
+          {restaurants.length > 1 &&
+            restaurants.map((r) => (
+              <Link
+                key={r.id}
+                href={`/dashboard/r/${r.id}`}
+                onClick={() => setOpen(false)}
+                className={`block truncate px-3 py-2 text-sm hover:bg-paper ${
+                  r.id === current.id ? "text-amber" : "text-ink"
+                }`}
+              >
+                {r.name}
+              </Link>
+            ))}
+          <div className={restaurants.length > 1 ? "mt-1 border-t border-border pt-1" : "py-1"}>
             {canAddMore ? (
               <Link
                 href="/dashboard/new-establishment"
