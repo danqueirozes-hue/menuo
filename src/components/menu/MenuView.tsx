@@ -241,16 +241,16 @@ export function MenuView({
                         </p>
                       )}
                       {item.hasVariants && item.variants.length > 0 && (
-                        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                        <div className="mt-2 flex justify-end gap-4">
                           {item.variants.map((variant) => (
-                            <span key={variant.id} className="whitespace-nowrap text-sm">
-                              <span className="text-ink-soft">
+                            <div key={variant.id} className="text-right">
+                              <p className="whitespace-nowrap text-xs text-ink-soft">
                                 {variantLabel(variant, lang, restaurant.defaultLanguage)}
-                              </span>{" "}
-                              <span className="font-display text-amber">
+                              </p>
+                              <p className="whitespace-nowrap font-display text-sm text-amber">
                                 {formatPrice(variant.priceCents, restaurant.currency, lang)}
-                              </span>
-                            </span>
+                              </p>
+                            </div>
                           ))}
                         </div>
                       )}
