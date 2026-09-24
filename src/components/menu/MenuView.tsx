@@ -136,7 +136,14 @@ export function MenuView({
   return (
     <div dir={language.rtl ? "rtl" : "ltr"} className="min-h-screen bg-paper pb-24">
       <header className="relative flex flex-col items-center bg-navy px-6 py-14 text-center text-paper">
-        {!print && (
+        {print ? (
+          <span
+            aria-hidden
+            className="absolute top-4 end-4 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-paper/25 bg-navy/20 text-[11px] font-semibold uppercase tracking-wide text-paper/85"
+          >
+            {lang}
+          </span>
+        ) : (
           <DietaryFilter
             lang={lang}
             active={activeFilters}
@@ -157,7 +164,11 @@ export function MenuView({
         )}
         <h1 className="font-display mt-5 text-3xl">{restaurant.name}</h1>
         {location && <p className="mt-2 text-sm text-paper/60">{location}</p>}
-        {!print && (
+        {print ? (
+          <p className="mt-5 flex items-center gap-1.5 text-xs text-paper/50">
+            Powered by <Logo variant="negative" className="h-3.5" />
+          </p>
+        ) : (
           <Link
             href={`/m/${restaurant.slug}`}
             className="mt-5 text-xs uppercase tracking-wide text-amber-soft hover:text-amber"

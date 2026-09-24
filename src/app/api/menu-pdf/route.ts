@@ -42,7 +42,12 @@ export async function GET(req: Request) {
     const pdfBuffer = await page.pdf({
       format: "A4",
       printBackground: true,
-      margin: { top: "0", bottom: "0", left: "0", right: "0" },
+      // Zero margins made every page after the first look cramped, since the
+      // dish list runs straight to the paper's physical edge once it spills
+      // past page 1. A consistent margin on every page (page 1 included, so
+      // the navy header reads as a framed banner rather than only page 1
+      // being edge-to-edge) is what an actual print shop would do.
+      margin: { top: "10mm", bottom: "14mm", left: "12mm", right: "12mm" },
     });
 
     return new NextResponse(new Uint8Array(pdfBuffer), {
