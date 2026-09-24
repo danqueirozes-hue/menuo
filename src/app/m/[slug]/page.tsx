@@ -37,9 +37,27 @@ export default async function PublicMenuPage({
 
   if (!menu || !menu.isPublished) notFound();
 
+  // MENUO's brand font (Manrope) only covers Latin script. A guest's own
+  // browser silently falls back to a system font for Arabic/CJK/Thai/
+  // Devanagari, so it looks fine on screen — but the PDF export renders in a
+  // headless Chromium on Netlify's serverless runtime, which has no system
+  // fonts installed at all. Without an explicit webfont for these scripts,
+  // that PDF shows blank boxes instead of characters. Loading Noto Sans's
+  // per-script variants here (used for both the language picker and the
+  // menu itself) fixes both screen and PDF rendering the same way.
+  const nonLatinFontLink = (
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600&family=Noto+Sans+Thai:wght@400;500;600&display=swap"
+    />
+  );
+
   if (!lang || !isValidLanguage(lang)) {
     return (
-      <LanguagePicker slug={slug} restaurantName={menu.restaurant.name} logoUrl={menu.restaurant.logoUrl} />
+      <>
+        {nonLatinFontLink}
+        <LanguagePicker slug={slug} restaurantName={menu.restaurant.name} logoUrl={menu.restaurant.logoUrl} />
+      </>
     );
   }
 
@@ -55,5 +73,10 @@ export default async function PublicMenuPage({
     sections: menu.sections,
   };
 
-  return <MenuView restaurant={restaurant} lang={lang} print={print === "1"} />;
+  return (
+    <>
+      {nonLatinFontLink}
+      <MenuView restaurant={restaurant} lang={lang} print={print === "1"} />
+    </>
+  );
 }

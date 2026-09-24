@@ -34,6 +34,10 @@ export async function GET(req: Request) {
   try {
     const page = await browser.newPage({ viewport: { width: 800, height: 1000 } });
     await page.goto(targetUrl, { waitUntil: "networkidle" });
+    // Arabic/CJK/Thai/Devanagari text relies on the Noto webfonts loaded by
+    // the page (see src/app/m/[slug]/page.tsx) — "networkidle" alone doesn't
+    // guarantee those fonts finished swapping in before the snapshot.
+    await page.evaluate(() => document.fonts.ready);
 
     const pdfBuffer = await page.pdf({
       format: "A4",
