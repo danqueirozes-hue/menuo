@@ -215,7 +215,7 @@ export function MenuView({
                       />
                     )}
                     <div className="flex-1">
-                      <div className="flex items-baseline justify-between gap-3">
+                      <div className="flex items-start justify-between gap-3">
                         <div className="flex items-center gap-1.5">
                           <h3 className="font-display text-base text-ink">{text.name}</h3>
                           {DIETARY_TAGS.filter((t) => item[t.key]).map(({ key, icon: Icon }) => (
@@ -229,7 +229,20 @@ export function MenuView({
                             </Icon>
                           ))}
                         </div>
-                        {!item.hasVariants && (
+                        {item.hasVariants && item.variants.length > 0 ? (
+                          <div className="flex shrink-0 gap-4">
+                            {item.variants.map((variant) => (
+                              <div key={variant.id} className="text-right">
+                                <p className="whitespace-nowrap text-xs text-ink-soft">
+                                  {variantLabel(variant, lang, restaurant.defaultLanguage)}
+                                </p>
+                                <p className="whitespace-nowrap font-display text-sm text-amber">
+                                  {formatPrice(variant.priceCents, restaurant.currency, lang)}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
                           <span className="whitespace-nowrap font-display text-sm text-amber">
                             {formatPrice(item.priceCents, restaurant.currency, lang)}
                           </span>
@@ -239,20 +252,6 @@ export function MenuView({
                         <p className="mt-1 text-sm leading-relaxed text-ink-soft">
                           {text.description}
                         </p>
-                      )}
-                      {item.hasVariants && item.variants.length > 0 && (
-                        <div className="mt-2 flex justify-end gap-4">
-                          {item.variants.map((variant) => (
-                            <div key={variant.id} className="text-right">
-                              <p className="whitespace-nowrap text-xs text-ink-soft">
-                                {variantLabel(variant, lang, restaurant.defaultLanguage)}
-                              </p>
-                              <p className="whitespace-nowrap font-display text-sm text-amber">
-                                {formatPrice(variant.priceCents, restaurant.currency, lang)}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
                       )}
                     </div>
                   </div>
