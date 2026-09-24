@@ -49,6 +49,7 @@ export default async function PublicMenuPage({
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600&family=Noto+Sans+Thai:wght@400;500;600&display=swap"
+      precedence="default"
     />
   );
 
