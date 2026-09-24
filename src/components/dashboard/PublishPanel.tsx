@@ -44,10 +44,10 @@ export function PublishPanel({
   useEffect(() => {
     if (!qrDataUrl || !cardCanvasRef.current) return;
     setCardReady(false);
-    drawQrCard(cardCanvasRef.current, { restaurantName, qrDataUrl })
+    drawQrCard(cardCanvasRef.current, { restaurantName, qrDataUrl, defaultLanguage })
       .then(() => setCardReady(true))
       .catch(() => setCardReady(false));
-  }, [qrDataUrl, restaurantName]);
+  }, [qrDataUrl, restaurantName, defaultLanguage]);
 
   async function downloadCard() {
     const canvas = cardCanvasRef.current;

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope, Montserrat } from "next/font/google";
+import { Manrope, Montserrat, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -14,6 +14,15 @@ const montserrat = Montserrat({
   weight: ["400", "500"],
 });
 
+// Used only for the restaurant name on the printable table-card QR design —
+// an elegant serif reads as more "restaurant menu" than MENUO's own
+// geometric sans, matching the table-card mockup in public/images.
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["700", "900"],
+});
+
 export const metadata: Metadata = {
   title: "MENUO — One menu. Every language.",
   description:
@@ -24,7 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${montserrat.variable} h-full antialiased`}
+      className={`${manrope.variable} ${montserrat.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
         {children}
