@@ -209,19 +209,21 @@ export function ItemEditor({
                 <Label>Options (2 to 3)</Label>
                 {variants.map((v, i) => (
                   <div key={i} className="flex items-center gap-2">
-                    <Input
-                      value={v.label}
-                      onChange={(e) => updateVariant(i, "label", e.target.value)}
-                      placeholder="e.g. Small"
-                      className="flex-1"
-                    />
-                    <Input
-                      inputMode="decimal"
-                      value={v.price}
-                      onChange={(e) => updateVariant(i, "price", e.target.value)}
-                      placeholder="12.00"
-                      className="w-28"
-                    />
+                    <div className="min-w-0 flex-1">
+                      <Input
+                        value={v.label}
+                        onChange={(e) => updateVariant(i, "label", e.target.value)}
+                        placeholder="e.g. Individual, Family, Small"
+                      />
+                    </div>
+                    <div className="w-20 shrink-0">
+                      <Input
+                        inputMode="decimal"
+                        value={v.price}
+                        onChange={(e) => updateVariant(i, "price", e.target.value)}
+                        placeholder="12.00"
+                      />
+                    </div>
                     {variants.length > MIN_VARIANTS && (
                       <button
                         type="button"
