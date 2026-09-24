@@ -6,17 +6,18 @@ const NAVY = "#0b2d5b";
 const AMBER = "#ffb020";
 const TEAL = "#2f6f6a";
 
-// The Menuo mark used over the QR center: a solid navy disc (its own
-// backing, opaque enough to sit directly on the QR modules with no extra
-// white plate) with the amber circle + white bars from the favicon inside.
-// Kept as a literal string so the card can be drawn in one pass with no
-// extra network fetch.
+// The Menuo mark used over the QR center — matches the actual chat-bubble
+// icon from the wordmark (public/brand/menuo-wordmark.png): a solid navy
+// speech bubble (its own backing, opaque enough to sit directly on the QR
+// modules with no extra white plate) with three amber bars directly inside,
+// no intermediate amber circle. Kept as a literal string so the card can be
+// drawn in one pass with no extra network fetch.
 const BUBBLE_MARK_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="48" fill="#0B2D5B" />
-  <circle cx="50" cy="50" r="32" fill="#FFB020" />
-  <rect x="31" y="40" width="38" height="7" rx="3.5" fill="#FFFFFF" />
-  <rect x="31" y="50" width="38" height="7" rx="3.5" fill="#FFFFFF" />
-  <rect x="31" y="60" width="25" height="7" rx="3.5" fill="#FFFFFF" />
+  <circle cx="50" cy="44" r="42" fill="#0B2D5B" />
+  <path d="M20 68 L38 58 L38 80 Z" fill="#0B2D5B" />
+  <rect x="31" y="30" width="38" height="7" rx="3.5" fill="#FFB020" />
+  <rect x="31" y="41" width="38" height="7" rx="3.5" fill="#FFB020" />
+  <rect x="31" y="52" width="25" height="7" rx="3.5" fill="#FFB020" />
 </svg>`;
 
 const WORDMARK_SRC = "/brand/menuo-wordmark-negative.png";
