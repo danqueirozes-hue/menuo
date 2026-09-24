@@ -21,7 +21,7 @@ export default async function NewEstablishmentPage() {
 
   return (
     <div className="mx-auto max-w-md px-6 py-16">
-      <Link href="/">
+      <Link href="/dashboard">
         <Logo className="h-7" />
       </Link>
       <h1 className="font-display mt-8 text-2xl text-ink">New establishment</h1>

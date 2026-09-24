@@ -20,7 +20,7 @@ export default async function BillingPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">
       <div className="flex items-center justify-between">
-        <Link href="/">
+        <Link href="/dashboard">
           <Logo className="h-7" />
         </Link>
         {restaurants[0] && (

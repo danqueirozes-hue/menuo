@@ -34,7 +34,11 @@ export default async function EstablishmentLayout({
   return (
     <div className="flex min-h-screen">
       <aside className="hidden w-64 flex-col border-r border-border bg-panel px-6 py-8 sm:flex">
-        <Link href="/">
+        {/* Deliberately not linking to "/" — clicking the logo from inside
+            the dashboard should feel like going home, not like leaving the
+            app. Only the explicit "Log out" below sends you to the
+            marketing site. */}
+        <Link href="/dashboard">
           <Logo className="h-7" />
         </Link>
 
@@ -95,7 +99,7 @@ export default async function EstablishmentLayout({
 
       <div className="flex-1">
         <header className="flex items-center justify-between border-b border-border bg-panel px-6 py-4 sm:hidden">
-          <Link href="/">
+          <Link href="/dashboard">
             <Logo className="h-6" />
           </Link>
         </header>
