@@ -105,7 +105,14 @@ export function MenuBuilder({
   async function saveItem(
     sectionId: string,
     existing: ClientItem | undefined,
-    data: { name: string; description: string; price: number; photoUrl?: string } & DietaryFlags
+    data: {
+      name: string;
+      description: string;
+      photoUrl?: string;
+      hasVariants: boolean;
+      price?: number;
+      variants: { label: string; price: number }[];
+    } & DietaryFlags
   ) {
     if (existing) {
       const updated = await api<ClientItem>(`/api/items/${existing.id}`, {

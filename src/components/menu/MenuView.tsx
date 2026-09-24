@@ -13,12 +13,22 @@ import { SectionNav } from "@/components/menu/SectionNav";
 
 type ItemTranslation = { language: string; name: string; description: string | null };
 type SectionTranslation = { language: string; name: string };
+type VariantTranslation = { language: string; label: string };
+
+type ItemVariant = {
+  id: string;
+  label: string;
+  priceCents: number;
+  translations: VariantTranslation[];
+};
 
 type Item = {
   id: string;
   name: string;
   description: string | null;
   priceCents: number;
+  hasVariants: boolean;
+  variants: ItemVariant[];
   photoUrl: string | null;
   isVegetarian: boolean;
   isVegan: boolean;
@@ -57,6 +67,11 @@ function itemText(item: Item, lang: string, defaultLang: string) {
   if (lang === defaultLang) return { name: item.name, description: item.description };
   const t = item.translations.find((t) => t.language === lang);
   return { name: t?.name ?? item.name, description: t?.description ?? item.description };
+}
+
+function variantLabel(variant: ItemVariant, lang: string, defaultLang: string) {
+  if (lang === defaultLang) return variant.label;
+  return variant.translations.find((t) => t.language === lang)?.label ?? variant.label;
 }
 
 export function MenuView({
@@ -214,14 +229,30 @@ export function MenuView({
                             </Icon>
                           ))}
                         </div>
-                        <span className="whitespace-nowrap font-display text-sm text-amber">
-                          {formatPrice(item.priceCents, restaurant.currency, lang)}
-                        </span>
+                        {!item.hasVariants && (
+                          <span className="whitespace-nowrap font-display text-sm text-amber">
+                            {formatPrice(item.priceCents, restaurant.currency, lang)}
+                          </span>
+                        )}
                       </div>
                       {text.description && (
                         <p className="mt-1 text-sm leading-relaxed text-ink-soft">
                           {text.description}
                         </p>
+                      )}
+                      {item.hasVariants && item.variants.length > 0 && (
+                        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                          {item.variants.map((variant) => (
+                            <span key={variant.id} className="whitespace-nowrap text-sm">
+                              <span className="text-ink-soft">
+                                {variantLabel(variant, lang, restaurant.defaultLanguage)}
+                              </span>{" "}
+                              <span className="font-display text-amber">
+                                {formatPrice(variant.priceCents, restaurant.currency, lang)}
+                              </span>
+                            </span>
+                          ))}
+                        </div>
                       )}
                     </div>
                   </div>

@@ -8,7 +8,12 @@ type MenuWithContent = {
   sections: {
     id: string;
     name: string;
-    items: { id: string; name: string; description: string | null }[];
+    items: {
+      id: string;
+      name: string;
+      description: string | null;
+      variants: { id: string; label: string }[];
+    }[];
   }[];
 };
 
@@ -42,28 +47,37 @@ function targetLanguagesFor(menu: MenuWithContent): string[] {
 function totalPairCount(menu: MenuWithContent): number {
   const langCount = targetLanguagesFor(menu).length;
   const itemCount = menu.sections.reduce((sum, s) => sum + s.items.length, 0);
-  return (menu.sections.length + itemCount) * langCount;
+  const variantCount = menu.sections.reduce(
+    (sum, s) => sum + s.items.reduce((iSum, i) => iSum + i.variants.length, 0),
+    0
+  );
+  return (menu.sections.length + itemCount + variantCount) * langCount;
 }
 
 export async function countPendingTranslations(menu: MenuWithContent): Promise<number> {
   const sectionIds = menu.sections.map((s) => s.id);
   const itemIds = menu.sections.flatMap((s) => s.items.map((i) => i.id));
+  const variantIds = menu.sections.flatMap((s) => s.items.flatMap((i) => i.variants.map((v) => v.id)));
 
-  const [doneSections, doneItems] = await Promise.all([
+  const [doneSections, doneItems, doneVariants] = await Promise.all([
     sectionIds.length
       ? prisma.sectionTranslation.count({ where: { sectionId: { in: sectionIds } } })
       : 0,
     itemIds.length
       ? prisma.itemTranslation.count({ where: { menuItemId: { in: itemIds } } })
       : 0,
+    variantIds.length
+      ? prisma.menuItemVariantTranslation.count({ where: { variantId: { in: variantIds } } })
+      : 0,
   ]);
 
-  return Math.max(0, totalPairCount(menu) - doneSections - doneItems);
+  return Math.max(0, totalPairCount(menu) - doneSections - doneItems - doneVariants);
 }
 
 type Task =
   | { kind: "section"; sectionId: string; text: string; lang: string }
-  | { kind: "item"; itemId: string; name: string; description: string; lang: string };
+  | { kind: "item"; itemId: string; name: string; description: string; lang: string }
+  | { kind: "variant"; variantId: string; label: string; lang: string };
 
 /** Finds up to `limit` not-yet-translated (entity, language) pairs, in a
  * stable order, so repeated calls make steady forward progress through the
@@ -82,8 +96,9 @@ async function findPendingBatch(menu: MenuWithContent, limit: number): Promise<T
   const targetLanguages = targetLanguagesFor(menu);
   const sectionIds = menu.sections.map((s) => s.id);
   const itemIds = menu.sections.flatMap((s) => s.items.map((i) => i.id));
+  const variantIds = menu.sections.flatMap((s) => s.items.flatMap((i) => i.variants.map((v) => v.id)));
 
-  const [sectionTranslations, itemTranslations] = await Promise.all([
+  const [sectionTranslations, itemTranslations, variantTranslations] = await Promise.all([
     sectionIds.length
       ? prisma.sectionTranslation.findMany({
           where: { sectionId: { in: sectionIds } },
@@ -94,6 +109,12 @@ async function findPendingBatch(menu: MenuWithContent, limit: number): Promise<T
       ? prisma.itemTranslation.findMany({
           where: { menuItemId: { in: itemIds } },
           select: { menuItemId: true, language: true },
+        })
+      : [],
+    variantIds.length
+      ? prisma.menuItemVariantTranslation.findMany({
+          where: { variantId: { in: variantIds } },
+          select: { variantId: true, language: true },
         })
       : [],
   ]);
@@ -107,6 +128,11 @@ async function findPendingBatch(menu: MenuWithContent, limit: number): Promise<T
   for (const t of itemTranslations) {
     if (!doneItemLangs.has(t.menuItemId)) doneItemLangs.set(t.menuItemId, new Set());
     doneItemLangs.get(t.menuItemId)!.add(t.language);
+  }
+  const doneVariantLangs = new Map<string, Set<string>>();
+  for (const t of variantTranslations) {
+    if (!doneVariantLangs.has(t.variantId)) doneVariantLangs.set(t.variantId, new Set());
+    doneVariantLangs.get(t.variantId)!.add(t.language);
   }
 
   const tasks: Task[] = [];
@@ -132,6 +158,16 @@ async function findPendingBatch(menu: MenuWithContent, limit: number): Promise<T
           });
         }
       }
+
+      for (const variant of item.variants) {
+        const doneV = doneVariantLangs.get(variant.id) ?? new Set();
+        for (const lang of targetLanguages) {
+          if (tasks.length >= limit) break outer;
+          if (!doneV.has(lang)) {
+            tasks.push({ kind: "variant", variantId: variant.id, label: variant.label, lang });
+          }
+        }
+      }
     }
   }
 
@@ -155,6 +191,14 @@ export async function runTranslationBatch(
         where: { sectionId_language: { sectionId: task.sectionId, language: task.lang } },
         create: { sectionId: task.sectionId, language: task.lang, name: result.text },
         update: { name: result.text },
+      });
+    } else if (task.kind === "variant") {
+      const result = await translateText(task.label, task.lang);
+      if (!result.translated) return;
+      await prisma.menuItemVariantTranslation.upsert({
+        where: { variantId_language: { variantId: task.variantId, language: task.lang } },
+        create: { variantId: task.variantId, language: task.lang, label: result.text },
+        update: { label: result.text },
       });
     } else {
       // Sequential, not Promise.all — keeps actual simultaneous DeepL

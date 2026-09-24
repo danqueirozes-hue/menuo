@@ -3,19 +3,31 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/session";
 
-const schema = z.object({
-  sectionId: z.string(),
-  name: z.string().min(1).max(120),
-  description: z.string().max(500).optional().default(""),
+const variantSchema = z.object({
+  label: z.string().min(1).max(30),
   price: z.number().min(0).max(10000),
-  photoUrl: z.string().optional(),
-  isVegetarian: z.boolean().optional().default(false),
-  isVegan: z.boolean().optional().default(false),
-  isGlutenFree: z.boolean().optional().default(false),
-  hasSeafood: z.boolean().optional().default(false),
-  isSpecialty: z.boolean().optional().default(false),
-  isNew: z.boolean().optional().default(false),
 });
+
+const schema = z
+  .object({
+    sectionId: z.string(),
+    name: z.string().min(1).max(120),
+    description: z.string().max(500).optional().default(""),
+    price: z.number().min(0).max(10000).optional(),
+    hasVariants: z.boolean().optional().default(false),
+    variants: z.array(variantSchema).max(3).optional().default([]),
+    photoUrl: z.string().optional(),
+    isVegetarian: z.boolean().optional().default(false),
+    isVegan: z.boolean().optional().default(false),
+    isGlutenFree: z.boolean().optional().default(false),
+    hasSeafood: z.boolean().optional().default(false),
+    isSpecialty: z.boolean().optional().default(false),
+    isNew: z.boolean().optional().default(false),
+  })
+  .refine((d) => (d.hasVariants ? d.variants.length >= 2 : d.price !== undefined), {
+    message: "Provide a price, or at least 2 price variants.",
+    path: ["variants"],
+  });
 
 export async function POST(req: Request) {
   const userId = await getCurrentUserId();
@@ -30,6 +42,8 @@ export async function POST(req: Request) {
     name,
     description,
     price,
+    hasVariants,
+    variants,
     photoUrl,
     isVegetarian,
     isVegan,
@@ -49,12 +63,16 @@ export async function POST(req: Request) {
 
   const count = await prisma.menuItem.count({ where: { sectionId } });
 
+  const priceCents = hasVariants
+    ? Math.min(...variants.map((v) => Math.round(v.price * 100)))
+    : Math.round((price ?? 0) * 100);
+
   const item = await prisma.menuItem.create({
     data: {
       sectionId,
       name,
       description,
-      priceCents: Math.round(price * 100),
+      priceCents,
       photoUrl,
       position: count,
       isVegetarian,
@@ -63,7 +81,12 @@ export async function POST(req: Request) {
       hasSeafood,
       isSpecialty,
       isNew,
+      hasVariants,
+      variants: hasVariants
+        ? { create: variants.map((v, i) => ({ label: v.label, priceCents: Math.round(v.price * 100), position: i })) }
+        : undefined,
     },
+    include: { variants: true },
   });
 
   return NextResponse.json(item, { status: 201 });

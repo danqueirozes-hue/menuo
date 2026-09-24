@@ -24,7 +24,12 @@ export default async function MenuBuilderPage({
     include: {
       sections: {
         orderBy: { position: "asc" },
-        include: { items: { orderBy: { position: "asc" } } },
+        include: {
+          items: {
+            orderBy: { position: "asc" },
+            include: { variants: { orderBy: { position: "asc" } } },
+          },
+        },
       },
     },
   });
@@ -39,6 +44,13 @@ export default async function MenuBuilderPage({
       name: i.name,
       description: i.description ?? "",
       priceCents: i.priceCents,
+      hasVariants: i.hasVariants,
+      variants: i.variants.map((v) => ({
+        id: v.id,
+        label: v.label,
+        priceCents: v.priceCents,
+        position: v.position,
+      })),
       photoUrl: i.photoUrl,
       position: i.position,
       isAvailable: i.isAvailable,

@@ -66,7 +66,18 @@ export function SortableItem({
           <p className="mt-0.5 line-clamp-1 text-xs text-ink-soft">{item.description}</p>
         )}
       </div>
-      <p className="font-display text-sm text-amber">{formatPrice(item.priceCents, currency)}</p>
+      {item.hasVariants && item.variants.length > 0 ? (
+        <div className="text-right">
+          <p className="font-display text-sm text-amber">
+            {formatPrice(Math.min(...item.variants.map((v) => v.priceCents)), currency)}
+            {" – "}
+            {formatPrice(Math.max(...item.variants.map((v) => v.priceCents)), currency)}
+          </p>
+          <p className="text-[10px] text-ink-soft">{item.variants.length} options</p>
+        </div>
+      ) : (
+        <p className="font-display text-sm text-amber">{formatPrice(item.priceCents, currency)}</p>
+      )}
       <div className="flex items-center gap-1 text-ink-soft">
         <button
           onClick={onEdit}

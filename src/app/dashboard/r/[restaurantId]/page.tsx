@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { requireOwnedRestaurant, getSubscription, getEffectiveLimits } from "@/lib/session";
 import { NewMenuForm } from "@/components/dashboard/NewMenuForm";
 import { DuplicateMenuButton } from "@/components/dashboard/DuplicateMenuButton";
+import { DeleteMenuButton } from "@/components/dashboard/DeleteMenuButton";
 
 export default async function MenusListPage({
   params,
@@ -41,6 +42,7 @@ export default async function MenusListPage({
             </Link>
             <div className="flex items-center gap-3">
               <DuplicateMenuButton menuId={menu.id} restaurantId={restaurantId} disabled={!canAddMenu} />
+              <DeleteMenuButton menuId={menu.id} menuName={menu.name} />
               <Link
                 href={`/dashboard/r/${restaurantId}/menus/${menu.id}/publish`}
                 className={`rounded-full px-3 py-1 text-xs hover:underline ${

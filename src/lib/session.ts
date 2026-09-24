@@ -58,7 +58,15 @@ export async function requireOwnedMenu(menuId: string, userId: string) {
     where: { id: menuId },
     include: {
       restaurant: true,
-      sections: { orderBy: { position: "asc" }, include: { items: { orderBy: { position: "asc" } } } },
+      sections: {
+        orderBy: { position: "asc" },
+        include: {
+          items: {
+            orderBy: { position: "asc" },
+            include: { variants: { orderBy: { position: "asc" } } },
+          },
+        },
+      },
     },
   });
   return menu && menu.restaurant.ownerId === userId ? menu : null;

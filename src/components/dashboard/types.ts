@@ -1,8 +1,17 @@
+export type ClientItemVariant = {
+  id: string;
+  label: string;
+  priceCents: number;
+  position: number;
+};
+
 export type ClientItem = {
   id: string;
   name: string;
   description: string;
   priceCents: number;
+  hasVariants: boolean;
+  variants: ClientItemVariant[];
   photoUrl: string | null;
   position: number;
   isAvailable: boolean;

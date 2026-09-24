@@ -25,7 +25,10 @@ export default async function PublicMenuPage({
           items: {
             where: { isAvailable: true },
             orderBy: { position: "asc" },
-            include: { translations: true },
+            include: {
+              translations: true,
+              variants: { orderBy: { position: "asc" }, include: { translations: true } },
+            },
           },
         },
       },

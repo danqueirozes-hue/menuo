@@ -92,9 +92,36 @@ model MenuItem {
   hasSeafood   Boolean            @default(false)
   isSpecialty  Boolean            @default(false)
   isNew        Boolean            @default(false)
+  hasVariants  Boolean            @default(false)
+  variants     MenuItemVariant[]
   translations ItemTranslation[]
   createdAt    DateTime           @default(now())
   updatedAt    DateTime           @updatedAt
+}
+
+// A dish with hasVariants=true is priced by option (e.g. Small/Medium/Large,
+// 300ml/500ml) instead of a single price. priceCents on MenuItem is kept in
+// sync to the cheapest variant so surfaces that only know a single price
+// (PDF fallback, sorting) still show something sensible "from".
+model MenuItemVariant {
+  id           String                        @id @default(cuid())
+  menuItemId   String
+  menuItem     MenuItem                      @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  label        String
+  priceCents   Int
+  position     Int                           @default(0)
+  translations MenuItemVariantTranslation[]
+  createdAt    DateTime                      @default(now())
+}
+
+model MenuItemVariantTranslation {
+  id        String          @id @default(cuid())
+  variantId String
+  variant   MenuItemVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  language  String
+  label     String
+
+  @@unique([variantId, language])
 }
 
 model SectionTranslation {

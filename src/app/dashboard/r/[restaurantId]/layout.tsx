@@ -54,6 +54,12 @@ export default async function EstablishmentLayout({
             Menus
           </Link>
           <Link
+            href={`/dashboard/r/${current.id}/publish`}
+            className="rounded-md px-3 py-2 text-ink hover:bg-paper hover:text-amber"
+          >
+            Publish & QR code
+          </Link>
+          <Link
             href={`/dashboard/r/${current.id}/settings`}
             className="rounded-md px-3 py-2 text-ink hover:bg-paper hover:text-amber"
           >

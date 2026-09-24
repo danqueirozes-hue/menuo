@@ -2,11 +2,17 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { Plus, Trash2 } from "lucide-react";
 import { Input, Label, Textarea } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { ClientItem } from "./types";
 import { DIETARY_TAGS, DietaryKey, DietaryFlags } from "@/lib/dietary-tags";
 import { resizeImageForUpload } from "@/lib/resize-image";
+
+type VariantDraft = { label: string; price: string };
+
+const MIN_VARIANTS = 2;
+const MAX_VARIANTS = 3;
 
 export function ItemEditor({
   initial,
@@ -17,8 +23,10 @@ export function ItemEditor({
   onSave: (data: {
     name: string;
     description: string;
-    price: number;
     photoUrl?: string;
+    hasVariants: boolean;
+    price?: number;
+    variants: { label: string; price: number }[];
   } & DietaryFlags) => Promise<void>;
   onCancel: () => void;
 }) {
@@ -26,6 +34,15 @@ export function ItemEditor({
   const [description, setDescription] = useState(initial?.description ?? "");
   const [price, setPrice] = useState(
     initial ? (initial.priceCents / 100).toFixed(2) : ""
+  );
+  const [hasVariants, setHasVariants] = useState(initial?.hasVariants ?? false);
+  const [variants, setVariants] = useState<VariantDraft[]>(
+    initial?.variants.length
+      ? initial.variants.map((v) => ({ label: v.label, price: (v.priceCents / 100).toFixed(2) }))
+      : [
+          { label: "", price: "" },
+          { label: "", price: "" },
+        ]
   );
   const [photoUrl, setPhotoUrl] = useState(initial?.photoUrl ?? "");
   const [dietary, setDietary] = useState<DietaryFlags>({
@@ -42,6 +59,18 @@ export function ItemEditor({
 
   function toggleDietary(key: DietaryKey) {
     setDietary((d) => ({ ...d, [key]: !d[key] }));
+  }
+
+  function updateVariant(index: number, field: keyof VariantDraft, value: string) {
+    setVariants((prev) => prev.map((v, i) => (i === index ? { ...v, [field]: value } : v)));
+  }
+
+  function addVariant() {
+    setVariants((prev) => (prev.length >= MAX_VARIANTS ? prev : [...prev, { label: "", price: "" }]));
+  }
+
+  function removeVariant(index: number) {
+    setVariants((prev) => (prev.length <= MIN_VARIANTS ? prev : prev.filter((_, i) => i !== index)));
   }
 
   async function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -66,19 +95,40 @@ export function ItemEditor({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const parsedPrice = parseFloat(price.replace(",", "."));
-    if (!name.trim() || Number.isNaN(parsedPrice)) {
-      setError("Please provide a name and a valid price.");
+    if (!name.trim()) {
+      setError("Please provide a dish name.");
       return;
     }
+
+    let payload: { price?: number; variants: { label: string; price: number }[] };
+    if (hasVariants) {
+      const cleaned = variants.map((v) => ({
+        label: v.label.trim(),
+        price: parseFloat(v.price.replace(",", ".")),
+      }));
+      if (cleaned.length < MIN_VARIANTS || cleaned.some((v) => !v.label || Number.isNaN(v.price))) {
+        setError(`Add a name and a valid price for at least ${MIN_VARIANTS} options.`);
+        return;
+      }
+      payload = { variants: cleaned };
+    } else {
+      const parsedPrice = parseFloat(price.replace(",", "."));
+      if (Number.isNaN(parsedPrice)) {
+        setError("Please provide a valid price.");
+        return;
+      }
+      payload = { price: parsedPrice, variants: [] };
+    }
+
     setSaving(true);
     setError(null);
     try {
       await onSave({
         name: name.trim(),
         description: description.trim(),
-        price: parsedPrice,
         photoUrl,
+        hasVariants,
+        ...payload,
         ...dietary,
       });
     } catch {
@@ -133,14 +183,68 @@ export function ItemEditor({
             </div>
           </div>
           <div>
-            <Label>Price</Label>
-            <Input
-              inputMode="decimal"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              placeholder="18.50"
-              required
-            />
+            <label className="flex items-center gap-2 text-sm text-ink">
+              <input
+                type="checkbox"
+                checked={hasVariants}
+                onChange={(e) => setHasVariants(e.target.checked)}
+                className="h-4 w-4 rounded border-border text-amber focus:ring-amber"
+              />
+              This dish has price variations (e.g. sizes)?
+            </label>
+
+            {!hasVariants ? (
+              <div className="mt-3">
+                <Label>Price</Label>
+                <Input
+                  inputMode="decimal"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  placeholder="18.50"
+                  required
+                />
+              </div>
+            ) : (
+              <div className="mt-3 space-y-2">
+                <Label>Options (2 to 3)</Label>
+                {variants.map((v, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <Input
+                      value={v.label}
+                      onChange={(e) => updateVariant(i, "label", e.target.value)}
+                      placeholder="e.g. Small"
+                      className="flex-1"
+                    />
+                    <Input
+                      inputMode="decimal"
+                      value={v.price}
+                      onChange={(e) => updateVariant(i, "price", e.target.value)}
+                      placeholder="12.00"
+                      className="w-28"
+                    />
+                    {variants.length > MIN_VARIANTS && (
+                      <button
+                        type="button"
+                        onClick={() => removeVariant(i)}
+                        aria-label="Remove option"
+                        className="rounded p-1.5 text-ink-soft hover:bg-paper hover:text-red-600"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                {variants.length < MAX_VARIANTS && (
+                  <button
+                    type="button"
+                    onClick={addVariant}
+                    className="inline-flex items-center gap-1.5 text-sm text-amber hover:underline"
+                  >
+                    <Plus size={15} /> Add another option
+                  </button>
+                )}
+              </div>
+            )}
           </div>
           <div>
             <Label>Photo</Label>

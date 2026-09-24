@@ -64,6 +64,16 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
               hasSeafood: item.hasSeafood,
               isSpecialty: item.isSpecialty,
               isNew: item.isNew,
+              hasVariants: item.hasVariants,
+              variants: item.hasVariants
+                ? {
+                    create: item.variants.map((v) => ({
+                      label: v.label,
+                      priceCents: v.priceCents,
+                      position: v.position,
+                    })),
+                  }
+                : undefined,
             })),
           },
         })),

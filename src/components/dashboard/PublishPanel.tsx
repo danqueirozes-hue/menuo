@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import { Check, Copy, Download, RefreshCw, Printer, Lock } from "lucide-react";
+import { Check, Copy, Download, RefreshCw, Printer, Lock, Languages } from "lucide-react";
 import { LANGUAGES } from "@/lib/languages";
 import { drawQrCard, canvasToPngBlob } from "@/lib/qr-card";
 import { TranslationProgress } from "@/components/dashboard/TranslationProgress";
@@ -238,6 +238,29 @@ export function PublishPanel({
 
           <div className="rounded-xl border border-border bg-panel p-5">
             <p className="flex items-center gap-2 text-sm font-medium text-ink">
+              <Languages size={16} /> Menu translations
+            </p>
+            <p className="mt-1 text-xs text-ink-soft">
+              Use &quot;Update translations&quot; after editing a dish, adding a
+              translation provider, or changing your menu — it fills in
+              whatever is missing without taking your menu offline.
+            </p>
+            <div className="mt-4">
+              {translating && translationTotal && translationsRemaining !== null ? (
+                <TranslationProgress
+                  percent={Math.round(((translationTotal - translationsRemaining) / translationTotal) * 100)}
+                />
+              ) : (
+                <Button variant="outline" onClick={() => togglePublish(true)} disabled={loading || translating}>
+                  <RefreshCw size={16} /> {loading ? "Updating…" : "Update translations"}
+                </Button>
+              )}
+            </div>
+            {refreshed && !translating && <p className="mt-2 text-sm text-green">Translations updated.</p>}
+          </div>
+
+          <div className="rounded-xl border border-border bg-panel p-5">
+            <p className="flex items-center gap-2 text-sm font-medium text-ink">
               <Printer size={16} /> Print menu / PDF
             </p>
             <p className="mt-1 text-xs text-ink-soft">
@@ -264,29 +287,9 @@ export function PublishPanel({
           </div>
 
           {error && <p className="text-sm text-red-600">{error}</p>}
-          {refreshed && !translating && <p className="text-sm text-green">Translations updated.</p>}
-          {translating && translationTotal && translationsRemaining !== null && (
-            <TranslationProgress
-              percent={Math.round(((translationTotal - translationsRemaining) / translationTotal) * 100)}
-            />
-          )}
-          <div className="flex flex-wrap gap-3">
-            <Button
-              variant="outline"
-              onClick={() => togglePublish(true)}
-              disabled={loading || translating}
-            >
-              <RefreshCw size={16} /> {translating ? "Translating…" : loading ? "Updating…" : "Update translations"}
-            </Button>
-            <Button variant="outline" onClick={() => togglePublish(false)} disabled={loading || translating}>
-              {loading ? "Unpublishing…" : "Unpublish menu"}
-            </Button>
-          </div>
-          <p className="text-xs text-ink-soft">
-            Use &quot;Update translations&quot; after editing a dish, adding a
-            translation provider, or changing your menu — it fills in
-            whatever is missing without taking your menu offline.
-          </p>
+          <Button variant="outline" onClick={() => togglePublish(false)} disabled={loading || translating}>
+            {loading ? "Unpublishing…" : "Unpublish menu"}
+          </Button>
         </div>
       )}
     </div>
