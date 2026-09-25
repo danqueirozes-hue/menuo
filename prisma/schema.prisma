@@ -144,3 +144,24 @@ model ItemTranslation {
 
   @@unique([menuItemId, language])
 }
+
+// First-party, anonymous site analytics — no cookies, no visitor ID, no IP
+// stored. "type" picks which optional fields are populated:
+//   pageview -> path, referrerHost, countryCode/countryName
+//   click    -> path, href, linkLabel
+//   vitals   -> path, metricName, metricValue
+model SiteEvent {
+  id           String   @id @default(cuid())
+  type         String
+  path         String
+  href         String?
+  linkLabel    String?
+  metricName   String?
+  metricValue  Float?
+  referrerHost String?
+  countryCode  String?
+  countryName  String?
+  createdAt    DateTime @default(now())
+
+  @@index([type, createdAt])
+}

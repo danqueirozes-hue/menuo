@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Montserrat, Playfair_Display } from "next/font/google";
+import { SiteAnalyticsTracker } from "@/components/SiteAnalyticsTracker";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
         {children}
+        <SiteAnalyticsTracker />
       </body>
     </html>
   );

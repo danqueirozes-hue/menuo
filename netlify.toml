@@ -11,3 +11,11 @@
 # extension. The native "Netlify Database" integration does NOT work
 # here — its Postgres role lacks CREATE on the public schema, which
 # `prisma migrate deploy` requires.
+
+# The site analytics beacon posts to /api/track; this Edge Function
+# intercepts it purely to read context.geo (only available at the edge, not
+# in the Node function serving the Next.js app), then forwards the enriched
+# event to /api/track-ingest for the actual database write.
+[[edge_functions]]
+  path = "/api/track"
+  function = "track-geo"
