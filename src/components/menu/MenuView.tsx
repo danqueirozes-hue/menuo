@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { X } from "lucide-react";
 import { formatPrice } from "@/lib/currency";
 import { getLanguage } from "@/lib/languages";
 import { Logo } from "@/components/ui/Logo";
@@ -133,6 +134,21 @@ export function MenuView({
     sectionRefs.current.get(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  const [lightbox, setLightbox] = useState<{ url: string; alt: string } | null>(null);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    document.body.style.overflow = "hidden";
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setLightbox(null);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [lightbox]);
+
   return (
     <div dir={language.rtl ? "rtl" : "ltr"} className="min-h-screen bg-paper pb-24">
       <header className="relative flex flex-col items-center bg-navy px-6 py-14 text-center text-paper">
@@ -217,13 +233,30 @@ export function MenuView({
                 return (
                   <div key={item.id} className="flex gap-4">
                     {item.photoUrl && (
-                      <Image
-                        src={item.photoUrl}
-                        alt={text.name}
-                        width={72}
-                        height={72}
-                        className="h-18 w-18 shrink-0 rounded-md object-cover"
-                      />
+                      print ? (
+                        <Image
+                          src={item.photoUrl}
+                          alt={text.name}
+                          width={72}
+                          height={72}
+                          className="h-18 w-18 shrink-0 rounded-md object-cover"
+                        />
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setLightbox({ url: item.photoUrl!, alt: text.name })}
+                          aria-label={`View larger photo of ${text.name}`}
+                          className="shrink-0"
+                        >
+                          <Image
+                            src={item.photoUrl}
+                            alt={text.name}
+                            width={72}
+                            height={72}
+                            className="h-18 w-18 rounded-md object-cover transition-opacity hover:opacity-80"
+                          />
+                        </button>
+                      )
                     )}
                     <div className="flex-1">
                       <div className="flex items-start justify-between gap-3">
@@ -276,6 +309,30 @@ export function MenuView({
       <footer className="pb-6 text-center text-xs text-ink-soft/60">
         Powered by MENUO
       </footer>
+
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-navy/80 p-6"
+          onClick={() => setLightbox(null)}
+        >
+          <button
+            onClick={() => setLightbox(null)}
+            aria-label="Close photo"
+            className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-paper/10 text-paper hover:bg-paper/20"
+          >
+            <X size={22} />
+          </button>
+          <div className="relative max-h-full max-w-lg" onClick={(e) => e.stopPropagation()}>
+            <Image
+              src={lightbox.url}
+              alt={lightbox.alt}
+              width={800}
+              height={800}
+              className="max-h-[80vh] w-auto rounded-lg object-contain shadow-2xl"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

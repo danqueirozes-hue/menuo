@@ -5,6 +5,7 @@ import { requireOwnedRestaurant, getSubscription, getEffectiveLimits } from "@/l
 import { NewMenuForm } from "@/components/dashboard/NewMenuForm";
 import { DuplicateMenuButton } from "@/components/dashboard/DuplicateMenuButton";
 import { DeleteMenuButton } from "@/components/dashboard/DeleteMenuButton";
+import { MenuNameCell } from "@/components/dashboard/MenuNameCell";
 
 export default async function MenusListPage({
   params,
@@ -36,10 +37,7 @@ export default async function MenusListPage({
             key={menu.id}
             className="flex items-center justify-between rounded-xl border border-border bg-panel p-5 hover:border-amber"
           >
-            <Link href={`/dashboard/r/${restaurantId}/menus/${menu.id}`} className="flex-1">
-              <p className="font-display text-lg text-ink">{menu.name}</p>
-              <p className="text-xs text-ink-soft">/m/{menu.slug}</p>
-            </Link>
+            <MenuNameCell restaurantId={restaurantId} menuId={menu.id} name={menu.name} slug={menu.slug} />
             <div className="flex items-center gap-3">
               <DuplicateMenuButton menuId={menu.id} restaurantId={restaurantId} disabled={!canAddMenu} />
               <DeleteMenuButton menuId={menu.id} menuName={menu.name} />

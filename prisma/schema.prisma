@@ -16,7 +16,24 @@ model User {
   isAdmin      Boolean       @default(false)
   restaurants  Restaurant[]
   subscription Subscription?
+  resetTokens  PasswordResetToken[]
   createdAt    DateTime      @default(now())
+}
+
+// The raw token goes out in the email link; only its SHA-256 hash is ever
+// stored, same principle as passwordHash — a leaked row on its own can't be
+// replayed. Single-use (usedAt) and short-lived (expiresAt, set by the
+// route that creates it).
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
 }
 
 /// Which of the plans in src/lib/plans.ts the account is on, and its Stripe
