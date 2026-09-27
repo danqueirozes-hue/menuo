@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
+import { isSubscriptionActive } from "@/lib/session";
 
 // As of Stripe's newer "flexible billing" API versions, a subscription's
 // current_period_end no longer lives on the subscription object itself —
@@ -10,6 +11,23 @@ import { getStripe } from "@/lib/stripe";
 // subscriptions, so the first item's period is the subscription's period.
 function getPeriodEnd(sub: Stripe.Subscription): number | undefined {
   return sub.items.data[0]?.current_period_end;
+}
+
+/** Takes every currently-published menu for this account offline — used
+ * when a subscription lapses (trial ended with no payment collected, a
+ * renewal charge failed, or the plan was fully canceled). Guests scanning
+ * an already-printed QR code should stop seeing a menu the restaurant isn't
+ * paying for, the same way a fresh publish is already blocked in that
+ * state. Doesn't touch translations or publishedAt, so re-publishing once
+ * they're paying again is instant. */
+async function unpublishAllMenusForUser(userId: string) {
+  const { count } = await prisma.menu.updateMany({
+    where: { restaurant: { ownerId: userId }, isPublished: true },
+    data: { isPublished: false },
+  });
+  if (count > 0) {
+    console.log(`[stripe webhook] unpublished ${count} menu(s) for user ${userId} — subscription is no longer active`);
+  }
 }
 
 export async function POST(req: Request) {
@@ -92,6 +110,18 @@ export async function POST(req: Request) {
             cancelAtPeriodEnd: stripeSub.cancel_at_period_end ?? false,
           },
         });
+
+        // Covers every way a subscription stops being active: the trial
+        // ended and the first charge failed (-> past_due), retries were
+        // exhausted (-> unpaid), or it was fully canceled (-> canceled /
+        // this same event as "deleted"). Doesn't fire for the routine
+        // trialing -> active transition, or while cancel_at_period_end is
+        // pending but the period hasn't ended yet — Stripe only reports the
+        // subscription's own status as no-longer-active once that period
+        // genuinely ends.
+        if (!isSubscriptionActive({ status: stripeSub.status })) {
+          await unpublishAllMenusForUser(existing.userId);
+        }
       }
       break;
     }
