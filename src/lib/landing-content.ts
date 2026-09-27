@@ -41,6 +41,7 @@ export type LandingDict = {
     title: string;
     subtitle: string;
     cta: string;
+    trialNote: string;
     note: string;
     monthly: string;
     annual: string;
@@ -67,7 +68,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
         "MENUO turns your paper menu into an elegant digital menu, translated instantly into 20 languages, accessed with a single QR code — no app, no download, no awkward guesswork.",
       ctaPrimary: "Build your menu",
       ctaSecondary: "See how it works",
-      note: "Ready in minutes",
+      note: "7-day free trial",
     },
     benefits: {
       eyebrow: "Why MENUO",
@@ -149,6 +150,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Every plan includes all 20 languages, QR codes and PDF export. Upgrade anytime as you grow.",
       cta: "Subscribe",
+      trialNote: "7-day free trial",
       note: "Prices in EUR. Cancel anytime.",
       monthly: "Monthly",
       annual: "Annual",
@@ -181,7 +183,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
         "MENUO convierte tu carta en papel en un menú digital elegante, traducido al instante a 20 idiomas y accesible con un simple código QR — sin app, sin descargas, sin conjeturas incómodas.",
       ctaPrimary: "Crea tu menú",
       ctaSecondary: "Ver cómo funciona",
-      note: "Listo en minutos",
+      note: "Prueba gratis de 7 días",
     },
     benefits: {
       eyebrow: "Por qué MENUO",
@@ -263,6 +265,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Todos los planes incluyen los 20 idiomas, códigos QR y exportación en PDF. Cambia de plan cuando quieras.",
       cta: "Suscribirse",
+      trialNote: "Prueba gratis de 7 días",
       note: "Precios en EUR. Cancela cuando quieras.",
       monthly: "Mensual",
       annual: "Anual",
@@ -295,7 +298,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
         "O MENUO transforma a sua carta em papel num menu digital elegante, traduzido instantaneamente para 20 idiomas e acessível com um único código QR — sem aplicação, sem downloads, sem adivinhações.",
       ctaPrimary: "Crie o seu menu",
       ctaSecondary: "Ver como funciona",
-      note: "Pronto em minutos",
+      note: "Teste grátis de 7 dias",
     },
     benefits: {
       eyebrow: "Porquê o MENUO",
@@ -377,6 +380,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Todos os planos incluem os 20 idiomas, códigos QR e exportação em PDF. Faça upgrade quando quiser.",
       cta: "Assinar",
+      trialNote: "Teste grátis de 7 dias",
       note: "Preços em EUR. Cancele quando quiser.",
       monthly: "Mensal",
       annual: "Anual",
@@ -409,7 +413,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
         "MENUO trasforma il tuo menu cartaceo in un elegante menu digitale, tradotto all'istante in 20 lingue e accessibile con un semplice codice QR — niente app, niente download, niente equivoci.",
       ctaPrimary: "Crea il tuo menu",
       ctaSecondary: "Scopri come funziona",
-      note: "Pronto in pochi minuti",
+      note: "Prova gratuita di 7 giorni",
     },
     benefits: {
       eyebrow: "Perché MENUO",
@@ -491,6 +495,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Ogni piano include tutte le 20 lingue, codici QR ed esportazione PDF. Aggiorna il piano quando vuoi.",
       cta: "Abbonati",
+      trialNote: "Prova gratuita di 7 giorni",
       note: "Prezzi in EUR. Annulla quando vuoi.",
       monthly: "Mensile",
       annual: "Annuale",
@@ -523,7 +528,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
         "MENUO verwandelt Ihre Papier-Speisekarte in eine elegante digitale Speisekarte, sofort in 20 Sprachen übersetzt und über einen einzigen QR-Code zugänglich — keine App, kein Download, kein unsicheres Rätselraten.",
       ctaPrimary: "Speisekarte erstellen",
       ctaSecondary: "So funktioniert's",
-      note: "In wenigen Minuten startklar",
+      note: "7 Tage kostenlos testen",
     },
     benefits: {
       eyebrow: "Warum MENUO",
@@ -605,6 +610,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Jeder Plan enthält alle 20 Sprachen, QR-Codes und PDF-Export. Jederzeit upgradebar.",
       cta: "Abonnieren",
+      trialNote: "7 Tage kostenlos testen",
       note: "Preise in EUR. Jederzeit kündbar.",
       monthly: "Monatlich",
       annual: "Jährlich",
@@ -637,7 +643,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
         "MENUO transforme votre carte papier en un élégant menu numérique, traduit instantanément en 20 langues et accessible via un simple code QR — sans application, sans téléchargement, sans devinettes gênantes.",
       ctaPrimary: "Créez votre menu",
       ctaSecondary: "Voir comment ça marche",
-      note: "Prêt en quelques minutes",
+      note: "Essai gratuit de 7 jours",
     },
     benefits: {
       eyebrow: "Pourquoi MENUO",
@@ -719,6 +725,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       subtitle:
         "Chaque formule inclut les 20 langues, les codes QR et l'export PDF. Changez de formule à tout moment.",
       cta: "S'abonner",
+      trialNote: "Essai gratuit de 7 jours",
       note: "Prix en EUR. Annulable à tout moment.",
       monthly: "Mensuel",
       annual: "Annuel",

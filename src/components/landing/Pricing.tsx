@@ -82,6 +82,7 @@ export function Pricing({ dict }: { dict: LandingDict["pricing"] }) {
                 >
                   {dict.cta}
                 </Link>
+                <p className="mt-2 text-center text-xs text-ink-soft">{dict.trialNote}</p>
               </div>
             );
           })}

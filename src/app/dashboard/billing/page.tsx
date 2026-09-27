@@ -44,6 +44,7 @@ export default async function BillingPage() {
             status={subscription?.status ?? null}
             cancelAtPeriodEnd={subscription?.cancelAtPeriodEnd ?? false}
             currentPeriodEnd={subscription?.currentPeriodEnd?.toISOString() ?? null}
+            eligibleForTrial={!subscription?.stripeCustomerId}
           />
         </Suspense>
       </div>

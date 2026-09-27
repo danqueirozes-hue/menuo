@@ -11,11 +11,13 @@ export function BillingPlans({
   status,
   cancelAtPeriodEnd,
   currentPeriodEnd,
+  eligibleForTrial,
 }: {
   currentPlan: string | null;
   status: string | null;
   cancelAtPeriodEnd: boolean;
   currentPeriodEnd: string | null;
+  eligibleForTrial: boolean;
 }) {
   const searchParams = useSearchParams();
   const [interval, setInterval] = useState<BillingInterval>("monthly");
@@ -180,14 +182,19 @@ export function BillingPlans({
                   )}
                 </div>
               ) : (
-                <Button
-                  variant="amber"
-                  className="mt-5 w-full"
-                  onClick={() => subscribe(key)}
-                  disabled={loadingPlan !== null}
-                >
-                  {loadingPlan === key ? "Redirecting…" : isActive ? "Switch plan" : "Subscribe"}
-                </Button>
+                <>
+                  <Button
+                    variant="amber"
+                    className="mt-5 w-full"
+                    onClick={() => subscribe(key)}
+                    disabled={loadingPlan !== null}
+                  >
+                    {loadingPlan === key ? "Redirecting…" : isActive ? "Switch plan" : "Subscribe"}
+                  </Button>
+                  {!isActive && eligibleForTrial && (
+                    <p className="mt-2 text-center text-xs text-ink-soft">7-day free trial</p>
+                  )}
+                </>
               )}
             </div>
           );

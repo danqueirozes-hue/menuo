@@ -1,4 +1,5 @@
 ﻿import Image from "next/image";
+import { Check } from "lucide-react";
 import { LinkButton } from "@/components/ui/Button";
 import { LandingDict } from "@/lib/landing-content";
 
@@ -29,7 +30,9 @@ export function Hero({ dict }: { dict: LandingDict["hero"] }) {
               {dict.ctaSecondary}
             </LinkButton>
           </div>
-          <p className="mt-6 text-xs uppercase tracking-widest text-paper/40">{dict.note}</p>
+          <span className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-amber/15 px-3.5 py-1.5 text-xs font-medium text-amber-soft">
+            <Check size={14} className="text-amber" /> {dict.note}
+          </span>
         </div>
 
         <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
