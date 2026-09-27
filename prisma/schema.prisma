@@ -48,6 +48,11 @@ model Subscription {
   stripeCustomerId     String?
   stripeSubscriptionId String?
   currentPeriodEnd     DateTime?
+  // true once the customer has scheduled a cancellation — the subscription
+  // stays fully active (status is untouched) until currentPeriodEnd, then
+  // Stripe cancels it for real. Lets the dashboard say "active through
+  // <date>" and offer to undo the cancellation before that date.
+  cancelAtPeriodEnd    Boolean   @default(false)
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
 }

@@ -39,7 +39,12 @@ export default async function BillingPage() {
 
       <div className="mt-10">
         <Suspense>
-          <BillingPlans currentPlan={subscription?.plan ?? null} status={subscription?.status ?? null} />
+          <BillingPlans
+            currentPlan={subscription?.plan ?? null}
+            status={subscription?.status ?? null}
+            cancelAtPeriodEnd={subscription?.cancelAtPeriodEnd ?? false}
+            currentPeriodEnd={subscription?.currentPeriodEnd?.toISOString() ?? null}
+          />
         </Suspense>
       </div>
     </div>

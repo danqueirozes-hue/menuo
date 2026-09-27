@@ -9,18 +9,33 @@ import { PLAN_ORDER, PLANS, PlanKey, BillingInterval, formatPlanPrice } from "@/
 export function BillingPlans({
   currentPlan,
   status,
+  cancelAtPeriodEnd,
+  currentPeriodEnd,
 }: {
   currentPlan: string | null;
   status: string | null;
+  cancelAtPeriodEnd: boolean;
+  currentPeriodEnd: string | null;
 }) {
   const searchParams = useSearchParams();
   const [interval, setInterval] = useState<BillingInterval>("monthly");
   const [loadingPlan, setLoadingPlan] = useState<PlanKey | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [cancelling, setCancelling] = useState(false);
+  const [resuming, setResuming] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const [pendingCancelUntil, setPendingCancelUntil] = useState<string | null>(
+    cancelAtPeriodEnd ? currentPeriodEnd : null
+  );
 
   const isActive = status === "active" || status === "trialing";
+  const periodEndLabel = pendingCancelUntil
+    ? new Date(pendingCancelUntil).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : null;
 
   useEffect(() => {
     if (searchParams.get("activated") === "1") setNotice("Your subscription is now active — you can publish your menus.");
@@ -54,11 +69,28 @@ export function BillingPlans({
   }
 
   async function cancel() {
-    if (!confirm("Cancel your subscription? Your menus will stop being publishable.")) return;
+    if (
+      !confirm(
+        "Cancel your subscription? You'll keep full access until the end of your current billing period — it won't renew after that."
+      )
+    )
+      return;
     setCancelling(true);
-    await fetch("/api/billing/cancel", { method: "POST" });
+    const res = await fetch("/api/billing/cancel", { method: "POST" });
+    const data = await res.json();
     setCancelling(false);
-    window.location.reload();
+    if (data.currentPeriodEnd) {
+      setPendingCancelUntil(data.currentPeriodEnd);
+    } else {
+      window.location.reload();
+    }
+  }
+
+  async function resume() {
+    setResuming(true);
+    await fetch("/api/billing/resume", { method: "POST" });
+    setResuming(false);
+    setPendingCancelUntil(null);
   }
 
   return (
@@ -117,15 +149,35 @@ export function BillingPlans({
               </ul>
 
               {isCurrent ? (
-                <div className="mt-5 flex items-center justify-between">
-                  <span className="rounded-full bg-green/15 px-3 py-1 text-xs text-green">Current plan</span>
-                  <button
-                    onClick={cancel}
-                    disabled={cancelling}
-                    className="text-xs text-ink-soft hover:text-red-600"
-                  >
-                    {cancelling ? "Cancelling…" : "Cancel"}
-                  </button>
+                <div className="mt-5">
+                  <div className="flex items-center justify-between">
+                    <span className="rounded-full bg-green/15 px-3 py-1 text-xs text-green">
+                      {pendingCancelUntil ? "Ending soon" : "Current plan"}
+                    </span>
+                    {pendingCancelUntil ? (
+                      <button
+                        onClick={resume}
+                        disabled={resuming}
+                        className="text-xs text-amber hover:underline"
+                      >
+                        {resuming ? "Resuming…" : "Resume subscription"}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={cancel}
+                        disabled={cancelling}
+                        className="text-xs text-ink-soft hover:text-red-600"
+                      >
+                        {cancelling ? "Cancelling…" : "Cancel"}
+                      </button>
+                    )}
+                  </div>
+                  {pendingCancelUntil && (
+                    <p className="mt-2 text-xs text-ink-soft">
+                      Your plan stays fully active through <strong>{periodEndLabel}</strong>, then it
+                      won&apos;t renew.
+                    </p>
+                  )}
                 </div>
               ) : (
                 <Button

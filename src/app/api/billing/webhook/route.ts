@@ -3,6 +3,15 @@ import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
 
+// As of Stripe's newer "flexible billing" API versions, a subscription's
+// current_period_end no longer lives on the subscription object itself —
+// each subscription ITEM has its own billing period now (to support
+// multiple items on different cycles). We only ever create single-item
+// subscriptions, so the first item's period is the subscription's period.
+function getPeriodEnd(sub: Stripe.Subscription): number | undefined {
+  return sub.items.data[0]?.current_period_end;
+}
+
 export async function POST(req: Request) {
   const stripe = getStripe();
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -34,9 +43,12 @@ export async function POST(req: Request) {
         // paid revenue everywhere the status is read (admin MRR included).
         const stripeSubscriptionId = (checkoutSession.subscription as string) ?? undefined;
         let status = "active";
+        let currentPeriodEnd: Date | undefined;
         if (stripeSubscriptionId) {
           const stripeSub = await stripe.subscriptions.retrieve(stripeSubscriptionId);
           status = stripeSub.status;
+          const periodEnd = getPeriodEnd(stripeSub);
+          if (periodEnd) currentPeriodEnd = new Date(periodEnd * 1000);
         }
 
         await prisma.subscription.upsert({
@@ -48,6 +60,8 @@ export async function POST(req: Request) {
             status,
             stripeCustomerId: (checkoutSession.customer as string) ?? undefined,
             stripeSubscriptionId,
+            cancelAtPeriodEnd: false,
+            currentPeriodEnd,
           },
           update: {
             plan,
@@ -55,6 +69,8 @@ export async function POST(req: Request) {
             status,
             stripeCustomerId: (checkoutSession.customer as string) ?? undefined,
             stripeSubscriptionId,
+            cancelAtPeriodEnd: false,
+            currentPeriodEnd,
           },
         });
       }
@@ -67,12 +83,13 @@ export async function POST(req: Request) {
         where: { stripeSubscriptionId: stripeSub.id },
       });
       if (existing) {
-        const periodEnd = (stripeSub as unknown as { current_period_end?: number }).current_period_end;
+        const periodEnd = getPeriodEnd(stripeSub);
         await prisma.subscription.update({
           where: { id: existing.id },
           data: {
             status: stripeSub.status,
             currentPeriodEnd: periodEnd ? new Date(periodEnd * 1000) : undefined,
+            cancelAtPeriodEnd: stripeSub.cancel_at_period_end ?? false,
           },
         });
       }
