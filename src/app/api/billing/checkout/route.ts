@@ -5,6 +5,11 @@ import { prisma } from "@/lib/prisma";
 import { getPlan, PLAN_ORDER } from "@/lib/plans";
 import { getStripe, getStripePriceId } from "@/lib/stripe";
 
+// Only ever offered once per customer: gated below on the account not
+// already having a Stripe customer, so canceling and resubscribing doesn't
+// grant a fresh trial every time.
+const TRIAL_PERIOD_DAYS = 7;
+
 const schema = z.object({
   plan: z.enum(PLAN_ORDER as [string, ...string[]]),
   interval: z.enum(["monthly", "annual"]).default("monthly"),
@@ -41,6 +46,7 @@ export async function POST(req: Request) {
   }
 
   const existing = await prisma.subscription.findUnique({ where: { userId } });
+  const isFirstTimeCustomer = !existing?.stripeCustomerId;
 
   const checkoutSession = await stripe.checkout.sessions.create({
     mode: "subscription",
@@ -51,7 +57,10 @@ export async function POST(req: Request) {
     cancel_url: `${siteUrl}/dashboard/billing?canceled=1`,
     client_reference_id: userId,
     metadata: { userId, plan: plan.key, interval },
-    subscription_data: { metadata: { userId, plan: plan.key, interval } },
+    subscription_data: {
+      metadata: { userId, plan: plan.key, interval },
+      ...(isFirstTimeCustomer ? { trial_period_days: TRIAL_PERIOD_DAYS } : {}),
+    },
   });
 
   if (!checkoutSession.url) {

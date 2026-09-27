@@ -28,22 +28,33 @@ export async function POST(req: Request) {
       const plan = checkoutSession.metadata?.plan;
       const interval = checkoutSession.metadata?.interval === "annual" ? "annual" : "monthly";
       if (userId && plan) {
+        // Don't assume "active" — a checkout with a trial comes back as a
+        // real Stripe subscription in "trialing" status, not "active", and
+        // hardcoding it here would make a not-yet-billed trial look like
+        // paid revenue everywhere the status is read (admin MRR included).
+        const stripeSubscriptionId = (checkoutSession.subscription as string) ?? undefined;
+        let status = "active";
+        if (stripeSubscriptionId) {
+          const stripeSub = await stripe.subscriptions.retrieve(stripeSubscriptionId);
+          status = stripeSub.status;
+        }
+
         await prisma.subscription.upsert({
           where: { userId },
           create: {
             userId,
             plan,
             interval,
-            status: "active",
+            status,
             stripeCustomerId: (checkoutSession.customer as string) ?? undefined,
-            stripeSubscriptionId: (checkoutSession.subscription as string) ?? undefined,
+            stripeSubscriptionId,
           },
           update: {
             plan,
             interval,
-            status: "active",
+            status,
             stripeCustomerId: (checkoutSession.customer as string) ?? undefined,
-            stripeSubscriptionId: (checkoutSession.subscription as string) ?? undefined,
+            stripeSubscriptionId,
           },
         });
       }
