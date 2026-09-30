@@ -53,6 +53,7 @@ export async function POST(req: Request) {
     customer: existing?.stripeCustomerId ?? undefined,
     customer_email: existing?.stripeCustomerId ? undefined : session.user.email,
     line_items: [{ price: priceId, quantity: 1 }],
+    adaptive_pricing: { enabled: true },
     success_url: `${siteUrl}/dashboard/billing?success=1`,
     cancel_url: `${siteUrl}/dashboard/billing?canceled=1`,
     client_reference_id: userId,
