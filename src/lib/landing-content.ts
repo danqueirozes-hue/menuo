@@ -101,11 +101,6 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           description:
             "A refined digital menu signals quality before the first course arrives, reinforcing the positioning of a premium establishment.",
         },
-        {
-          title: "Ready for what's next",
-          description:
-            "The same QR your guests already scan will soon let them order straight to the kitchen or pay the bill — no new hardware, no new habit to learn.",
-        },
       ],
     },
     how: {
@@ -215,11 +210,6 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           title: "Una imagen más elegante y moderna",
           description:
             "Un menú digital cuidado transmite calidad incluso antes de que llegue el primer plato, reforzando el posicionamiento de un establecimiento premium.",
-        },
-        {
-          title: "Preparado para lo que viene",
-          description:
-            "El mismo QR que tus clientes ya escanean pronto les permitirá pedir directamente a cocina o pagar la cuenta — sin nuevo hardware, sin nuevos hábitos que aprender.",
         },
       ],
     },
@@ -331,11 +321,6 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           description:
             "Um menu digital cuidado transmite qualidade antes mesmo de o primeiro prato chegar, reforçando o posicionamento de um estabelecimento premium.",
         },
-        {
-          title: "Pronto para o que vem a seguir",
-          description:
-            "O mesmo QR que os seus clientes já digitalizam vai em breve permitir pedir diretamente à cozinha ou pagar a conta — sem novo hardware, sem novos hábitos a aprender.",
-        },
       ],
     },
     how: {
@@ -445,11 +430,6 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           title: "Un'immagine più elegante e moderna",
           description:
             "Un menu digitale curato comunica qualità ancora prima che arrivi la prima portata, rafforzando il posizionamento di un locale premium.",
-        },
-        {
-          title: "Pronto per il prossimo passo",
-          description:
-            "Lo stesso QR che i tuoi ospiti scansionano già presto permetterà di ordinare direttamente in cucina o pagare il conto — senza nuovo hardware, senza nuove abitudini da imparare.",
         },
       ],
     },
@@ -561,11 +541,6 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           description:
             "Eine hochwertig gestaltete digitale Speisekarte signalisiert Qualität, noch bevor der erste Gang serviert wird, und unterstreicht die Positionierung als Premium-Betrieb.",
         },
-        {
-          title: "Bereit für das, was als Nächstes kommt",
-          description:
-            "Derselbe QR-Code, den Ihre Gäste bereits scannen, wird ihnen bald erlauben, direkt in der Küche zu bestellen oder die Rechnung zu bezahlen — ohne neue Hardware, ohne neue Gewohnheiten.",
-        },
       ],
     },
     how: {
@@ -675,11 +650,6 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           title: "Une image plus élégante et moderne",
           description:
             "Un menu numérique soigné signale la qualité avant même l'arrivée du premier plat, renforçant le positionnement d'un établissement haut de gamme.",
-        },
-        {
-          title: "Prêt pour la suite",
-          description:
-            "Le même QR code que vos clients scannent déjà leur permettra bientôt de commander directement en cuisine ou de régler l'addition — sans nouveau matériel, sans nouvelle habitude à apprendre.",
         },
       ],
     },
