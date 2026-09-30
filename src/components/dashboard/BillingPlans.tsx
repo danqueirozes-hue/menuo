@@ -141,7 +141,12 @@ export function BillingPlans({
             >
               <p className="font-display text-xl text-ink">{plan.name}</p>
               <p className="font-display mt-1 text-2xl text-amber">{formatPlanPrice(plan, interval)}</p>
-              <p className="mt-1 text-xs text-ink-soft">{plan.tagline}</p>
+              {interval === "monthly" && (
+                <p className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-green/10 px-2.5 py-1 text-xs font-medium text-green">
+                  {formatPlanPrice(plan, "annual")} · 2 months free
+                </p>
+              )}
+              <p className="mt-2 text-xs text-ink-soft">{plan.tagline}</p>
               <ul className="mt-4 space-y-1.5 text-sm text-ink-soft">
                 {plan.features.map((f) => (
                   <li key={f} className="flex items-center gap-2">
@@ -192,7 +197,7 @@ export function BillingPlans({
                     {loadingPlan === key ? "Redirecting…" : isActive ? "Switch plan" : "Subscribe"}
                   </Button>
                   {!isActive && eligibleForTrial && (
-                    <p className="mt-2 text-center text-xs text-ink-soft">7-day free trial</p>
+                    <p className="mt-2 text-center text-xs text-ink-soft">14-day free trial</p>
                   )}
                 </>
               )}

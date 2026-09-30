@@ -16,7 +16,7 @@ export const PLANS: Record<PlanKey, Plan> = {
   essential: {
     key: "essential",
     name: "Essential",
-    priceCents: 2900,
+    priceCents: 990,
     maxEstablishments: 1,
     maxMenusPerEstablishment: 1,
     tagline: "1 menu · 1 establishment",
@@ -29,7 +29,7 @@ export const PLANS: Record<PlanKey, Plan> = {
   business: {
     key: "business",
     name: "Business",
-    priceCents: 3900,
+    priceCents: 1990,
     maxEstablishments: 1,
     maxMenusPerEstablishment: 3,
     tagline: "Up to 3 menus · 1 establishment",
@@ -42,7 +42,7 @@ export const PLANS: Record<PlanKey, Plan> = {
   hospitality: {
     key: "hospitality",
     name: "Hospitality",
-    priceCents: 4900,
+    priceCents: 3490,
     maxEstablishments: 1,
     maxMenusPerEstablishment: 10,
     tagline: "Up to 10 menus · 1 establishment",
@@ -55,7 +55,7 @@ export const PLANS: Record<PlanKey, Plan> = {
   "multi-location": {
     key: "multi-location",
     name: "Multi-location",
-    priceCents: 9900,
+    priceCents: 6990,
     isFromPrice: true,
     maxEstablishments: 5,
     maxMenusPerEstablishment: 5,
@@ -79,12 +79,16 @@ export function priceCentsFor(plan: Plan, interval: BillingInterval): number {
   return interval === "annual" ? plan.priceCents * 10 : plan.priceCents;
 }
 
+function formatAmount(cents: number): string {
+  const amount = cents / 100;
+  return Number.isInteger(amount) ? String(amount) : amount.toFixed(2);
+}
+
 export function formatPlanPrice(plan: Plan, interval: BillingInterval): string {
   const cents = priceCentsFor(plan, interval);
-  const amount = Math.round(cents / 100);
   const prefix = plan.isFromPrice ? "From " : "";
   const suffix = interval === "annual" ? "/yr" : "/mo";
-  return `${prefix}€${amount}${suffix}`;
+  return `${prefix}€${formatAmount(cents)}${suffix}`;
 }
 
 /** Ceiling applied to accounts with no active paid subscription: they can

@@ -8,7 +8,7 @@ import { getStripe, getStripePriceId } from "@/lib/stripe";
 // Only ever offered once per customer: gated below on the account not
 // already having a Stripe customer, so canceling and resubscribing doesn't
 // grant a fresh trial every time.
-const TRIAL_PERIOD_DAYS = 7;
+const TRIAL_PERIOD_DAYS = 14;
 
 const schema = z.object({
   plan: z.enum(PLAN_ORDER as [string, ...string[]]),

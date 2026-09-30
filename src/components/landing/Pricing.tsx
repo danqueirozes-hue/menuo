@@ -64,7 +64,12 @@ export function Pricing({ dict }: { dict: LandingDict["pricing"] }) {
                 <p className="font-display mt-1 text-2xl text-amber">
                   {formatPlanPrice(plan, interval)}
                 </p>
-                <p className="mt-1 text-xs text-ink-soft">{plan.tagline}</p>
+                {interval === "monthly" && (
+                  <p className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-green/10 px-2.5 py-1 text-xs font-medium text-green">
+                    {formatPlanPrice(plan, "annual")} · {dict.annualNote}
+                  </p>
+                )}
+                <p className="mt-2 text-xs text-ink-soft">{plan.tagline}</p>
                 <ul className="mt-5 space-y-2 text-sm text-ink-soft">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2">
