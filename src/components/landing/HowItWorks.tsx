@@ -18,6 +18,18 @@ export function HowItWorks({ dict }: { dict: LandingDict["how"] }) {
             </div>
           ))}
         </div>
+
+        <div className="mx-auto mt-16 max-w-3xl">
+          <div className="overflow-hidden rounded-[1.75rem] border border-paper/10 shadow-2xl shadow-black/40">
+            <video
+              className="w-full"
+              controls
+              playsInline
+              preload="metadata"
+              src="/videos/how-it-works.mp4"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
