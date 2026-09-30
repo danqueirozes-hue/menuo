@@ -11,7 +11,7 @@ export function MobileNav({ children }: { children: React.ReactNode }) {
   return (
     <>
       <header className="flex items-center justify-between border-b border-border bg-panel px-6 py-4 sm:hidden">
-        <Link href="/dashboard">
+        <Link href="/dashboard" prefetch={false}>
           <Logo className="h-6" />
         </Link>
         <button
@@ -30,7 +30,11 @@ export function MobileNav({ children }: { children: React.ReactNode }) {
             // Closing on any click inside is deliberate — the drawer is
             // almost entirely nav links, so tapping one should both
             // navigate and dismiss it without a separate close step.
-            onClick={() => setOpen(false)}
+            // Deferred via setTimeout so this doesn't unmount the drawer
+            // (and whatever was just tapped) before the browser runs the
+            // click's default action — e.g. submitting the "Log out" form,
+            // which otherwise never fires.
+            onClick={() => setTimeout(() => setOpen(false), 0)}
             className="absolute left-0 top-0 flex h-full w-72 flex-col overflow-y-auto bg-panel px-6 py-8 shadow-xl"
           >
             <div className="flex items-center justify-between">

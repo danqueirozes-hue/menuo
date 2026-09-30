@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { auth, signOut } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import {
   getUserRestaurants,
   getSubscription,
@@ -32,26 +32,37 @@ function SidebarNav({
       </div>
 
       <nav className="mt-8 flex flex-col gap-1 text-sm">
+        {/* prefetch={false} on every persistent sidebar link: Next.js
+            prefetches visible links continuously, and each prefetch is an
+            authenticated request through the auth middleware, which
+            unconditionally re-issues the session cookie on every pass. A
+            prefetch that resolves right after "Log out" clears the cookie
+            can re-instate the old session, so these links must not keep
+            firing prefetches while the sidebar just sits there. */}
         <Link
           href={`/dashboard/r/${current.id}`}
+          prefetch={false}
           className="rounded-md px-3 py-2 text-ink hover:bg-paper hover:text-amber"
         >
           Menus
         </Link>
         <Link
           href={`/dashboard/r/${current.id}/publish`}
+          prefetch={false}
           className="rounded-md px-3 py-2 text-ink hover:bg-paper hover:text-amber"
         >
           Publish & QR code
         </Link>
         <Link
           href={`/dashboard/r/${current.id}/settings`}
+          prefetch={false}
           className="rounded-md px-3 py-2 text-ink hover:bg-paper hover:text-amber"
         >
           Establishment settings
         </Link>
         <Link
           href="/dashboard/billing"
+          prefetch={false}
           className="rounded-md px-3 py-2 text-ink hover:bg-paper hover:text-amber"
         >
           Billing
@@ -61,18 +72,14 @@ function SidebarNav({
       <div className="mt-auto">
         <Link
           href="/dashboard/billing"
+          prefetch={false}
           className={`block rounded-full px-3 py-1 text-xs w-fit ${
             active ? "bg-green/15 text-green" : "bg-amber-soft/40 text-ink-soft"
           }`}
         >
           {active ? `${planName ?? "Active"} plan` : "No active plan"}
         </Link>
-        <form
-          action={async () => {
-            "use server";
-            await signOut({ redirectTo: "/" });
-          }}
-        >
+        <form action="/api/logout" method="POST">
           <button className="mt-4 block text-sm text-ink-soft hover:text-amber">Log out</button>
         </form>
       </div>
@@ -115,7 +122,7 @@ export default async function EstablishmentLayout({
             the dashboard should feel like going home, not like leaving the
             app. Only the explicit "Log out" below sends you to the
             marketing site. */}
-        <Link href="/dashboard">
+        <Link href="/dashboard" prefetch={false}>
           <Logo className="h-7" />
         </Link>
         <SidebarNav {...sidebarProps} />
