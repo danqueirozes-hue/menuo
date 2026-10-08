@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Manrope, Montserrat, Playfair_Display } from "next/font/google";
 import { SiteAnalyticsTracker } from "@/components/SiteAnalyticsTracker";
 import "./globals.css";
@@ -39,6 +40,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-paper text-ink">
         {children}
         <SiteAnalyticsTracker />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18333271816"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18333271816');
+          `}
+        </Script>
       </body>
     </html>
   );
