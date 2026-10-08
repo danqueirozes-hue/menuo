@@ -153,7 +153,7 @@ export function AdminAccountsTable({ rows: initialRows }: { rows: AdminAccountRo
                       )}
                     </td>
                     <td className="px-4 py-3 text-ink-soft">
-                      {new Date(r.createdAt).toLocaleDateString()}
+                      {new Date(r.createdAt).toLocaleDateString("en")}
                     </td>
                     <td className="px-4 py-3 text-right">
                       <div className="flex items-center justify-end gap-3">

@@ -43,8 +43,10 @@ async function fetchWithRetry(
 }
 
 // Azure's language codes mostly match the plain ISO codes used everywhere
-// else in this file, with a few exceptions.
-const AZURE_LANG_OVERRIDES: Record<string, string> = { zh: "zh-Hans" };
+// else in this file, with a few exceptions. Plain "pt" defaults to Brazilian
+// Portuguese on Azure, so it needs the explicit Portugal variant — MENUO's
+// Portuguese output should always be PT-PT.
+const AZURE_LANG_OVERRIDES: Record<string, string> = { zh: "zh-Hans", pt: "pt-pt" };
 
 async function translateWithAzure(
   text: string,
@@ -74,6 +76,11 @@ async function translateWithAzure(
   return data[0]?.translations[0]?.text ?? text;
 }
 
+// DeepL's plain "PT" is only kept for backward compatibility and is
+// documented as an "unspecified variant" — not reliably PT-PT. MENUO's
+// Portuguese output should always be the explicit Portugal variant.
+const DEEPL_LANG_OVERRIDES: Record<string, string> = { pt: "PT-PT" };
+
 async function translateWithDeepL(
   text: string,
   targetLang: string,
@@ -91,7 +98,7 @@ async function translateWithDeepL(
     },
     body: new URLSearchParams({
       text,
-      target_lang: targetLang.toUpperCase(),
+      target_lang: (DEEPL_LANG_OVERRIDES[targetLang] ?? targetLang).toUpperCase(),
     }),
   });
 
@@ -105,6 +112,10 @@ async function translateWithDeepL(
   return data.translations[0]?.text ?? text;
 }
 
+// Google's plain "pt" is trained predominantly on Brazilian Portuguese.
+// MENUO's Portuguese output should always be the explicit Portugal variant.
+const GOOGLE_LANG_OVERRIDES: Record<string, string> = { pt: "pt-PT" };
+
 async function translateWithGoogle(
   text: string,
   targetLang: string,
@@ -115,7 +126,7 @@ async function translateWithGoogle(
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ q: text, target: targetLang, format: "text" }),
+      body: JSON.stringify({ q: text, target: GOOGLE_LANG_OVERRIDES[targetLang] ?? targetLang, format: "text" }),
     }
   );
 

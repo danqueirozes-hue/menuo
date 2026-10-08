@@ -285,7 +285,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       titlePlain: "Um menu.",
       titleHighlight: "Todos os idiomas.",
       subtitle:
-        "O MENUO transforma o seu cardápio em papel num menu digital elegante, traduzido instantaneamente para 20 idiomas e acessível com um único código QR — sem aplicação, sem downloads, sem adivinhações.",
+        "O MENUO transforma a sua ementa em papel num menu digital elegante, traduzido instantaneamente para 20 idiomas e acessível com um único código QR — sem aplicação, sem downloads, sem adivinhações.",
       ctaPrimary: "Crie o seu menu",
       ctaSecondary: "Ver como funciona",
       note: "Teste grátis de 14 dias",
@@ -325,7 +325,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
     },
     how: {
       eyebrow: "Como funciona",
-      title: "Do cardápio em papel ao menu global em três passos",
+      title: "Da ementa em papel ao menu global em três passos",
       steps: [
         {
           step: "01",
