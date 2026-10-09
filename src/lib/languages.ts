@@ -14,8 +14,7 @@ export const LANGUAGES: Language[] = [
   { code: "de", englishName: "German", nativeName: "Deutsch", flag: "🇩🇪" },
   { code: "es", englishName: "Spanish", nativeName: "Español", flag: "🇪🇸" },
   { code: "it", englishName: "Italian", nativeName: "Italiano", flag: "🇮🇹" },
-  // Provisionally showing the Brazilian flag while MENUO tests with Brazilian restaurants.
-  { code: "pt", englishName: "Portuguese", nativeName: "Português", flag: "🇧🇷" },
+  { code: "pt", englishName: "Portuguese", nativeName: "Português", flag: "🇵🇹" },
   { code: "nl", englishName: "Dutch", nativeName: "Nederlands", flag: "🇳🇱" },
   { code: "pl", englishName: "Polish", nativeName: "Polski", flag: "🇵🇱" },
   { code: "sv", englishName: "Swedish", nativeName: "Svenska", flag: "🇸🇪" },
