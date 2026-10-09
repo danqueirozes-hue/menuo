@@ -1,10 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { PLAN_ORDER, PLANS, PlanKey, BillingInterval, formatPlanPrice } from "@/lib/plans";
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+/** Fires once per real Stripe Checkout success — guarded by stripping the
+ * "success" param from the URL right after, so a refresh or back/forward
+ * navigation can't replay it as a second conversion. */
+function reportCheckoutConversion() {
+  const label = process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL;
+  if (!label || typeof window.gtag !== "function") return;
+  window.gtag("event", "conversion", { send_to: `AW-18333271816/${label}` });
+}
 
 export function BillingPlans({
   currentPlan,
@@ -20,6 +35,8 @@ export function BillingPlans({
   eligibleForTrial: boolean;
 }) {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const [interval, setInterval] = useState<BillingInterval>("monthly");
   const [loadingPlan, setLoadingPlan] = useState<PlanKey | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +58,13 @@ export function BillingPlans({
 
   useEffect(() => {
     if (searchParams.get("activated") === "1") setNotice("Your subscription is now active — you can publish your menus.");
-    if (searchParams.get("success") === "1") setNotice("Payment received — your subscription is now active.");
+    if (searchParams.get("success") === "1") {
+      setNotice("Payment received — your subscription is now active.");
+      reportCheckoutConversion();
+      const params = new URLSearchParams(searchParams);
+      params.delete("success");
+      router.replace(params.size ? `${pathname}?${params}` : pathname);
+    }
     if (searchParams.get("canceled") === "1") setNotice("Checkout was canceled — no changes were made.");
 
     const requestedPlan = searchParams.get("plan") as PlanKey | null;
