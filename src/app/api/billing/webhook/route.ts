@@ -3,6 +3,43 @@ import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
 import { isSubscriptionActive } from "@/lib/session";
+import { getPlan } from "@/lib/plans";
+import { sendEmail, hasEmailProvider } from "@/lib/email";
+
+const NOTIFY_EMAIL = "contato@menuoglobal.com";
+
+/** Best-effort internal alert for a brand-new paid signup (not a plan
+ * switch on an existing subscriber). Never thrown from here — a flaky
+ * email provider shouldn't fail the webhook and make Stripe retry it. */
+async function notifyNewSubscriber(userId: string, plan: string, interval: string, status: string) {
+  if (!hasEmailProvider()) return;
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { restaurants: { select: { name: true } } },
+    });
+    if (!user) return;
+
+    const planName = getPlan(plan)?.name ?? plan;
+    const restaurantNames = user.restaurants.map((r) => r.name).join(", ") || "—";
+    const trialNote = status === "trialing" ? " (em período de teste grátis)" : "";
+
+    await sendEmail({
+      to: NOTIFY_EMAIL,
+      subject: `Nova assinatura MENUO: ${user.name} — ${planName}`,
+      html: `
+        <p>Nova adesão no MENUO${trialNote}:</p>
+        <ul>
+          <li><strong>Cliente:</strong> ${user.name} (${user.email})</li>
+          <li><strong>Estabelecimento:</strong> ${restaurantNames}</li>
+          <li><strong>Plano:</strong> ${planName} (${interval === "annual" ? "anual" : "mensal"})</li>
+        </ul>
+      `,
+    });
+  } catch (err) {
+    console.error("[stripe webhook] failed to send new-subscriber notification:", err);
+  }
+}
 
 // As of Stripe's newer "flexible billing" API versions, a subscription's
 // current_period_end no longer lives on the subscription object itself —
@@ -69,6 +106,11 @@ export async function POST(req: Request) {
           if (periodEnd) currentPeriodEnd = new Date(periodEnd * 1000);
         }
 
+        // Checked before the upsert below so a plan switch on an existing
+        // subscriber (also a checkout.session.completed) doesn't get
+        // reported as a new signup.
+        const isNewSubscriber = !(await prisma.subscription.findUnique({ where: { userId } }));
+
         await prisma.subscription.upsert({
           where: { userId },
           create: {
@@ -91,6 +133,10 @@ export async function POST(req: Request) {
             currentPeriodEnd,
           },
         });
+
+        if (isNewSubscriber) {
+          await notifyNewSubscriber(userId, plan, interval, status);
+        }
       }
       break;
     }
