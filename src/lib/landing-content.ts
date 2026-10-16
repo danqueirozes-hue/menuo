@@ -96,6 +96,11 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
             "In high season, every minute counts. With the menu in each guest's language, staff stop explaining dishes in improvised English, orders go out faster and tables turn more often. No need to hire staff who speak five languages.",
         },
         {
+          title: "Clear allergens, in any language",
+          description:
+            "The 14 allergens that must be declared in the EU, flagged on every dish and translated into each guest's language. With one tap, guests with coeliac disease, a shellfish allergy or a vegan diet see only the dishes they can eat. More safety for your guests, more peace of mind for you and your team.",
+        },
+        {
           title: "Fewer misunderstandings, better reviews",
           description:
             "“It wasn't what I expected” is one of the most common tourist complaints on Google and TripAdvisor. When guests know exactly what they ordered, they leave happy, and that's what brings the next tourist to your door.",
@@ -224,6 +229,11 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           title: "Tu equipo sirve, no traduce",
           description:
             "En temporada alta, cada minuto cuenta. Con el menú en el idioma de cada cliente, los camareros dejan de explicar platos en un inglés improvisado, los pedidos salen más rápido y las mesas rotan más. No necesitas contratar personal que hable cinco idiomas.",
+        },
+        {
+          title: "Alérgenos claros, en cualquier idioma",
+          description:
+            "Los 14 alérgenos de declaración obligatoria en la UE, identificados en cada plato y traducidos al idioma del cliente. Con un toque, quien es celíaco, alérgico al marisco o vegano ve solo los platos que puede comer. Más seguridad para el cliente y más tranquilidad para ti y tu equipo.",
         },
         {
           title: "Menos malentendidos, mejores reseñas",
@@ -356,6 +366,11 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
             "Na época alta, cada minuto conta. Com o menu no idioma de cada cliente, os empregados deixam de explicar pratos em inglês improvisado, os pedidos saem mais rápido e as mesas rodam mais. Não precisa de contratar pessoal que fale cinco línguas.",
         },
         {
+          title: "Alergénios claros, em qualquer idioma",
+          description:
+            "Os 14 alergénios de declaração obrigatória na UE, identificados em cada prato e traduzidos para o idioma do cliente. Com um toque, quem é celíaco, alérgico a marisco ou vegano vê apenas os pratos que pode comer. Mais segurança para o cliente, mais tranquilidade para si e para a sua equipa.",
+        },
+        {
           title: "Menos mal-entendidos, melhores avaliações",
           description:
             "“Não era o que eu esperava” é uma das queixas mais comuns dos turistas no Google e no TripAdvisor. Quando o cliente sabe exatamente o que pediu, sai satisfeito, e é isso que traz o próximo turista à sua porta.",
@@ -484,6 +499,11 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           title: "Il tuo staff serve, non traduce",
           description:
             "In alta stagione ogni minuto conta. Con il menu nella lingua di ogni ospite, i camerieri smettono di spiegare i piatti in un inglese improvvisato, le comande escono più velocemente e i tavoli girano di più. Non serve assumere personale che parli cinque lingue.",
+        },
+        {
+          title: "Allergeni chiari, in ogni lingua",
+          description:
+            "I 14 allergeni a dichiarazione obbligatoria nell'UE, indicati su ogni piatto e tradotti nella lingua dell'ospite. Con un tocco, chi è celiaco, allergico ai frutti di mare o vegano vede solo i piatti che può mangiare. Più sicurezza per l'ospite, più tranquillità per te e per il tuo staff.",
         },
         {
           title: "Meno equivoci, recensioni migliori",
@@ -616,6 +636,11 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
             "In der Hochsaison zählt jede Minute. Mit der Speisekarte in der Sprache jedes Gastes muss Ihr Personal Gerichte nicht mehr in improvisiertem Englisch erklären, Bestellungen gehen schneller raus und die Tische werden öfter belegt. Sie müssen kein Personal einstellen, das fünf Sprachen spricht.",
         },
         {
+          title: "Klare Allergene, in jeder Sprache",
+          description:
+            "Die 14 in der EU kennzeichnungspflichtigen Allergene, bei jedem Gericht angegeben und in die Sprache des Gastes übersetzt. Mit einem Fingertipp sehen Gäste mit Zöliakie, Meeresfrüchteallergie oder veganer Ernährung nur die Gerichte, die sie essen können. Mehr Sicherheit für Ihre Gäste, mehr Gelassenheit für Sie und Ihr Team.",
+        },
+        {
           title: "Weniger Missverständnisse, bessere Bewertungen",
           description:
             "„Das war nicht, was ich erwartet hatte“ ist eine der häufigsten Beschwerden von Touristen auf Google und TripAdvisor. Wenn Gäste genau wissen, was sie bestellt haben, gehen sie zufrieden, und genau das bringt den nächsten Touristen zu Ihnen.",
@@ -744,6 +769,11 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           title: "Votre équipe sert, elle ne traduit pas",
           description:
             "En haute saison, chaque minute compte. Avec le menu dans la langue de chaque client, les serveurs n'expliquent plus les plats dans un anglais improvisé, les commandes partent plus vite et les tables tournent davantage. Inutile d'embaucher du personnel qui parle cinq langues.",
+        },
+        {
+          title: "Des allergènes clairs, dans toutes les langues",
+          description:
+            "Les 14 allergènes à déclaration obligatoire dans l'UE, signalés sur chaque plat et traduits dans la langue du client. En un geste, les personnes cœliaques, allergiques aux fruits de mer ou véganes ne voient que les plats qu'elles peuvent manger. Plus de sécurité pour vos clients, plus de sérénité pour vous et votre équipe.",
         },
         {
           title: "Moins de malentendus, de meilleurs avis",
