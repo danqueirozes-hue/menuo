@@ -4,6 +4,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { SectionEditor } from "./SectionEditor";
 import { ClientSection, ClientItem } from "./types";
+import type { BuilderDict } from "@/lib/builder-content";
 
 export function SortableSection({
   section,
@@ -11,6 +12,7 @@ export function SortableSection({
 }: {
   section: ClientSection;
   currency: string;
+  dict: BuilderDict;
   onRename: (name: string) => void;
   onDelete: () => void;
   onReorderItems: (items: ClientItem[]) => void;

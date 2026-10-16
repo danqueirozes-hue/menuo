@@ -29,11 +29,3 @@ export type ClientSection = {
   position: number;
   items: ClientItem[];
 };
-
-export const SECTION_SUGGESTIONS = [
-  "Starters",
-  "First Course",
-  "Main Course",
-  "Dessert",
-  "Beverages",
-];

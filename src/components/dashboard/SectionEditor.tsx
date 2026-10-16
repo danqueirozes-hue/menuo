@@ -14,10 +14,12 @@ import {
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import { SortableItem } from "./SortableItem";
 import { ClientSection, ClientItem } from "./types";
+import type { BuilderDict } from "@/lib/builder-content";
 
 export function SectionEditor({
   section,
   currency,
+  dict,
   dragHandleProps,
   onRename,
   onDelete,
@@ -28,6 +30,7 @@ export function SectionEditor({
 }: {
   section: ClientSection;
   currency: string;
+  dict: BuilderDict;
   dragHandleProps?: Record<string, unknown>;
   onRename: (name: string) => void;
   onDelete: () => void;
@@ -62,7 +65,7 @@ export function SectionEditor({
           <button
             {...dragHandleProps}
             className="cursor-grab touch-none rounded p-1 text-ink-soft/50 hover:text-ink-soft active:cursor-grabbing"
-            aria-label="Drag to reorder section"
+            aria-label={dict.dragSection}
           >
             <GripVertical size={18} />
           </button>
@@ -93,7 +96,7 @@ export function SectionEditor({
           <button
             onClick={onDelete}
             className="rounded p-1.5 hover:bg-paper hover:text-red-600"
-            aria-label="Delete section"
+            aria-label={dict.deleteSection}
           >
             <Trash2 size={16} />
           </button>
@@ -102,7 +105,7 @@ export function SectionEditor({
 
       <div className="mt-4 divide-y divide-border">
         {section.items.length === 0 && (
-          <p className="py-4 text-sm text-ink-soft">No dishes yet in this section.</p>
+          <p className="py-4 text-sm text-ink-soft">{dict.noDishes}</p>
         )}
         <DndContext
           id={`items-dnd-${section.id}`}
@@ -116,6 +119,7 @@ export function SectionEditor({
                 key={item.id}
                 item={item}
                 currency={currency}
+                dict={dict}
                 onEdit={() => onEditItem(item)}
                 onDelete={() => onDeleteItem(item)}
               />
@@ -128,7 +132,7 @@ export function SectionEditor({
         onClick={onAddItem}
         className="mt-4 inline-flex items-center gap-2 text-sm text-amber hover:underline"
       >
-        <Plus size={16} /> Add a dish
+        <Plus size={16} /> {dict.addDish}
       </button>
     </div>
   );

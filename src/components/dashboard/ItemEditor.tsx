@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { ClientItem } from "./types";
 import { DIETARY_TAGS, DietaryKey, DietaryFlags } from "@/lib/dietary-tags";
 import { resizeImageForUpload } from "@/lib/resize-image";
+import type { BuilderDict } from "@/lib/builder-content";
 
 type VariantDraft = { label: string; price: string };
 
@@ -16,10 +17,12 @@ const MAX_VARIANTS = 3;
 
 export function ItemEditor({
   initial,
+  dict,
   onSave,
   onCancel,
 }: {
   initial?: ClientItem;
+  dict: BuilderDict;
   onSave: (data: {
     name: string;
     description: string;
@@ -56,6 +59,7 @@ export function ItemEditor({
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const t = dict.editor;
 
   function toggleDietary(key: DietaryKey) {
     setDietary((d) => ({ ...d, [key]: !d[key] }));
@@ -87,7 +91,7 @@ export function ItemEditor({
     setUploading(false);
 
     if (!res.ok) {
-      setError(data.error || "Upload failed");
+      setError(data.error || t.errorUpload);
       return;
     }
     setPhotoUrl(data.url);
@@ -96,7 +100,7 @@ export function ItemEditor({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim()) {
-      setError("Please provide a dish name.");
+      setError(t.errorName);
       return;
     }
 
@@ -107,14 +111,14 @@ export function ItemEditor({
         price: parseFloat(v.price.replace(",", ".")),
       }));
       if (cleaned.length < MIN_VARIANTS || cleaned.some((v) => !v.label || Number.isNaN(v.price))) {
-        setError(`Add a name and a valid price for at least ${MIN_VARIANTS} options.`);
+        setError(t.errorOptions.replace("{min}", String(MIN_VARIANTS)));
         return;
       }
       payload = { variants: cleaned };
     } else {
       const parsedPrice = parseFloat(price.replace(",", "."));
       if (Number.isNaN(parsedPrice)) {
-        setError("Please provide a valid price.");
+        setError(t.errorPrice);
         return;
       }
       payload = { price: parsedPrice, variants: [] };
@@ -132,7 +136,7 @@ export function ItemEditor({
         ...dietary,
       });
     } catch {
-      setError("Could not save the dish.");
+      setError(t.errorSave);
     } finally {
       setSaving(false);
     }
@@ -142,26 +146,26 @@ export function ItemEditor({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/50 px-4">
       <div className="w-full max-w-lg rounded-xl bg-panel p-6 shadow-xl">
         <h3 className="font-display text-xl text-ink">
-          {initial ? "Edit dish" : "Add a dish"}
+          {initial ? t.titleEdit : t.titleNew}
         </h3>
         <form onSubmit={handleSubmit} className="mt-5 space-y-4">
           <div>
-            <Label>Dish name</Label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Truffle risotto" required />
+            <Label>{t.name}</Label>
+            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder={t.namePlaceholder} required />
           </div>
           <div>
-            <Label>Ingredients / description</Label>
+            <Label>{t.description}</Label>
             <Textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Arborio rice, black truffle, parmesan, white wine"
+              placeholder={t.descriptionPlaceholder}
               rows={3}
             />
           </div>
           <div>
-            <Label>Dietary info</Label>
+            <Label>{t.dietaryInfo}</Label>
             <div className="flex flex-wrap gap-2">
-              {DIETARY_TAGS.map(({ key, label, icon: Icon }) => {
+              {DIETARY_TAGS.map(({ key, icon: Icon }) => {
                 const active = dietary[key];
                 return (
                   <button
@@ -176,7 +180,7 @@ export function ItemEditor({
                     }`}
                   >
                     <Icon size={14} />
-                    {label}
+                    {dict.dietary[key]}
                   </button>
                 );
               })}
@@ -190,30 +194,30 @@ export function ItemEditor({
                 onChange={(e) => setHasVariants(e.target.checked)}
                 className="h-4 w-4 rounded border-border text-amber focus:ring-amber"
               />
-              This dish has price variations (e.g. sizes)?
+              {t.hasVariants}
             </label>
 
             {!hasVariants ? (
               <div className="mt-3">
-                <Label>Price</Label>
+                <Label>{t.price}</Label>
                 <Input
                   inputMode="decimal"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  placeholder="18.50"
+                  placeholder={t.pricePlaceholder}
                   required
                 />
               </div>
             ) : (
               <div className="mt-3 space-y-2">
-                <Label>Options (2 to 3)</Label>
+                <Label>{t.options}</Label>
                 {variants.map((v, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <div className="min-w-0 flex-1">
                       <Input
                         value={v.label}
                         onChange={(e) => updateVariant(i, "label", e.target.value)}
-                        placeholder="e.g. Individual, Family, Small"
+                        placeholder={t.optionPlaceholder}
                       />
                     </div>
                     <div className="w-20 shrink-0">
@@ -221,14 +225,14 @@ export function ItemEditor({
                         inputMode="decimal"
                         value={v.price}
                         onChange={(e) => updateVariant(i, "price", e.target.value)}
-                        placeholder="12.00"
+                        placeholder={t.optionPricePlaceholder}
                       />
                     </div>
                     {variants.length > MIN_VARIANTS && (
                       <button
                         type="button"
                         onClick={() => removeVariant(i)}
-                        aria-label="Remove option"
+                        aria-label={t.removeOption}
                         className="rounded p-1.5 text-ink-soft hover:bg-paper hover:text-red-600"
                       >
                         <Trash2 size={16} />
@@ -242,19 +246,19 @@ export function ItemEditor({
                     onClick={addVariant}
                     className="inline-flex items-center gap-1.5 text-sm text-amber hover:underline"
                   >
-                    <Plus size={15} /> Add another option
+                    <Plus size={15} /> {t.addOption}
                   </button>
                 )}
               </div>
             )}
           </div>
           <div>
-            <Label>Photo</Label>
+            <Label>{t.photo}</Label>
             <div className="flex items-center gap-4">
               {photoUrl && (
                 <Image
                   src={photoUrl}
-                  alt="Dish preview"
+                  alt={t.photoAlt}
                   width={64}
                   height={64}
                   className="h-16 w-16 rounded-md object-cover"
@@ -262,17 +266,17 @@ export function ItemEditor({
               )}
               <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handlePhotoChange} className="text-sm" />
             </div>
-            {uploading && <p className="mt-1 text-xs text-ink-soft">Uploading…</p>}
+            {uploading && <p className="mt-1 text-xs text-ink-soft">{t.uploading}</p>}
           </div>
 
           {error && <p className="text-sm text-red-600">{error}</p>}
 
           <div className="flex justify-end gap-3 pt-2">
             <Button type="button" variant="ghost" onClick={onCancel}>
-              Cancel
+              {t.cancel}
             </Button>
             <Button type="submit" disabled={saving || uploading}>
-              {saving ? "Saving…" : "Save dish"}
+              {saving ? t.saving : t.save}
             </Button>
           </div>
         </form>

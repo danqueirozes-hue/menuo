@@ -3,16 +3,19 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Pencil, Check } from "lucide-react";
-import { LANGUAGES } from "@/lib/languages";
 
 export function MenuSettingsBar({
   menuId,
   name,
   defaultLanguage,
+  label,
+  languageOptions,
 }: {
   menuId: string;
   name: string;
   defaultLanguage: string;
+  label: string;
+  languageOptions: { code: string; label: string }[];
 }) {
   const router = useRouter();
   const [editingName, setEditingName] = useState(false);
@@ -56,7 +59,7 @@ export function MenuSettingsBar({
       )}
 
       <div className="ml-auto flex items-center gap-2 text-sm">
-        <span className="text-ink-soft">Source language:</span>
+        <span className="text-ink-soft">{label}</span>
         <select
           value={lang}
           onChange={(e) => {
@@ -65,9 +68,9 @@ export function MenuSettingsBar({
           }}
           className="rounded-md border border-border bg-panel px-2 py-1.5 text-sm text-ink focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber"
         >
-          {LANGUAGES.map((l) => (
+          {languageOptions.map((l) => (
             <option key={l.code} value={l.code}>
-              {l.flag} {l.englishName}
+              {l.label}
             </option>
           ))}
         </select>

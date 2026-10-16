@@ -16,8 +16,9 @@ import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { SortableSection } from "./SortableSection";
 import { ItemEditor } from "./ItemEditor";
-import { ClientSection, ClientItem, SECTION_SUGGESTIONS } from "./types";
+import { ClientSection, ClientItem } from "./types";
 import { DietaryFlags } from "@/lib/dietary-tags";
+import type { BuilderDict } from "@/lib/builder-content";
 
 async function api<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(url, {
@@ -32,10 +33,12 @@ export function MenuBuilder({
   menuId,
   initialSections,
   currency,
+  dict,
 }: {
   menuId: string;
   initialSections: ClientSection[];
   currency: string;
+  dict: BuilderDict;
 }) {
   const [sections, setSections] = useState<ClientSection[]>(initialSections);
   const [newSectionName, setNewSectionName] = useState("");
@@ -64,7 +67,7 @@ export function MenuBuilder({
   }
 
   async function deleteSection(id: string) {
-    if (!confirm("Delete this section and all its dishes?")) return;
+    if (!confirm(dict.confirmDeleteSection)) return;
     setSections((prev) => prev.filter((s) => s.id !== id));
     await api(`/api/sections/${id}`, { method: "DELETE" });
   }
@@ -139,7 +142,7 @@ export function MenuBuilder({
   }
 
   async function deleteItem(sectionId: string, item: ClientItem) {
-    if (!confirm(`Delete "${item.name}"?`)) return;
+    if (!confirm(dict.confirmDeleteDish.replace("{name}", item.name))) return;
     setSections((prev) =>
       prev.map((s) =>
         s.id === sectionId ? { ...s, items: s.items.filter((i) => i.id !== item.id) } : s
@@ -162,6 +165,7 @@ export function MenuBuilder({
               key={section.id}
               section={section}
               currency={currency}
+              dict={dict}
               onRename={(name) => renameSection(section.id, name)}
               onDelete={() => deleteSection(section.id)}
               onReorderItems={(items) => reorderItems(section.id, items)}
@@ -174,9 +178,9 @@ export function MenuBuilder({
       </DndContext>
 
       <div className="rounded-xl border border-dashed border-border p-6">
-        <p className="text-sm font-medium text-ink">Add a new section</p>
+        <p className="text-sm font-medium text-ink">{dict.addSectionTitle}</p>
         <div className="mt-3 flex flex-wrap gap-2">
-          {SECTION_SUGGESTIONS.map((s) => (
+          {dict.sectionSuggestions.map((s) => (
             <button
               key={s}
               onClick={() => addSection(s)}
@@ -190,11 +194,11 @@ export function MenuBuilder({
           <Input
             value={newSectionName}
             onChange={(e) => setNewSectionName(e.target.value)}
-            placeholder="Custom section name"
+            placeholder={dict.customSectionPlaceholder}
             onKeyDown={(e) => e.key === "Enter" && addSection(newSectionName)}
           />
           <Button variant="outline" onClick={() => addSection(newSectionName)}>
-            <Plus size={16} /> Add
+            <Plus size={16} /> {dict.add}
           </Button>
         </div>
       </div>
@@ -202,6 +206,7 @@ export function MenuBuilder({
       {itemEditor && (
         <ItemEditor
           initial={itemEditor.item}
+          dict={dict}
           onCancel={() => setItemEditor(null)}
           onSave={(data) => saveItem(itemEditor.sectionId, itemEditor.item, data)}
         />

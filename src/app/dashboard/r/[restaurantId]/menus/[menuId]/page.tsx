@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { requireOwnedRestaurant } from "@/lib/session";
 import { MenuBuilder } from "@/components/dashboard/MenuBuilder";
 import { MenuSettingsBar } from "@/components/dashboard/MenuSettingsBar";
+import { getBuilderContent } from "@/lib/builder-content";
 
 export default async function MenuBuilderPage({
   params,
@@ -34,6 +35,8 @@ export default async function MenuBuilderPage({
     },
   });
   if (!menu || menu.restaurantId !== restaurantId) notFound();
+
+  const dict = getBuilderContent(menu.defaultLanguage);
 
   const sections = menu.sections.map((s) => ({
     id: s.id,
@@ -65,22 +68,25 @@ export default async function MenuBuilderPage({
 
   return (
     <div>
-      <MenuSettingsBar menuId={menu.id} name={menu.name} defaultLanguage={menu.defaultLanguage} />
+      <MenuSettingsBar
+        menuId={menu.id}
+        name={menu.name}
+        defaultLanguage={menu.defaultLanguage}
+        label={dict.sourceLanguage}
+        languageOptions={dict.languageOptions}
+      />
       <div className="-mt-4 mb-8 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-ink-soft">
-          Add sections and dishes. Changes are saved automatically — publish
-          when you&apos;re ready to generate your QR code.
-        </p>
+        <p className="text-ink-soft">{dict.intro}</p>
         <Link
           href={`/dashboard/r/${restaurantId}/menus/${menu.id}/publish`}
           className="inline-flex shrink-0 items-center gap-2 rounded-full bg-navy px-5 py-2.5 text-sm font-medium text-paper hover:bg-navy-soft"
         >
           <QrCode size={16} />
-          {menu.isPublished ? "Publish & QR code" : "Publish this menu"}
+          {menu.isPublished ? dict.republishCta : dict.publishCta}
         </Link>
       </div>
 
-      <MenuBuilder menuId={menu.id} initialSections={sections} currency={restaurant.currency} />
+      <MenuBuilder menuId={menu.id} initialSections={sections} currency={restaurant.currency} dict={dict} />
     </div>
   );
 }
