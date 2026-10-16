@@ -157,7 +157,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       eyebrow: "Simple pricing",
       title: "Pick the plan that fits your restaurant",
       subtitle:
-        "Every plan includes all 20 languages, QR codes and PDF export. Upgrade anytime as you grow.",
+        "Every plan includes all 20 languages, QR codes, PDF export and the 14 EU allergens. Upgrade anytime as you grow.",
       cta: "Subscribe",
       trialNote: "14-day free trial",
       note: "Cancel anytime.",
@@ -169,19 +169,19 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       plans: {
         essential: {
           tagline: "1 menu · 1 establishment",
-          features: ["1 digital menu", "1 establishment", "20 languages, QR code, PDF export"],
+          features: ["1 digital menu", "1 establishment", "20 languages, QR code, PDF export", "All 14 EU allergens, in every language"],
         },
         business: {
           tagline: "Up to 3 menus · 1 establishment",
-          features: ["Up to 3 digital menus", "1 establishment", "20 languages, QR code, PDF export"],
+          features: ["Up to 3 digital menus", "1 establishment", "20 languages, QR code, PDF export", "All 14 EU allergens, in every language"],
         },
         hospitality: {
           tagline: "Up to 10 menus · 1 establishment",
-          features: ["Up to 10 digital menus", "1 establishment", "20 languages, QR code, PDF export"],
+          features: ["Up to 10 digital menus", "1 establishment", "20 languages, QR code, PDF export", "All 14 EU allergens, in every language"],
         },
         "multi-location": {
           tagline: "Up to 5 establishments · up to 5 menus each",
-          features: ["Up to 5 establishments", "Up to 5 menus per establishment", "20 languages, QR code, PDF export"],
+          features: ["Up to 5 establishments", "Up to 5 menus per establishment", "20 languages, QR code, PDF export", "All 14 EU allergens, in every language"],
         },
       },
     },
@@ -292,7 +292,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       eyebrow: "Precios simples",
       title: "Elige el plan que se ajusta a tu restaurante",
       subtitle:
-        "Todos los planes incluyen los 20 idiomas, códigos QR y exportación en PDF. Cambia de plan cuando quieras.",
+        "Todos los planes incluyen los 20 idiomas, códigos QR, exportación en PDF y los 14 alérgenos de la UE. Cambia de plan cuando quieras.",
       cta: "Suscribirse",
       trialNote: "Prueba gratis de 14 días",
       note: "Cancela cuando quieras.",
@@ -304,19 +304,19 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       plans: {
         essential: {
           tagline: "1 menú · 1 establecimiento",
-          features: ["1 menú digital", "1 establecimiento", "20 idiomas, código QR, exportación en PDF"],
+          features: ["1 menú digital", "1 establecimiento", "20 idiomas, código QR, exportación en PDF", "Los 14 alérgenos de la UE, en todos los idiomas"],
         },
         business: {
           tagline: "Hasta 3 menús · 1 establecimiento",
-          features: ["Hasta 3 menús digitales", "1 establecimiento", "20 idiomas, código QR, exportación en PDF"],
+          features: ["Hasta 3 menús digitales", "1 establecimiento", "20 idiomas, código QR, exportación en PDF", "Los 14 alérgenos de la UE, en todos los idiomas"],
         },
         hospitality: {
           tagline: "Hasta 10 menús · 1 establecimiento",
-          features: ["Hasta 10 menús digitales", "1 establecimiento", "20 idiomas, código QR, exportación en PDF"],
+          features: ["Hasta 10 menús digitales", "1 establecimiento", "20 idiomas, código QR, exportación en PDF", "Los 14 alérgenos de la UE, en todos los idiomas"],
         },
         "multi-location": {
           tagline: "Hasta 5 establecimientos · hasta 5 menús cada uno",
-          features: ["Hasta 5 establecimientos", "Hasta 5 menús por establecimiento", "20 idiomas, código QR, exportación en PDF"],
+          features: ["Hasta 5 establecimientos", "Hasta 5 menús por establecimiento", "20 idiomas, código QR, exportación en PDF", "Los 14 alérgenos de la UE, en todos los idiomas"],
         },
       },
     },
@@ -427,7 +427,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       eyebrow: "Preços simples",
       title: "Escolha o plano ideal para o seu restaurante",
       subtitle:
-        "Todos os planos incluem os 20 idiomas, códigos QR e exportação em PDF. Faça upgrade quando quiser.",
+        "Todos os planos incluem os 20 idiomas, códigos QR, exportação em PDF e os 14 alergénios da UE. Faça upgrade quando quiser.",
       cta: "Assinar",
       trialNote: "Teste grátis de 14 dias",
       note: "Cancele quando quiser.",
@@ -439,19 +439,19 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       plans: {
         essential: {
           tagline: "1 menu · 1 estabelecimento",
-          features: ["1 menu digital", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF"],
+          features: ["1 menu digital", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF", "Os 14 alergénios da UE, em todos os idiomas"],
         },
         business: {
           tagline: "Até 3 menus · 1 estabelecimento",
-          features: ["Até 3 menus digitais", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF"],
+          features: ["Até 3 menus digitais", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF", "Os 14 alergénios da UE, em todos os idiomas"],
         },
         hospitality: {
           tagline: "Até 10 menus · 1 estabelecimento",
-          features: ["Até 10 menus digitais", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF"],
+          features: ["Até 10 menus digitais", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF", "Os 14 alergénios da UE, em todos os idiomas"],
         },
         "multi-location": {
           tagline: "Até 5 estabelecimentos · até 5 menus cada",
-          features: ["Até 5 estabelecimentos", "Até 5 menus por estabelecimento", "20 idiomas, código QR, exportação em PDF"],
+          features: ["Até 5 estabelecimentos", "Até 5 menus por estabelecimento", "20 idiomas, código QR, exportação em PDF", "Os 14 alergénios da UE, em todos os idiomas"],
         },
       },
     },
@@ -562,7 +562,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       eyebrow: "Prezzi semplici",
       title: "Scegli il piano adatto al tuo ristorante",
       subtitle:
-        "Ogni piano include tutte le 20 lingue, codici QR ed esportazione PDF. Aggiorna il piano quando vuoi.",
+        "Ogni piano include tutte le 20 lingue, codici QR, esportazione PDF e i 14 allergeni UE. Aggiorna il piano quando vuoi.",
       cta: "Abbonati",
       trialNote: "Prova gratuita di 14 giorni",
       note: "Annulla quando vuoi.",
@@ -574,19 +574,19 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       plans: {
         essential: {
           tagline: "1 menu · 1 locale",
-          features: ["1 menu digitale", "1 locale", "20 lingue, codice QR, esportazione PDF"],
+          features: ["1 menu digitale", "1 locale", "20 lingue, codice QR, esportazione PDF", "I 14 allergeni UE, in ogni lingua"],
         },
         business: {
           tagline: "Fino a 3 menu · 1 locale",
-          features: ["Fino a 3 menu digitali", "1 locale", "20 lingue, codice QR, esportazione PDF"],
+          features: ["Fino a 3 menu digitali", "1 locale", "20 lingue, codice QR, esportazione PDF", "I 14 allergeni UE, in ogni lingua"],
         },
         hospitality: {
           tagline: "Fino a 10 menu · 1 locale",
-          features: ["Fino a 10 menu digitali", "1 locale", "20 lingue, codice QR, esportazione PDF"],
+          features: ["Fino a 10 menu digitali", "1 locale", "20 lingue, codice QR, esportazione PDF", "I 14 allergeni UE, in ogni lingua"],
         },
         "multi-location": {
           tagline: "Fino a 5 locali · fino a 5 menu ciascuno",
-          features: ["Fino a 5 locali", "Fino a 5 menu per locale", "20 lingue, codice QR, esportazione PDF"],
+          features: ["Fino a 5 locali", "Fino a 5 menu per locale", "20 lingue, codice QR, esportazione PDF", "I 14 allergeni UE, in ogni lingua"],
         },
       },
     },
@@ -697,7 +697,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       eyebrow: "Einfache Preise",
       title: "Wählen Sie den passenden Plan für Ihr Restaurant",
       subtitle:
-        "Jeder Plan enthält alle 20 Sprachen, QR-Codes und PDF-Export. Jederzeit upgradebar.",
+        "Jeder Plan enthält alle 20 Sprachen, QR-Codes, PDF-Export und die 14 EU-Allergene. Jederzeit upgradebar.",
       cta: "Abonnieren",
       trialNote: "14 Tage kostenlos testen",
       note: "Jederzeit kündbar.",
@@ -709,19 +709,19 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       plans: {
         essential: {
           tagline: "1 Speisekarte · 1 Betrieb",
-          features: ["1 digitale Speisekarte", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export"],
+          features: ["1 digitale Speisekarte", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export", "Alle 14 EU-Allergene, in jeder Sprache"],
         },
         business: {
           tagline: "Bis zu 3 Speisekarten · 1 Betrieb",
-          features: ["Bis zu 3 digitale Speisekarten", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export"],
+          features: ["Bis zu 3 digitale Speisekarten", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export", "Alle 14 EU-Allergene, in jeder Sprache"],
         },
         hospitality: {
           tagline: "Bis zu 10 Speisekarten · 1 Betrieb",
-          features: ["Bis zu 10 digitale Speisekarten", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export"],
+          features: ["Bis zu 10 digitale Speisekarten", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export", "Alle 14 EU-Allergene, in jeder Sprache"],
         },
         "multi-location": {
           tagline: "Bis zu 5 Betriebe · je bis zu 5 Speisekarten",
-          features: ["Bis zu 5 Betriebe", "Bis zu 5 Speisekarten pro Betrieb", "20 Sprachen, QR-Code, PDF-Export"],
+          features: ["Bis zu 5 Betriebe", "Bis zu 5 Speisekarten pro Betrieb", "20 Sprachen, QR-Code, PDF-Export", "Alle 14 EU-Allergene, in jeder Sprache"],
         },
       },
     },
@@ -832,7 +832,7 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       eyebrow: "Tarifs simples",
       title: "Choisissez la formule adaptée à votre restaurant",
       subtitle:
-        "Chaque formule inclut les 20 langues, les codes QR et l'export PDF. Changez de formule à tout moment.",
+        "Chaque formule inclut les 20 langues, les codes QR, l'export PDF et les 14 allergènes UE. Changez de formule à tout moment.",
       cta: "S'abonner",
       trialNote: "Essai gratuit de 14 jours",
       note: "Annulable à tout moment.",
@@ -844,19 +844,19 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       plans: {
         essential: {
           tagline: "1 menu · 1 établissement",
-          features: ["1 menu numérique", "1 établissement", "20 langues, code QR, export PDF"],
+          features: ["1 menu numérique", "1 établissement", "20 langues, code QR, export PDF", "Les 14 allergènes UE, dans toutes les langues"],
         },
         business: {
           tagline: "Jusqu'à 3 menus · 1 établissement",
-          features: ["Jusqu'à 3 menus numériques", "1 établissement", "20 langues, code QR, export PDF"],
+          features: ["Jusqu'à 3 menus numériques", "1 établissement", "20 langues, code QR, export PDF", "Les 14 allergènes UE, dans toutes les langues"],
         },
         hospitality: {
           tagline: "Jusqu'à 10 menus · 1 établissement",
-          features: ["Jusqu'à 10 menus numériques", "1 établissement", "20 langues, code QR, export PDF"],
+          features: ["Jusqu'à 10 menus numériques", "1 établissement", "20 langues, code QR, export PDF", "Les 14 allergènes UE, dans toutes les langues"],
         },
         "multi-location": {
           tagline: "Jusqu'à 5 établissements · jusqu'à 5 menus chacun",
-          features: ["Jusqu'à 5 établissements", "Jusqu'à 5 menus par établissement", "20 langues, code QR, export PDF"],
+          features: ["Jusqu'à 5 établissements", "Jusqu'à 5 menus par établissement", "20 langues, code QR, export PDF", "Les 14 allergènes UE, dans toutes les langues"],
         },
       },
     },
