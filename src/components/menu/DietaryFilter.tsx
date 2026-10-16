@@ -1,23 +1,33 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { SlidersHorizontal, Check } from "lucide-react";
-import { DIETARY_TAGS, DietaryKey, dietaryLabel } from "@/lib/dietary-tags";
+import { SlidersHorizontal } from "lucide-react";
+import { DIET_TAGS, DietaryKey, dietaryLabel } from "@/lib/dietary-tags";
+import { ALLERGEN_KEYS, AllergenKey, allergenLabels } from "@/lib/allergens";
 import { menuString } from "@/lib/menu-strings";
 
+/** Guest-side filter: hide dishes containing any allergen the guest must
+ * avoid, and optionally show only vegetarian/vegan dishes. Mirrors the
+ * owner's editor layout (14 allergens in two columns, diet row below). */
 export function DietaryFilter({
   lang,
-  active,
-  onToggle,
+  avoid,
+  only,
+  onToggleAllergen,
+  onToggleDiet,
   onClear,
 }: {
   lang: string;
-  active: Set<DietaryKey>;
-  onToggle: (key: DietaryKey) => void;
+  avoid: Set<AllergenKey>;
+  only: Set<DietaryKey>;
+  onToggleAllergen: (key: AllergenKey) => void;
+  onToggleDiet: (key: DietaryKey) => void;
   onClear: () => void;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const labels = allergenLabels(lang);
+  const activeCount = avoid.size + only.size;
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -34,43 +44,72 @@ export function DietaryFilter({
         aria-label={menuString("filterLabel", lang)}
         aria-expanded={open}
         className={`relative flex h-9 w-9 items-center justify-center rounded-full border backdrop-blur-sm transition-colors ${
-          active.size > 0
+          activeCount > 0
             ? "border-amber bg-amber/20 text-amber"
             : "border-paper/25 bg-navy/20 text-paper/85 hover:border-amber hover:text-amber"
         }`}
       >
         <SlidersHorizontal size={16} />
-        {active.size > 0 && (
+        {activeCount > 0 && (
           <span className="absolute -top-1 -end-1 flex h-4 w-4 items-center justify-center rounded-full bg-amber text-[10px] font-bold text-navy">
-            {active.size}
+            {activeCount}
           </span>
         )}
       </button>
 
       {open && (
-        <div className="absolute end-0 mt-2 w-56 rounded-lg border border-border bg-panel py-1.5 text-left shadow-lg">
-          {DIETARY_TAGS.map(({ key, icon: Icon }) => {
-            const isActive = active.has(key);
-            return (
-              <button
-                key={key}
-                type="button"
-                onClick={() => onToggle(key)}
-                className={`flex w-full items-center gap-2.5 px-3.5 py-2 text-sm transition-colors ${
-                  isActive ? "bg-amber/10 text-navy" : "text-ink hover:bg-paper"
-                }`}
-              >
-                <Icon size={15} className="shrink-0 text-green" />
-                <span className="flex-1">{dietaryLabel(key, lang)}</span>
-                {isActive && <Check size={14} className="text-amber" />}
-              </button>
-            );
-          })}
-          {active.size > 0 && (
+        <div className="absolute end-0 mt-2 max-h-[75vh] w-80 max-w-[calc(100vw-2rem)] overflow-y-auto rounded-lg border border-border bg-panel p-3.5 text-start shadow-lg">
+          <p className="mb-2 text-xs text-ink-soft">{menuString("avoidPrompt", lang)}</p>
+          <div className="grid grid-cols-2 gap-1.5">
+            {ALLERGEN_KEYS.map((key) => {
+              const active = avoid.has(key);
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => onToggleAllergen(key)}
+                  aria-pressed={active}
+                  className={`rounded-md border px-2 py-1.5 text-xs transition-colors ${
+                    active
+                      ? "border-red-300 bg-red-50 font-medium text-red-700"
+                      : "border-border text-ink hover:border-amber hover:text-amber"
+                  }`}
+                >
+                  {active && "✕ "}
+                  {labels[key]}
+                </button>
+              );
+            })}
+          </div>
+
+          <p className="mb-2 mt-4 text-xs text-ink-soft">{menuString("onlyPrompt", lang)}</p>
+          <div className="grid grid-cols-2 gap-1.5">
+            {DIET_TAGS.map(({ key, icon: Icon }) => {
+              const active = only.has(key);
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => onToggleDiet(key)}
+                  aria-pressed={active}
+                  className={`flex items-center justify-center gap-1.5 rounded-md border px-2 py-1.5 text-xs transition-colors ${
+                    active
+                      ? "border-green bg-green/10 font-medium text-green"
+                      : "border-border text-ink hover:border-amber hover:text-amber"
+                  }`}
+                >
+                  <Icon size={13} className="shrink-0" />
+                  {dietaryLabel(key, lang)}
+                </button>
+              );
+            })}
+          </div>
+
+          {activeCount > 0 && (
             <button
               type="button"
               onClick={onClear}
-              className="mt-1 w-full border-t border-border px-3.5 py-2 text-left text-xs text-ink-soft hover:text-amber"
+              className="mt-3 w-full border-t border-border pt-2.5 text-start text-xs text-ink-soft hover:text-amber"
             >
               {menuString("clearFilters", lang)}
             </button>

@@ -64,6 +64,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
               hasSeafood: item.hasSeafood,
               isSpecialty: item.isSpecialty,
               isNew: item.isNew,
+              allergens: item.allergens,
+              allergensConfirmed: item.allergensConfirmed,
               hasVariants: item.hasVariants,
               variants: item.hasVariants
                 ? {

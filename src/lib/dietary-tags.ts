@@ -1,4 +1,4 @@
-import { Leaf, Vegan, WheatOff, Fish, Star, Sparkles, type LucideIcon } from "lucide-react";
+import { Leaf, Vegan, Star, Sparkles, type LucideIcon } from "lucide-react";
 
 export type DietaryKey =
   | "isVegetarian"
@@ -14,14 +14,21 @@ export type DietaryTagDef = {
   icon: LucideIcon;
 };
 
-export const DIETARY_TAGS: DietaryTagDef[] = [
+// Gluten-free and "contains seafood" used to be tags here; they're now covered
+// by the 14 EU allergens (src/lib/allergens.ts). Their DB columns are kept so
+// no existing data is lost, but they're no longer shown or edited.
+export const DIET_TAGS: DietaryTagDef[] = [
   { key: "isVegetarian", label: "Vegetarian", icon: Leaf },
   { key: "isVegan", label: "Vegan", icon: Vegan },
-  { key: "isGlutenFree", label: "Gluten-free", icon: WheatOff },
-  { key: "hasSeafood", label: "Contains seafood", icon: Fish },
+];
+
+export const HIGHLIGHT_TAGS: DietaryTagDef[] = [
   { key: "isSpecialty", label: "Chef's special", icon: Star },
   { key: "isNew", label: "New", icon: Sparkles },
 ];
+
+/** Every tag shown as an icon next to a dish name. */
+export const DIETARY_TAGS: DietaryTagDef[] = [...DIET_TAGS, ...HIGHLIGHT_TAGS];
 
 export type DietaryFlags = Record<DietaryKey, boolean>;
 

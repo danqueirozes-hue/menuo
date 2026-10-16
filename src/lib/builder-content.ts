@@ -1,4 +1,5 @@
 import { DIETARY_LABELS, DietaryKey } from "@/lib/dietary-tags";
+import { AllergenKey, allergenLabels } from "@/lib/allergens";
 import { LANGUAGES } from "@/lib/languages";
 
 /** UI strings for the menu builder screen. The builder follows the menu's
@@ -29,7 +30,9 @@ export type BuilderDict = {
   deleteDish: string;
   /** "{count}" is replaced with the number of price options. */
   optionsCount: string;
+  /** Diet / highlight / allergen names follow the menu's source language (any of the 20). */
   dietary: Record<DietaryKey, string>;
+  allergens: Record<AllergenKey, string>;
   editor: {
     titleEdit: string;
     titleNew: string;
@@ -37,7 +40,10 @@ export type BuilderDict = {
     namePlaceholder: string;
     description: string;
     descriptionPlaceholder: string;
-    dietaryInfo: string;
+    allergensTitle: string;
+    allergensHint: string;
+    confirmNoOthers: string;
+    highlights: string;
     hasVariants: string;
     price: string;
     pricePlaceholder: string;
@@ -63,7 +69,7 @@ export type BuilderDict = {
 
 type BuilderLocale = "en" | "pt";
 
-const TEXT: Record<BuilderLocale, Omit<BuilderDict, "languageOptions" | "dietary">> = {
+const TEXT: Record<BuilderLocale, Omit<BuilderDict, "languageOptions" | "dietary" | "allergens">> = {
   en: {
     intro:
       "Add sections and dishes. Changes are saved automatically — publish when you're ready to generate your QR code.",
@@ -91,7 +97,10 @@ const TEXT: Record<BuilderLocale, Omit<BuilderDict, "languageOptions" | "dietary
       namePlaceholder: "Truffle risotto",
       description: "Ingredients / description",
       descriptionPlaceholder: "Arborio rice, black truffle, parmesan, white wine",
-      dietaryInfo: "Dietary info",
+      allergensTitle: "Allergens (EU 14)",
+      allergensHint: "Tap every allergen this dish contains.",
+      confirmNoOthers: "I confirm this dish contains no other allergens",
+      highlights: "Highlights",
       hasVariants: "This dish has price variations (e.g. sizes)?",
       price: "Price",
       pricePlaceholder: "18.50",
@@ -140,7 +149,10 @@ const TEXT: Record<BuilderLocale, Omit<BuilderDict, "languageOptions" | "dietary
       namePlaceholder: "Arroz de marisco",
       description: "Ingredientes / descrição",
       descriptionPlaceholder: "Arroz carolino, camarão, amêijoas, coentros, vinho branco",
-      dietaryInfo: "Informação alimentar",
+      allergensTitle: "Alergénios (14 da UE)",
+      allergensHint: "Toque em todos os alergénios que este prato contém.",
+      confirmNoOthers: "Confirmo que não contém nenhum outro alergénio",
+      highlights: "Destaques",
       hasVariants: "Este prato tem variações de preço (por exemplo, tamanhos)?",
       price: "Preço",
       pricePlaceholder: "18,50",
@@ -173,5 +185,10 @@ export function getBuilderContent(sourceLanguage: string): BuilderDict {
     const name = locale === "en" ? l.englishName : (names.of(l.code) ?? l.englishName);
     return { code: l.code, label: `${l.flag} ${name.charAt(0).toUpperCase()}${name.slice(1)}` };
   });
-  return { ...TEXT[locale], languageOptions, dietary: DIETARY_LABELS[locale] };
+  return {
+    ...TEXT[locale],
+    languageOptions,
+    dietary: DIETARY_LABELS[sourceLanguage] ?? DIETARY_LABELS.en,
+    allergens: allergenLabels(sourceLanguage),
+  };
 }

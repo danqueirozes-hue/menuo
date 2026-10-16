@@ -115,6 +115,8 @@ export function MenuBuilder({
       hasVariants: boolean;
       price?: number;
       variants: { label: string; price: number }[];
+      allergens: string[];
+      allergensConfirmed: boolean;
     } & DietaryFlags
   ) {
     if (existing) {

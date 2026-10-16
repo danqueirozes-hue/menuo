@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/session";
+import { ALLERGEN_KEYS, normalizeAllergens } from "@/lib/allergens";
 
 const variantSchema = z.object({
   label: z.string().min(1).max(30),
@@ -23,6 +24,8 @@ const schema = z
     hasSeafood: z.boolean().optional().default(false),
     isSpecialty: z.boolean().optional().default(false),
     isNew: z.boolean().optional().default(false),
+    allergens: z.array(z.enum(ALLERGEN_KEYS)).max(ALLERGEN_KEYS.length).optional().default([]),
+    allergensConfirmed: z.boolean().optional().default(false),
   })
   .refine((d) => (d.hasVariants ? d.variants.length >= 2 : d.price !== undefined), {
     message: "Provide a price, or at least 2 price variants.",
@@ -51,6 +54,8 @@ export async function POST(req: Request) {
     hasSeafood,
     isSpecialty,
     isNew,
+    allergens,
+    allergensConfirmed,
   } = parsed.data;
 
   const section = await prisma.menuSection.findUnique({
@@ -81,6 +86,8 @@ export async function POST(req: Request) {
       hasSeafood,
       isSpecialty,
       isNew,
+      allergens: normalizeAllergens(allergens),
+      allergensConfirmed,
       hasVariants,
       variants: hasVariants
         ? { create: variants.map((v, i) => ({ label: v.label, priceCents: Math.round(v.price * 100), position: i })) }

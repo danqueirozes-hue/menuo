@@ -21,6 +21,8 @@ export type ClientItem = {
   hasSeafood: boolean;
   isSpecialty: boolean;
   isNew: boolean;
+  allergens: string[];
+  allergensConfirmed: boolean;
 };
 
 export type ClientSection = {

@@ -63,6 +63,8 @@ export default async function MenuBuilderPage({
       hasSeafood: i.hasSeafood,
       isSpecialty: i.isSpecialty,
       isNew: i.isNew,
+      allergens: i.allergens,
+      allergensConfirmed: i.allergensConfirmed,
     })),
   }));
 

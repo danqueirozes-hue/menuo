@@ -3,11 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { X } from "lucide-react";
+import { X, TriangleAlert } from "lucide-react";
 import { formatPrice } from "@/lib/currency";
 import { getLanguage } from "@/lib/languages";
 import { Logo } from "@/components/ui/Logo";
 import { DIETARY_TAGS, DietaryKey, dietaryLabel } from "@/lib/dietary-tags";
+import { AllergenKey, allergenLabels, normalizeAllergens } from "@/lib/allergens";
 import { menuString } from "@/lib/menu-strings";
 import { DietaryFilter } from "@/components/menu/DietaryFilter";
 import { SectionNav } from "@/components/menu/SectionNav";
@@ -37,6 +38,8 @@ type Item = {
   hasSeafood: boolean;
   isSpecialty: boolean;
   isNew: boolean;
+  allergens: string[];
+  allergensConfirmed: boolean;
   translations: ItemTranslation[];
 };
 
@@ -87,10 +90,12 @@ export function MenuView({
   const language = getLanguage(lang);
   const location = [restaurant.city, restaurant.country].filter(Boolean).join(", ");
 
-  const [activeFilters, setActiveFilters] = useState<Set<DietaryKey>>(new Set());
+  const allergenNames = allergenLabels(lang);
+  const [avoid, setAvoid] = useState<Set<AllergenKey>>(new Set());
+  const [only, setOnly] = useState<Set<DietaryKey>>(new Set());
 
-  function toggleFilter(key: DietaryKey) {
-    setActiveFilters((prev) => {
+  function toggleIn<T>(set: (fn: (prev: Set<T>) => Set<T>) => void, key: T) {
+    set((prev) => {
       const next = new Set(prev);
       if (next.has(key)) next.delete(key);
       else next.add(key);
@@ -99,16 +104,18 @@ export function MenuView({
   }
 
   const visibleSections = useMemo(() => {
-    if (activeFilters.size === 0) return restaurant.sections;
+    if (avoid.size === 0 && only.size === 0) return restaurant.sections;
     return restaurant.sections
       .map((section) => ({
         ...section,
-        items: section.items.filter((item) =>
-          [...activeFilters].every((key) => item[key])
+        items: section.items.filter(
+          (item) =>
+            !item.allergens.some((a) => avoid.has(a as AllergenKey)) &&
+            [...only].every((key) => item[key])
         ),
       }))
       .filter((section) => section.items.length > 0);
-  }, [restaurant.sections, activeFilters]);
+  }, [restaurant.sections, avoid, only]);
 
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
   const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
@@ -162,9 +169,14 @@ export function MenuView({
         ) : (
           <DietaryFilter
             lang={lang}
-            active={activeFilters}
-            onToggle={toggleFilter}
-            onClear={() => setActiveFilters(new Set())}
+            avoid={avoid}
+            only={only}
+            onToggleAllergen={(key) => toggleIn(setAvoid, key)}
+            onToggleDiet={(key) => toggleIn(setOnly, key)}
+            onClear={() => {
+              setAvoid(new Set());
+              setOnly(new Set());
+            }}
           />
         )}
         {restaurant.logoUrl ? (
@@ -295,6 +307,30 @@ export function MenuView({
                       {text.description && (
                         <p className="mt-1 text-sm leading-relaxed text-ink-soft">
                           {text.description}
+                        </p>
+                      )}
+                      {(item.allergens.length > 0 || item.allergensConfirmed) && (
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                          {item.allergens.length > 0 ? (
+                            normalizeAllergens(item.allergens).map((key) => (
+                              <span
+                                key={key}
+                                className="rounded-full bg-ink/5 px-2.5 py-0.5 text-[11px] text-ink-soft"
+                              >
+                                {allergenNames[key]}
+                              </span>
+                            ))
+                          ) : (
+                            <span className="rounded-full bg-ink/5 px-2.5 py-0.5 text-[11px] text-ink-soft">
+                              {menuString("noAllergens", lang)}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      {avoid.size > 0 && !item.allergensConfirmed && (
+                        <p className="mt-1.5 flex items-center gap-1 text-[11px] text-amber">
+                          <TriangleAlert size={12} className="shrink-0" />
+                          {menuString("allergensUnconfirmed", lang)}
                         </p>
                       )}
                     </div>

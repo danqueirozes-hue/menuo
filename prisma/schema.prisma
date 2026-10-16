@@ -114,6 +114,11 @@ model MenuItem {
   hasSeafood   Boolean            @default(false)
   isSpecialty  Boolean            @default(false)
   isNew        Boolean            @default(false)
+  // EU Regulation 1169/2011 Annex II allergen keys (see src/lib/allergens.ts).
+  // allergensConfirmed = the owner confirmed the dish contains no allergen
+  // beyond those listed, so an empty list really means "none".
+  allergens          String[]     @default([])
+  allergensConfirmed Boolean      @default(false)
   hasVariants  Boolean            @default(false)
   variants     MenuItemVariant[]
   translations ItemTranslation[]

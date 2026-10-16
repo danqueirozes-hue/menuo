@@ -6,7 +6,8 @@ import { Plus, Trash2 } from "lucide-react";
 import { Input, Label, Textarea } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { ClientItem } from "./types";
-import { DIETARY_TAGS, DietaryKey, DietaryFlags } from "@/lib/dietary-tags";
+import { DIET_TAGS, HIGHLIGHT_TAGS, DietaryKey, DietaryFlags } from "@/lib/dietary-tags";
+import { ALLERGEN_KEYS, AllergenKey, normalizeAllergens } from "@/lib/allergens";
 import { resizeImageForUpload } from "@/lib/resize-image";
 import type { BuilderDict } from "@/lib/builder-content";
 
@@ -30,6 +31,8 @@ export function ItemEditor({
     hasVariants: boolean;
     price?: number;
     variants: { label: string; price: number }[];
+    allergens: AllergenKey[];
+    allergensConfirmed: boolean;
   } & DietaryFlags) => Promise<void>;
   onCancel: () => void;
 }) {
@@ -56,6 +59,8 @@ export function ItemEditor({
     isSpecialty: initial?.isSpecialty ?? false,
     isNew: initial?.isNew ?? false,
   });
+  const [allergens, setAllergens] = useState<AllergenKey[]>(normalizeAllergens(initial?.allergens ?? []));
+  const [allergensConfirmed, setAllergensConfirmed] = useState(initial?.allergensConfirmed ?? false);
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -63,6 +68,12 @@ export function ItemEditor({
 
   function toggleDietary(key: DietaryKey) {
     setDietary((d) => ({ ...d, [key]: !d[key] }));
+  }
+
+  function toggleAllergen(key: AllergenKey) {
+    setAllergens((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : normalizeAllergens([...prev, key])
+    );
   }
 
   function updateVariant(index: number, field: keyof VariantDraft, value: string) {
@@ -134,6 +145,8 @@ export function ItemEditor({
         hasVariants,
         ...payload,
         ...dietary,
+        allergens,
+        allergensConfirmed,
       });
     } catch {
       setError(t.errorSave);
@@ -144,7 +157,7 @@ export function ItemEditor({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/50 px-4">
-      <div className="w-full max-w-lg rounded-xl bg-panel p-6 shadow-xl">
+      <div className="max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-xl bg-panel p-6 shadow-xl">
         <h3 className="font-display text-xl text-ink">
           {initial ? t.titleEdit : t.titleNew}
         </h3>
@@ -163,27 +176,59 @@ export function ItemEditor({
             />
           </div>
           <div>
-            <Label>{t.dietaryInfo}</Label>
-            <div className="flex flex-wrap gap-2">
-              {DIETARY_TAGS.map(({ key, icon: Icon }) => {
-                const active = dietary[key];
+            <Label>{t.allergensTitle}</Label>
+            <p className="-mt-1 mb-2 text-xs text-ink-soft">{t.allergensHint}</p>
+            <div className="grid grid-cols-2 gap-2">
+              {ALLERGEN_KEYS.map((key) => {
+                const active = allergens.includes(key);
                 return (
                   <button
                     key={key}
                     type="button"
-                    onClick={() => toggleDietary(key)}
+                    onClick={() => toggleAllergen(key)}
                     aria-pressed={active}
-                    className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                    className={`rounded-md border px-2 py-2 text-xs transition-colors ${
                       active
-                        ? "border-amber bg-amber/15 text-navy"
+                        ? "border-red-300 bg-red-50 font-medium text-red-700"
                         : "border-border text-ink-soft hover:border-amber hover:text-amber"
                     }`}
                   >
-                    <Icon size={14} />
-                    {dict.dietary[key]}
+                    {active && "✓ "}
+                    {dict.allergens[key]}
                   </button>
                 );
               })}
+              {DIET_TAGS.map(({ key, icon: Icon }) => (
+                <ToggleChip
+                  key={key}
+                  active={dietary[key]}
+                  onClick={() => toggleDietary(key)}
+                  className="mt-2"
+                >
+                  <Icon size={14} />
+                  {dict.dietary[key]}
+                </ToggleChip>
+              ))}
+            </div>
+            <label className="mt-3 flex items-center gap-2 text-sm text-ink">
+              <input
+                type="checkbox"
+                checked={allergensConfirmed}
+                onChange={(e) => setAllergensConfirmed(e.target.checked)}
+                className="h-4 w-4 rounded border-border text-amber focus:ring-amber"
+              />
+              {t.confirmNoOthers}
+            </label>
+          </div>
+          <div>
+            <Label>{t.highlights}</Label>
+            <div className="flex flex-wrap gap-2">
+              {HIGHLIGHT_TAGS.map(({ key, icon: Icon }) => (
+                <ToggleChip key={key} active={dietary[key]} onClick={() => toggleDietary(key)} className="rounded-full px-3">
+                  <Icon size={14} />
+                  {dict.dietary[key]}
+                </ToggleChip>
+              ))}
             </div>
           </div>
           <div>
@@ -282,5 +327,32 @@ export function ItemEditor({
         </form>
       </div>
     </div>
+  );
+}
+
+function ToggleChip({
+  active,
+  onClick,
+  className = "",
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`flex items-center justify-center gap-1.5 rounded-md border px-2 py-2 text-xs transition-colors ${className} ${
+        active
+          ? "border-amber bg-amber/15 text-navy"
+          : "border-border text-ink-soft hover:border-amber hover:text-amber"
+      }`}
+    >
+      {children}
+    </button>
   );
 }

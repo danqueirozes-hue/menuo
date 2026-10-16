@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserId } from "@/lib/session";
+import { ALLERGEN_KEYS, normalizeAllergens } from "@/lib/allergens";
 
 const variantSchema = z.object({
   label: z.string().min(1).max(30),
@@ -24,6 +25,8 @@ const schema = z
     hasSeafood: z.boolean().optional(),
     isSpecialty: z.boolean().optional(),
     isNew: z.boolean().optional(),
+    allergens: z.array(z.enum(ALLERGEN_KEYS)).max(ALLERGEN_KEYS.length).optional(),
+    allergensConfirmed: z.boolean().optional(),
   })
   .refine((d) => !d.hasVariants || (d.variants && d.variants.length >= 2), {
     message: "Add at least 2 price variants.",
@@ -51,6 +54,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
   const { price, variants, ...rest } = parsed.data;
   const data: Record<string, unknown> = { ...rest };
+  if (rest.allergens) data.allergens = normalizeAllergens(rest.allergens);
 
   if (rest.hasVariants && variants) {
     data.priceCents = Math.min(...variants.map((v) => Math.round(v.price * 100)));

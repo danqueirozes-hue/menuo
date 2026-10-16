@@ -8,6 +8,7 @@ import { formatPrice } from "@/lib/currency";
 import { ClientItem } from "./types";
 import { DIETARY_TAGS } from "@/lib/dietary-tags";
 import type { BuilderDict } from "@/lib/builder-content";
+import { normalizeAllergens } from "@/lib/allergens";
 
 export function SortableItem({
   item,
@@ -67,6 +68,13 @@ export function SortableItem({
         </div>
         {item.description && (
           <p className="mt-0.5 line-clamp-1 text-xs text-ink-soft">{item.description}</p>
+        )}
+        {item.allergens.length > 0 && (
+          <p className="mt-0.5 text-[11px] text-red-700/80">
+            {normalizeAllergens(item.allergens)
+              .map((k) => dict.allergens[k])
+              .join(" · ")}
+          </p>
         )}
       </div>
       {item.hasVariants && item.variants.length > 0 ? (
