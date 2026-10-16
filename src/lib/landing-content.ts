@@ -74,32 +74,32 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       eyebrow: "Why MENUO",
       title: "A menu your guests understand is a menu they spend more on",
       subtitle:
-        "MENUO isn't just a translation tool — it's a commercial lever built directly into the guest experience.",
+        "MENUO isn't just a translation. It's a tool that helps your restaurant sell more and run better, every single day.",
       items: [
         {
           title: "Higher average ticket",
           description:
-            "When guests fully understand a dish — its ingredients, its story — they order with confidence. They stop defaulting to the safe, cheap choice and explore your signature and premium dishes instead.",
+            "When guests understand a dish (its ingredients, how it's prepared, its story), they order with confidence. They stop picking the safest, cheapest option and take a chance on your signature dishes, starters and wine.",
         },
         {
-          title: "Greater profitability",
+          title: "Your team serves, not translates",
           description:
-            "Update prices, seasonal dishes and daily specials instantly, with no reprinting costs. One digital menu replaces every paper reprint, laminated insert and translated leaflet you used to pay for.",
+            "In high season, every minute counts. With the menu in each guest's language, staff stop explaining dishes in improvised English, orders go out faster and tables turn more often. No need to hire staff who speak five languages.",
         },
         {
-          title: "A frictionless guest experience",
+          title: "Fewer misunderstandings, better reviews",
           description:
-            "No app to download, no waiter needed to explain a dish in broken English. Guests scan, pick their language, and understand your menu exactly as you intended it.",
+            "“It wasn't what I expected” is one of the most common tourist complaints on Google and TripAdvisor. When guests know exactly what they ordered, they leave happy, and that's what brings the next tourist to your door.",
         },
         {
-          title: "Access to every nationality",
+          title: "Change your menu in seconds, no reprinting",
           description:
-            "Tourists and international guests no longer skip dishes they don't understand. Your entire menu — not just the 'safe' items — becomes available to every visitor.",
+            "Prices, seasonal dishes and daily specials update in one click, in every language at once. Prefer paper? Export your menu as a PDF in any language. All from €9.90/month, less than a single reprint.",
         },
         {
-          title: "A more elegant, modern image",
+          title: "Ready today, no risk",
           description:
-            "A refined digital menu signals quality before the first course arrives, reinforcing the positioning of a premium establishment.",
+            "No app, no developer, no contract. Build your menu in minutes, print the QR code and you're up and running. Try it free for 14 days and cancel anytime.",
         },
       ],
     },
@@ -184,32 +184,32 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       eyebrow: "Por qué MENUO",
       title: "Un menú que tus clientes entienden es un menú en el que gastan más",
       subtitle:
-        "MENUO no es solo una herramienta de traducción: es una palanca comercial integrada en la experiencia del cliente.",
+        "MENUO no es solo una traducción. Es una herramienta que hace que tu restaurante venda más y funcione mejor, todos los días.",
       items: [
         {
           title: "Mayor ticket medio",
           description:
-            "Cuando los clientes entienden completamente un plato — sus ingredientes, su historia — piden con confianza. Dejan de recurrir siempre a la opción segura y barata, y se animan con tus platos estrella y premium.",
+            "Cuando el cliente entiende el plato (los ingredientes, la preparación, la historia), pide con confianza. Deja de elegir lo más seguro y barato y se anima con los platos estrella, los entrantes y el vino.",
         },
         {
-          title: "Mayor rentabilidad",
+          title: "Tu equipo sirve, no traduce",
           description:
-            "Actualiza precios, platos de temporada y especiales del día al instante, sin coste de reimpresión. Un menú digital sustituye cada reimpresión en papel, inserto plastificado o folleto traducido que antes pagabas.",
+            "En temporada alta, cada minuto cuenta. Con el menú en el idioma de cada cliente, los camareros dejan de explicar platos en un inglés improvisado, los pedidos salen más rápido y las mesas rotan más. No necesitas contratar personal que hable cinco idiomas.",
         },
         {
-          title: "Una experiencia sin fricciones",
+          title: "Menos malentendidos, mejores reseñas",
           description:
-            "Sin apps que descargar, sin camareros que tengan que explicar un plato en un idioma a medias. Los clientes escanean, eligen su idioma y entienden tu menú tal como lo pensaste.",
+            "“No era lo que esperaba” es una de las quejas más habituales de los turistas en Google y TripAdvisor. Cuando el cliente sabe exactamente lo que pidió, se va satisfecho, y eso es lo que trae al próximo turista a tu puerta.",
         },
         {
-          title: "Acceso a cualquier nacionalidad",
+          title: "Cambia el menú en segundos, sin reimprimir",
           description:
-            "Turistas y clientes internacionales ya no evitan los platos que no entienden. Todo tu menú — no solo las opciones 'seguras' — está disponible para cada visitante.",
+            "Precios, platos de temporada y sugerencias del día se actualizan con un clic, en todos los idiomas a la vez. Y si prefieres papel, exporta el menú en PDF en el idioma que quieras. Todo desde 9,90 €/mes, menos que una sola reimpresión.",
         },
         {
-          title: "Una imagen más elegante y moderna",
+          title: "Listo hoy, sin riesgos",
           description:
-            "Un menú digital cuidado transmite calidad incluso antes de que llegue el primer plato, reforzando el posicionamiento de un establecimiento premium.",
+            "Sin app, sin programador, sin contrato. Crea tu menú en minutos, imprime el código QR y ya está funcionando. Pruébalo gratis 14 días y cancela cuando quieras.",
         },
       ],
     },
@@ -294,32 +294,32 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       eyebrow: "Porquê o MENUO",
       title: "Um menu que os seus clientes entendem é um menu onde gastam mais",
       subtitle:
-        "O MENUO não é apenas uma ferramenta de tradução — é uma alavanca comercial integrada na experiência do cliente.",
+        "O MENUO não é só uma tradução. É uma ferramenta que faz o seu restaurante vender mais e trabalhar melhor, todos os dias.",
       items: [
         {
           title: "Ticket médio mais alto",
           description:
-            "Quando os clientes entendem completamente um prato — os seus ingredientes, a sua história — pedem com confiança. Deixam de escolher sempre a opção segura e mais barata e arriscam nos seus pratos de assinatura e premium.",
+            "Quando o cliente entende o prato (os ingredientes, a preparação, a história), pede com confiança. Deixa de escolher o mais seguro e mais barato e arrisca nos pratos de assinatura, nas entradas e no vinho.",
         },
         {
-          title: "Maior rentabilidade",
+          title: "A sua equipa serve, não traduz",
           description:
-            "Atualize preços, pratos sazonais e sugestões do dia instantaneamente, sem custos de reimpressão. Um menu digital substitui cada reimpressão em papel, inserto plastificado e folheto traduzido que costumava pagar.",
+            "Na época alta, cada minuto conta. Com o menu no idioma de cada cliente, os empregados deixam de explicar pratos em inglês improvisado, os pedidos saem mais rápido e as mesas rodam mais. Não precisa de contratar pessoal que fale cinco línguas.",
         },
         {
-          title: "Uma experiência sem fricção",
+          title: "Menos mal-entendidos, melhores avaliações",
           description:
-            "Sem aplicação para descarregar, sem necessidade de um empregado explicar um prato num idioma incerto. Os clientes fazem scan, escolhem o idioma e entendem o seu menu exatamente como pretendia.",
+            "“Não era o que eu esperava” é uma das queixas mais comuns dos turistas no Google e no TripAdvisor. Quando o cliente sabe exatamente o que pediu, sai satisfeito, e é isso que traz o próximo turista à sua porta.",
         },
         {
-          title: "Acesso a todas as nacionalidades",
+          title: "Mude o menu em segundos, sem reimprimir",
           description:
-            "Turistas e clientes internacionais deixam de evitar pratos que não entendem. Todo o seu menu — não só as opções 'seguras' — fica disponível para cada visitante.",
+            "Preços, pratos da época e sugestões do dia são atualizados num clique, em todos os idiomas ao mesmo tempo. E se preferir papel, exporte o menu em PDF no idioma que quiser. Tudo a partir de €9,90/mês, menos do que uma única reimpressão.",
         },
         {
-          title: "Uma imagem mais elegante e moderna",
+          title: "Pronto hoje, sem riscos",
           description:
-            "Um menu digital cuidado transmite qualidade antes mesmo de o primeiro prato chegar, reforçando o posicionamento de um estabelecimento premium.",
+            "Sem aplicação, sem programador, sem contrato. Cria o menu em minutos, imprime o código QR e está a funcionar. Experimente 14 dias grátis e cancele quando quiser.",
         },
       ],
     },
@@ -404,32 +404,32 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       eyebrow: "Perché MENUO",
       title: "Un menu che i tuoi ospiti capiscono è un menu su cui spendono di più",
       subtitle:
-        "MENUO non è solo uno strumento di traduzione: è una leva commerciale integrata direttamente nell'esperienza del cliente.",
+        "MENUO non è solo una traduzione. È uno strumento che fa vendere di più il tuo ristorante e lo fa lavorare meglio, ogni giorno.",
       items: [
         {
           title: "Scontrino medio più alto",
           description:
-            "Quando gli ospiti capiscono davvero un piatto — i suoi ingredienti, la sua storia — ordinano con più sicurezza. Smettono di scegliere sempre l'opzione sicura ed economica e si lasciano tentare dai piatti signature e premium.",
+            "Quando l'ospite capisce il piatto (gli ingredienti, la preparazione, la storia), ordina con sicurezza. Smette di scegliere l'opzione più sicura ed economica e si lascia tentare dai piatti signature, dagli antipasti e dal vino.",
         },
         {
-          title: "Maggiore redditività",
+          title: "Il tuo staff serve, non traduce",
           description:
-            "Aggiorna prezzi, piatti stagionali e specialità del giorno all'istante, senza costi di ristampa. Un menu digitale sostituisce ogni ristampa cartacea, inserto plastificato e volantino tradotto che pagavi prima.",
+            "In alta stagione ogni minuto conta. Con il menu nella lingua di ogni ospite, i camerieri smettono di spiegare i piatti in un inglese improvvisato, le comande escono più velocemente e i tavoli girano di più. Non serve assumere personale che parli cinque lingue.",
         },
         {
-          title: "Un'esperienza senza attriti",
+          title: "Meno equivoci, recensioni migliori",
           description:
-            "Nessuna app da scaricare, nessun cameriere costretto a spiegare un piatto in un inglese incerto. Gli ospiti scansionano, scelgono la lingua e capiscono il menu esattamente come lo hai pensato.",
+            "“Non era quello che mi aspettavo” è una delle lamentele più frequenti dei turisti su Google e TripAdvisor. Quando l'ospite sa esattamente cosa ha ordinato, esce soddisfatto, ed è questo che porta il prossimo turista alla tua porta.",
         },
         {
-          title: "Accesso a ogni nazionalità",
+          title: "Cambia il menu in pochi secondi, senza ristampare",
           description:
-            "Turisti e ospiti internazionali non evitano più i piatti che non capiscono. L'intero menu — non solo le opzioni 'sicure' — diventa disponibile per ogni visitatore.",
+            "Prezzi, piatti di stagione e suggerimenti del giorno si aggiornano con un clic, in tutte le lingue contemporaneamente. E se preferisci la carta, esporta il menu in PDF nella lingua che vuoi. Tutto a partire da €9,90/mese, meno di una sola ristampa.",
         },
         {
-          title: "Un'immagine più elegante e moderna",
+          title: "Pronto oggi, senza rischi",
           description:
-            "Un menu digitale curato comunica qualità ancora prima che arrivi la prima portata, rafforzando il posizionamento di un locale premium.",
+            "Niente app, niente sviluppatori, niente contratti. Crei il menu in pochi minuti, stampi il codice QR e sei operativo. Provalo gratis per 14 giorni e annulla quando vuoi.",
         },
       ],
     },
@@ -514,32 +514,32 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       eyebrow: "Warum MENUO",
       title: "Eine Speisekarte, die Ihre Gäste verstehen, ist eine Speisekarte, bei der sie mehr ausgeben",
       subtitle:
-        "MENUO ist nicht nur ein Übersetzungstool — es ist ein kommerzieller Hebel, der direkt im Gästeerlebnis verankert ist.",
+        "MENUO ist nicht nur eine Übersetzung. Es ist ein Werkzeug, mit dem Ihr Restaurant jeden Tag mehr verkauft und besser arbeitet.",
       items: [
         {
           title: "Höherer Durchschnittsbon",
           description:
-            "Wenn Gäste ein Gericht vollständig verstehen — seine Zutaten, seine Geschichte —, bestellen sie mit Zuversicht. Sie greifen nicht mehr automatisch zur sicheren, günstigen Wahl, sondern trauen sich an Ihre Signature- und Premium-Gerichte.",
+            "Wenn Gäste ein Gericht verstehen (die Zutaten, die Zubereitung, die Geschichte), bestellen sie mit Zuversicht. Sie wählen nicht mehr das Sicherste und Günstigste, sondern trauen sich an Signature-Gerichte, Vorspeisen und Wein.",
         },
         {
-          title: "Höhere Profitabilität",
+          title: "Ihr Team serviert, statt zu übersetzen",
           description:
-            "Aktualisieren Sie Preise, saisonale Gerichte und Tagesangebote sofort, ganz ohne Druckkosten. Eine digitale Speisekarte ersetzt jeden Papiernachdruck, jedes laminierte Einlegeblatt und jedes übersetzte Faltblatt, das Sie bisher bezahlt haben.",
+            "In der Hochsaison zählt jede Minute. Mit der Speisekarte in der Sprache jedes Gastes muss Ihr Personal Gerichte nicht mehr in improvisiertem Englisch erklären, Bestellungen gehen schneller raus und die Tische werden öfter belegt. Sie müssen kein Personal einstellen, das fünf Sprachen spricht.",
         },
         {
-          title: "Ein reibungsloses Gästeerlebnis",
+          title: "Weniger Missverständnisse, bessere Bewertungen",
           description:
-            "Keine App zum Herunterladen, kein Kellner, der ein Gericht in gebrochenem Englisch erklären muss. Gäste scannen, wählen ihre Sprache und verstehen Ihre Speisekarte genau so, wie Sie sie gemeint haben.",
+            "„Das war nicht, was ich erwartet hatte“ ist eine der häufigsten Beschwerden von Touristen auf Google und TripAdvisor. Wenn Gäste genau wissen, was sie bestellt haben, gehen sie zufrieden, und genau das bringt den nächsten Touristen zu Ihnen.",
         },
         {
-          title: "Zugang für jede Nationalität",
+          title: "Speisekarte in Sekunden ändern, ohne Neudruck",
           description:
-            "Touristen und internationale Gäste überspringen keine Gerichte mehr, die sie nicht verstehen. Ihre gesamte Speisekarte — nicht nur die 'sicheren' Optionen — steht jedem Besucher offen.",
+            "Preise, Saisongerichte und Tagesempfehlungen werden mit einem Klick aktualisiert, in allen Sprachen gleichzeitig. Und wenn Sie Papier bevorzugen, exportieren Sie die Speisekarte als PDF in jeder gewünschten Sprache. Alles ab 9,90 €/Monat, weniger als ein einziger Neudruck.",
         },
         {
-          title: "Ein eleganteres, moderneres Erscheinungsbild",
+          title: "Heute startklar, ohne Risiko",
           description:
-            "Eine hochwertig gestaltete digitale Speisekarte signalisiert Qualität, noch bevor der erste Gang serviert wird, und unterstreicht die Positionierung als Premium-Betrieb.",
+            "Keine App, kein Entwickler, kein Vertrag. Erstellen Sie Ihre Speisekarte in wenigen Minuten, drucken Sie den QR-Code aus und schon läuft es. Testen Sie 14 Tage kostenlos und kündigen Sie jederzeit.",
         },
       ],
     },
@@ -624,32 +624,32 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       eyebrow: "Pourquoi MENUO",
       title: "Un menu que vos clients comprennent est un menu sur lequel ils dépensent plus",
       subtitle:
-        "MENUO n'est pas qu'un outil de traduction — c'est un levier commercial intégré directement à l'expérience client.",
+        "MENUO n'est pas qu'une traduction. C'est un outil qui aide votre restaurant à vendre plus et à mieux travailler, tous les jours.",
       items: [
         {
           title: "Un ticket moyen plus élevé",
           description:
-            "Lorsque les clients comprennent pleinement un plat — ses ingrédients, son histoire — ils commandent en toute confiance. Ils cessent de se rabattre sur le choix sûr et bon marché et osent vos plats signature et premium.",
+            "Quand le client comprend le plat (les ingrédients, la préparation, l'histoire), il commande en confiance. Il cesse de choisir le plus sûr et le moins cher et ose les plats signature, les entrées et le vin.",
         },
         {
-          title: "Une meilleure rentabilité",
+          title: "Votre équipe sert, elle ne traduit pas",
           description:
-            "Mettez à jour les prix, les plats de saison et les suggestions du jour instantanément, sans frais de réimpression. Un menu numérique remplace chaque réimpression papier, insert plastifié et dépliant traduit que vous payiez auparavant.",
+            "En haute saison, chaque minute compte. Avec le menu dans la langue de chaque client, les serveurs n'expliquent plus les plats dans un anglais improvisé, les commandes partent plus vite et les tables tournent davantage. Inutile d'embaucher du personnel qui parle cinq langues.",
         },
         {
-          title: "Une expérience client sans friction",
+          title: "Moins de malentendus, de meilleurs avis",
           description:
-            "Aucune application à télécharger, aucun serveur obligé d'expliquer un plat dans un anglais approximatif. Les clients scannent, choisissent leur langue et comprennent votre menu exactement comme vous l'avez conçu.",
+            "« Ce n'était pas ce que j'attendais » est l'une des plaintes les plus fréquentes des touristes sur Google et TripAdvisor. Quand le client sait exactement ce qu'il a commandé, il repart satisfait, et c'est ce qui amène le prochain touriste à votre porte.",
         },
         {
-          title: "Accessible à toutes les nationalités",
+          title: "Modifiez le menu en quelques secondes, sans réimprimer",
           description:
-            "Les touristes et clients internationaux ne passent plus les plats qu'ils ne comprennent pas. Tout votre menu — pas seulement les valeurs sûres — devient accessible à chaque visiteur.",
+            "Prix, plats de saison et suggestions du jour se mettent à jour en un clic, dans toutes les langues à la fois. Et si vous préférez le papier, exportez le menu en PDF dans la langue de votre choix. Le tout à partir de 9,90 €/mois, moins qu'une seule réimpression.",
         },
         {
-          title: "Une image plus élégante et moderne",
+          title: "Prêt aujourd'hui, sans risque",
           description:
-            "Un menu numérique soigné signale la qualité avant même l'arrivée du premier plat, renforçant le positionnement d'un établissement haut de gamme.",
+            "Sans application, sans développeur, sans engagement. Créez votre menu en quelques minutes, imprimez le code QR et c'est parti. Essayez gratuitement pendant 14 jours et annulez quand vous voulez.",
         },
       ],
     },
