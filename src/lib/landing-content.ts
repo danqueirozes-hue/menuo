@@ -1,4 +1,6 @@
-export const SITE_LOCALES = ["en", "es", "pt", "it", "de", "fr"] as const;
+import type { PlanKey, PriceLabels } from "@/lib/plans";
+
+export const SITE_LOCALES =["en", "es", "pt", "it", "de", "fr"] as const;
 export type SiteLocale = (typeof SITE_LOCALES)[number];
 
 export const LOCALE_LABELS: Record<SiteLocale, string> = {
@@ -13,6 +15,10 @@ export const LOCALE_LABELS: Record<SiteLocale, string> = {
 export function isSiteLocale(value: string): value is SiteLocale {
   return (SITE_LOCALES as readonly string[]).includes(value);
 }
+
+/** Preference cookie holding the site language the visitor last viewed, so
+ * signed-in screens (e.g. billing) can follow it. */
+export const SITE_LOCALE_COOKIE = "site_locale";
 
 export function localeHref(locale: SiteLocale): string {
   return locale === "en" ? "/" : `/${locale}`;
@@ -46,6 +52,9 @@ export type LandingDict = {
     monthly: string;
     annual: string;
     annualNote: string;
+    mostPopular: string;
+    price: PriceLabels;
+    plans: Record<PlanKey, { tagline: string; features: string[] }>;
   };
   cta: { titlePrefix: string; titleHighlight: string; titleSuffix: string; subtitle: string; button: string };
 };
@@ -150,6 +159,26 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       monthly: "Monthly",
       annual: "Annual",
       annualNote: "2 months free",
+      mostPopular: "Most popular",
+      price: { from: "From", perMonth: "/mo", perYear: "/yr" },
+      plans: {
+        essential: {
+          tagline: "1 menu · 1 establishment",
+          features: ["1 digital menu", "1 establishment", "20 languages, QR code, PDF export"],
+        },
+        business: {
+          tagline: "Up to 3 menus · 1 establishment",
+          features: ["Up to 3 digital menus", "1 establishment", "20 languages, QR code, PDF export"],
+        },
+        hospitality: {
+          tagline: "Up to 10 menus · 1 establishment",
+          features: ["Up to 10 digital menus", "1 establishment", "20 languages, QR code, PDF export"],
+        },
+        "multi-location": {
+          tagline: "Up to 5 establishments · up to 5 menus each",
+          features: ["Up to 5 establishments", "Up to 5 menus per establishment", "20 languages, QR code, PDF export"],
+        },
+      },
     },
     cta: {
       titlePrefix: "Give every guest your",
@@ -260,6 +289,26 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       monthly: "Mensual",
       annual: "Anual",
       annualNote: "2 meses gratis",
+      mostPopular: "Más popular",
+      price: { locale: "es-ES", from: "Desde", perMonth: "/mes", perYear: "/año" },
+      plans: {
+        essential: {
+          tagline: "1 menú · 1 establecimiento",
+          features: ["1 menú digital", "1 establecimiento", "20 idiomas, código QR, exportación en PDF"],
+        },
+        business: {
+          tagline: "Hasta 3 menús · 1 establecimiento",
+          features: ["Hasta 3 menús digitales", "1 establecimiento", "20 idiomas, código QR, exportación en PDF"],
+        },
+        hospitality: {
+          tagline: "Hasta 10 menús · 1 establecimiento",
+          features: ["Hasta 10 menús digitales", "1 establecimiento", "20 idiomas, código QR, exportación en PDF"],
+        },
+        "multi-location": {
+          tagline: "Hasta 5 establecimientos · hasta 5 menús cada uno",
+          features: ["Hasta 5 establecimientos", "Hasta 5 menús por establecimiento", "20 idiomas, código QR, exportación en PDF"],
+        },
+      },
     },
     cta: {
       titlePrefix: "Ofrece a cada cliente tu",
@@ -370,6 +419,26 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       monthly: "Mensal",
       annual: "Anual",
       annualNote: "2 meses grátis",
+      mostPopular: "Mais popular",
+      price: { locale: "pt-PT", from: "A partir de", perMonth: "/mês", perYear: "/ano" },
+      plans: {
+        essential: {
+          tagline: "1 menu · 1 estabelecimento",
+          features: ["1 menu digital", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF"],
+        },
+        business: {
+          tagline: "Até 3 menus · 1 estabelecimento",
+          features: ["Até 3 menus digitais", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF"],
+        },
+        hospitality: {
+          tagline: "Até 10 menus · 1 estabelecimento",
+          features: ["Até 10 menus digitais", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF"],
+        },
+        "multi-location": {
+          tagline: "Até 5 estabelecimentos · até 5 menus cada",
+          features: ["Até 5 estabelecimentos", "Até 5 menus por estabelecimento", "20 idiomas, código QR, exportação em PDF"],
+        },
+      },
     },
     cta: {
       titlePrefix: "Dê a cada cliente o seu",
@@ -480,6 +549,26 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       monthly: "Mensile",
       annual: "Annuale",
       annualNote: "2 mesi gratis",
+      mostPopular: "Il più scelto",
+      price: { locale: "it-IT", from: "Da", perMonth: "/mese", perYear: "/anno" },
+      plans: {
+        essential: {
+          tagline: "1 menu · 1 locale",
+          features: ["1 menu digitale", "1 locale", "20 lingue, codice QR, esportazione PDF"],
+        },
+        business: {
+          tagline: "Fino a 3 menu · 1 locale",
+          features: ["Fino a 3 menu digitali", "1 locale", "20 lingue, codice QR, esportazione PDF"],
+        },
+        hospitality: {
+          tagline: "Fino a 10 menu · 1 locale",
+          features: ["Fino a 10 menu digitali", "1 locale", "20 lingue, codice QR, esportazione PDF"],
+        },
+        "multi-location": {
+          tagline: "Fino a 5 locali · fino a 5 menu ciascuno",
+          features: ["Fino a 5 locali", "Fino a 5 menu per locale", "20 lingue, codice QR, esportazione PDF"],
+        },
+      },
     },
     cta: {
       titlePrefix: "Offri a ogni ospite il tuo",
@@ -590,6 +679,26 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       monthly: "Monatlich",
       annual: "Jährlich",
       annualNote: "2 Monate gratis",
+      mostPopular: "Am beliebtesten",
+      price: { locale: "de-DE", from: "Ab", perMonth: "/Monat", perYear: "/Jahr" },
+      plans: {
+        essential: {
+          tagline: "1 Speisekarte · 1 Betrieb",
+          features: ["1 digitale Speisekarte", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export"],
+        },
+        business: {
+          tagline: "Bis zu 3 Speisekarten · 1 Betrieb",
+          features: ["Bis zu 3 digitale Speisekarten", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export"],
+        },
+        hospitality: {
+          tagline: "Bis zu 10 Speisekarten · 1 Betrieb",
+          features: ["Bis zu 10 digitale Speisekarten", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export"],
+        },
+        "multi-location": {
+          tagline: "Bis zu 5 Betriebe · je bis zu 5 Speisekarten",
+          features: ["Bis zu 5 Betriebe", "Bis zu 5 Speisekarten pro Betrieb", "20 Sprachen, QR-Code, PDF-Export"],
+        },
+      },
     },
     cta: {
       titlePrefix: "Geben Sie jedem Gast Ihre",
@@ -700,6 +809,26 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       monthly: "Mensuel",
       annual: "Annuel",
       annualNote: "2 mois offerts",
+      mostPopular: "Le plus populaire",
+      price: { locale: "fr-FR", from: "À partir de", perMonth: "/mois", perYear: "/an" },
+      plans: {
+        essential: {
+          tagline: "1 menu · 1 établissement",
+          features: ["1 menu numérique", "1 établissement", "20 langues, code QR, export PDF"],
+        },
+        business: {
+          tagline: "Jusqu'à 3 menus · 1 établissement",
+          features: ["Jusqu'à 3 menus numériques", "1 établissement", "20 langues, code QR, export PDF"],
+        },
+        hospitality: {
+          tagline: "Jusqu'à 10 menus · 1 établissement",
+          features: ["Jusqu'à 10 menus numériques", "1 établissement", "20 langues, code QR, export PDF"],
+        },
+        "multi-location": {
+          tagline: "Jusqu'à 5 établissements · jusqu'à 5 menus chacun",
+          features: ["Jusqu'à 5 établissements", "Jusqu'à 5 menus par établissement", "20 langues, code QR, export PDF"],
+        },
+      },
     },
     cta: {
       titlePrefix: "Offrez à chaque client votre",

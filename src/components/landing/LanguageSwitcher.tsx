@@ -3,11 +3,15 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Globe } from "lucide-react";
-import { SITE_LOCALES, LOCALE_LABELS, localeHref, SiteLocale } from "@/lib/landing-content";
+import { SITE_LOCALES, LOCALE_LABELS, SITE_LOCALE_COOKIE, localeHref, SiteLocale } from "@/lib/landing-content";
 
 export function LanguageSwitcher({ current }: { current: SiteLocale }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    document.cookie = `${SITE_LOCALE_COOKIE}=${current}; path=/; max-age=31536000; samesite=lax`;
+  }, [current]);
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {

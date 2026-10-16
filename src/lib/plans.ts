@@ -84,11 +84,32 @@ function formatAmount(cents: number): string {
   return Number.isInteger(amount) ? String(amount) : amount.toFixed(2);
 }
 
-export function formatPlanPrice(plan: Plan, interval: BillingInterval): string {
+export type PriceLabels = {
+  /** BCP 47 locale used to format the amount (e.g. "pt-PT"). Omit for "€9.90". */
+  locale?: string;
+  from: string;
+  perMonth: string;
+  perYear: string;
+};
+
+const DEFAULT_PRICE_LABELS: PriceLabels = { from: "From", perMonth: "/mo", perYear: "/yr" };
+
+export function formatPlanPrice(
+  plan: Plan,
+  interval: BillingInterval,
+  labels: PriceLabels = DEFAULT_PRICE_LABELS
+): string {
   const cents = priceCentsFor(plan, interval);
-  const prefix = plan.isFromPrice ? "From " : "";
-  const suffix = interval === "annual" ? "/yr" : "/mo";
-  return `${prefix}€${formatAmount(cents)}${suffix}`;
+  const prefix = plan.isFromPrice ? `${labels.from} ` : "";
+  const suffix = interval === "annual" ? labels.perYear : labels.perMonth;
+  const amount = labels.locale
+    ? new Intl.NumberFormat(labels.locale, {
+        style: "currency",
+        currency: "EUR",
+        minimumFractionDigits: cents % 100 === 0 ? 0 : 2,
+      }).format(cents / 100)
+    : `€${formatAmount(cents)}`;
+  return `${prefix}${amount}${suffix}`;
 }
 
 /** Ceiling applied to accounts with no active paid subscription: they can

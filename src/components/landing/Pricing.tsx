@@ -47,6 +47,7 @@ export function Pricing({ dict }: { dict: LandingDict["pricing"] }) {
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {PLAN_ORDER.map((key) => {
             const plan = PLANS[key];
+            const text = dict.plans[key];
             const isMostPopular = key === "business";
             return (
               <div
@@ -57,21 +58,21 @@ export function Pricing({ dict }: { dict: LandingDict["pricing"] }) {
               >
                 {isMostPopular && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-amber px-3 py-1 text-[11px] font-medium text-navy">
-                    Most popular
+                    {dict.mostPopular}
                   </span>
                 )}
                 <p className="font-display text-lg text-ink">{plan.name}</p>
                 <p className="font-display mt-1 text-2xl text-amber">
-                  {formatPlanPrice(plan, interval)}
+                  {formatPlanPrice(plan, interval, dict.price)}
                 </p>
                 {interval === "monthly" && (
                   <p className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-green/10 px-2.5 py-1 text-xs font-medium text-green">
-                    {formatPlanPrice(plan, "annual")} · {dict.annualNote}
+                    {formatPlanPrice(plan, "annual", dict.price)} · {dict.annualNote}
                   </p>
                 )}
-                <p className="mt-2 text-xs text-ink-soft">{plan.tagline}</p>
+                <p className="mt-2 text-xs text-ink-soft">{text.tagline}</p>
                 <ul className="mt-5 space-y-2 text-sm text-ink-soft">
-                  {plan.features.map((f) => (
+                  {text.features.map((f) => (
                     <li key={f} className="flex items-start gap-2">
                       <Check size={14} className="mt-0.5 shrink-0 text-green" /> {f}
                     </li>

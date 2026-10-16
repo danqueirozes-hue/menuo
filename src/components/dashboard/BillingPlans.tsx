@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { PLAN_ORDER, PLANS, PlanKey, BillingInterval, formatPlanPrice } from "@/lib/plans";
+import type { BillingPlansDict } from "@/lib/billing-content";
 
 declare global {
   interface Window {
@@ -22,12 +23,14 @@ function reportCheckoutConversion() {
 }
 
 export function BillingPlans({
+  dict,
   currentPlan,
   status,
   cancelAtPeriodEnd,
   currentPeriodEnd,
   eligibleForTrial,
 }: {
+  dict: BillingPlansDict;
   currentPlan: string | null;
   status: string | null;
   cancelAtPeriodEnd: boolean;
@@ -49,7 +52,7 @@ export function BillingPlans({
 
   const isActive = status === "active" || status === "trialing";
   const periodEndLabel = pendingCancelUntil
-    ? new Date(pendingCancelUntil).toLocaleDateString(undefined, {
+    ? new Date(pendingCancelUntil).toLocaleDateString(dict.dateLocale, {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -57,15 +60,15 @@ export function BillingPlans({
     : null;
 
   useEffect(() => {
-    if (searchParams.get("activated") === "1") setNotice("Your subscription is now active — you can publish your menus.");
+    if (searchParams.get("activated") === "1") setNotice(dict.noticeActivated);
     if (searchParams.get("success") === "1") {
-      setNotice("Payment received — your subscription is now active.");
+      setNotice(dict.noticePaid);
       reportCheckoutConversion();
       const params = new URLSearchParams(searchParams);
       params.delete("success");
       router.replace(params.size ? `${pathname}?${params}` : pathname);
     }
-    if (searchParams.get("canceled") === "1") setNotice("Checkout was canceled — no changes were made.");
+    if (searchParams.get("canceled") === "1") setNotice(dict.noticeCanceled);
 
     const requestedPlan = searchParams.get("plan") as PlanKey | null;
     const requestedInterval: BillingInterval = searchParams.get("interval") === "annual" ? "annual" : "monthly";
@@ -87,19 +90,14 @@ export function BillingPlans({
     const data = await res.json();
     setLoadingPlan(null);
     if (!res.ok) {
-      setError(data.error || "Could not start checkout.");
+      setError(data.error || dict.checkoutError);
       return;
     }
     window.location.href = data.url;
   }
 
   async function cancel() {
-    if (
-      !confirm(
-        "Cancel your subscription? You'll keep full access until the end of your current billing period — it won't renew after that."
-      )
-    )
-      return;
+    if (!confirm(dict.cancelConfirm)) return;
     setCancelling(true);
     const res = await fetch("/api/billing/cancel", { method: "POST" });
     const data = await res.json();
@@ -133,7 +131,7 @@ export function BillingPlans({
               interval === "monthly" ? "bg-navy text-paper" : "text-ink-soft hover:text-ink"
             }`}
           >
-            Monthly
+            {dict.monthly}
           </button>
           <button
             onClick={() => setInterval("annual")}
@@ -141,12 +139,12 @@ export function BillingPlans({
               interval === "annual" ? "bg-navy text-paper" : "text-ink-soft hover:text-ink"
             }`}
           >
-            Annual
+            {dict.annual}
           </button>
         </div>
         {interval === "annual" && (
           <span className="rounded-full bg-green/15 px-3 py-1 text-xs font-medium text-green">
-            2 months free
+            {dict.annualNote}
           </span>
         )}
       </div>
@@ -154,6 +152,7 @@ export function BillingPlans({
       <div className="grid gap-5 sm:grid-cols-2">
         {PLAN_ORDER.map((key) => {
           const plan = PLANS[key];
+          const text = dict.plans[key];
           const isCurrent = currentPlan === key && isActive;
           return (
             <div
@@ -163,15 +162,15 @@ export function BillingPlans({
               }`}
             >
               <p className="font-display text-xl text-ink">{plan.name}</p>
-              <p className="font-display mt-1 text-2xl text-amber">{formatPlanPrice(plan, interval)}</p>
+              <p className="font-display mt-1 text-2xl text-amber">{formatPlanPrice(plan, interval, dict.price)}</p>
               {interval === "monthly" && (
                 <p className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-green/10 px-2.5 py-1 text-xs font-medium text-green">
-                  {formatPlanPrice(plan, "annual")} · 2 months free
+                  {formatPlanPrice(plan, "annual", dict.price)} · {dict.annualNote}
                 </p>
               )}
-              <p className="mt-2 text-xs text-ink-soft">{plan.tagline}</p>
+              <p className="mt-2 text-xs text-ink-soft">{text.tagline}</p>
               <ul className="mt-4 space-y-1.5 text-sm text-ink-soft">
-                {plan.features.map((f) => (
+                {text.features.map((f) => (
                   <li key={f} className="flex items-center gap-2">
                     <Check size={14} className="text-green" /> {f}
                   </li>
@@ -182,7 +181,7 @@ export function BillingPlans({
                 <div className="mt-5">
                   <div className="flex items-center justify-between">
                     <span className="rounded-full bg-green/15 px-3 py-1 text-xs text-green">
-                      {pendingCancelUntil ? "Ending soon" : "Current plan"}
+                      {pendingCancelUntil ? dict.endingSoon : dict.currentPlan}
                     </span>
                     {pendingCancelUntil ? (
                       <button
@@ -190,7 +189,7 @@ export function BillingPlans({
                         disabled={resuming}
                         className="text-xs text-amber hover:underline"
                       >
-                        {resuming ? "Resuming…" : "Resume subscription"}
+                        {resuming ? dict.resuming : dict.resume}
                       </button>
                     ) : (
                       <button
@@ -198,14 +197,14 @@ export function BillingPlans({
                         disabled={cancelling}
                         className="text-xs text-ink-soft hover:text-red-600"
                       >
-                        {cancelling ? "Cancelling…" : "Cancel"}
+                        {cancelling ? dict.cancelling : dict.cancel}
                       </button>
                     )}
                   </div>
                   {pendingCancelUntil && (
                     <p className="mt-2 text-xs text-ink-soft">
-                      Your plan stays fully active through <strong>{periodEndLabel}</strong>, then it
-                      won&apos;t renew.
+                      {dict.activeThroughPrefix} <strong>{periodEndLabel}</strong>
+                      {dict.activeThroughSuffix}
                     </p>
                   )}
                 </div>
@@ -217,10 +216,10 @@ export function BillingPlans({
                     onClick={() => subscribe(key)}
                     disabled={loadingPlan !== null}
                   >
-                    {loadingPlan === key ? "Redirecting…" : isActive ? "Switch plan" : "Subscribe"}
+                    {loadingPlan === key ? dict.redirecting : isActive ? dict.switchPlan : dict.subscribe}
                   </Button>
                   {!isActive && eligibleForTrial && (
-                    <p className="mt-2 text-center text-xs text-ink-soft">14-day free trial</p>
+                    <p className="mt-2 text-center text-xs text-ink-soft">{dict.trialNote}</p>
                   )}
                 </>
               )}
