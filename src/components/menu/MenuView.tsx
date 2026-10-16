@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { X, TriangleAlert } from "lucide-react";
@@ -10,7 +10,7 @@ import { Logo } from "@/components/ui/Logo";
 import { DIETARY_TAGS, DietaryKey, dietaryLabel } from "@/lib/dietary-tags";
 import { AllergenKey, allergenLabels, normalizeAllergens } from "@/lib/allergens";
 import { menuString } from "@/lib/menu-strings";
-import { DietaryFilter } from "@/components/menu/DietaryFilter";
+import { FilterSheet, FilterTrigger } from "@/components/menu/DietaryFilter";
 import { SectionNav } from "@/components/menu/SectionNav";
 
 type ItemTranslation = { language: string; name: string; description: string | null };
@@ -93,6 +93,14 @@ export function MenuView({
   const allergenNames = allergenLabels(lang);
   const [avoid, setAvoid] = useState<Set<AllergenKey>>(new Set());
   const [only, setOnly] = useState<Set<DietaryKey>>(new Set());
+  const [filterOpen, setFilterOpen] = useState(false);
+  const closeFilter = useCallback(() => setFilterOpen(false), []);
+  const activeFilterCount = avoid.size + only.size;
+
+  function clearFilters() {
+    setAvoid(new Set());
+    setOnly(new Set());
+  }
 
   function toggleIn<T>(set: (fn: (prev: Set<T>) => Set<T>) => void, key: T) {
     set((prev) => {
@@ -116,6 +124,8 @@ export function MenuView({
       }))
       .filter((section) => section.items.length > 0);
   }, [restaurant.sections, avoid, only]);
+
+  const visibleCount = visibleSections.reduce((n, s) => n + s.items.length, 0);
 
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
   const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
@@ -159,25 +169,13 @@ export function MenuView({
   return (
     <div dir={language.rtl ? "rtl" : "ltr"} className="min-h-screen bg-paper pb-24">
       <header className="relative flex flex-col items-center bg-navy px-6 py-14 text-center text-paper">
-        {print ? (
+        {print && (
           <span
             aria-hidden
             className="absolute top-4 end-4 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-paper/25 bg-navy/20 text-[11px] font-semibold uppercase tracking-wide text-paper/85"
           >
             {lang}
           </span>
-        ) : (
-          <DietaryFilter
-            lang={lang}
-            avoid={avoid}
-            only={only}
-            onToggleAllergen={(key) => toggleIn(setAvoid, key)}
-            onToggleDiet={(key) => toggleIn(setOnly, key)}
-            onClear={() => {
-              setAvoid(new Set());
-              setOnly(new Set());
-            }}
-          />
         )}
         {restaurant.logoUrl ? (
           <Image
@@ -214,7 +212,31 @@ export function MenuView({
           }))}
           activeId={activeSectionId}
           onSelect={scrollToSection}
+          leading={
+            <FilterTrigger
+              lang={lang}
+              activeCount={activeFilterCount}
+              onOpen={() => setFilterOpen(true)}
+            />
+          }
         />
+      )}
+
+      {!print && activeFilterCount > 0 && (
+        <div className="mx-auto flex max-w-2xl flex-wrap items-center gap-x-2 gap-y-1 px-6 pt-5 text-xs text-ink-soft">
+          <span>{menuString("avoidingLabel", lang)}</span>
+          {[
+            ...normalizeAllergens([...avoid]).map((k) => allergenNames[k]),
+            ...[...only].map((k) => dietaryLabel(k, lang)),
+          ].join(", ")}
+          <button
+            type="button"
+            onClick={clearFilters}
+            className="text-amber underline-offset-2 hover:underline"
+          >
+            {menuString("clearFilters", lang)}
+          </button>
+        </div>
       )}
 
       <main className="mx-auto max-w-2xl px-6 py-14">
@@ -345,6 +367,20 @@ export function MenuView({
       <footer className="pb-6 text-center text-xs text-ink-soft/60">
         Powered by MENUO
       </footer>
+
+      {!print && (
+        <FilterSheet
+          lang={lang}
+          open={filterOpen}
+          avoid={avoid}
+          only={only}
+          visibleCount={visibleCount}
+          onToggleAllergen={(key) => toggleIn(setAvoid, key)}
+          onToggleDiet={(key) => toggleIn(setOnly, key)}
+          onClear={clearFilters}
+          onClose={closeFilter}
+        />
+      )}
 
       {lightbox && (
         <div

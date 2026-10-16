@@ -1,15 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 export function SectionNav({
   sections,
   activeId,
   onSelect,
+  leading,
 }: {
   sections: { id: string; label: string }[];
   activeId: string | null;
   onSelect: (id: string) => void;
+  /** Pinned first item that doesn't scroll with the pills (the allergy filter button). */
+  leading?: ReactNode;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -22,29 +25,38 @@ export function SectionNav({
     el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }, [activeId]);
 
-  if (sections.length < 2) return null;
+  const showSections = sections.length >= 2;
+  if (!showSections && !leading) return null;
 
   return (
     <nav
-      ref={containerRef}
       aria-label="Menu sections"
-      className="sticky top-0 z-20 flex gap-2 overflow-x-auto border-b border-border bg-paper/95 px-4 py-3 backdrop-blur [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="sticky top-0 z-20 flex items-center gap-2 border-b border-border bg-paper/95 px-4 py-3 backdrop-blur"
     >
-      {sections.map((s) => (
-        <button
-          key={s.id}
-          type="button"
-          data-section-id={s.id}
-          onClick={() => onSelect(s.id)}
-          className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-1.5 text-sm transition-colors ${
-            activeId === s.id
-              ? "border-amber bg-amber font-medium text-navy"
-              : "border-border text-ink-soft hover:border-amber hover:text-amber"
-          }`}
+      {leading}
+      {leading && showSections && <span aria-hidden className="h-6 w-px shrink-0 bg-border" />}
+      {showSections && (
+        <div
+          ref={containerRef}
+          className="flex min-w-0 flex-1 gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {s.label}
-        </button>
-      ))}
+          {sections.map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              data-section-id={s.id}
+              onClick={() => onSelect(s.id)}
+              className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-1.5 text-sm transition-colors ${
+                activeId === s.id
+                  ? "border-amber bg-amber font-medium text-navy"
+                  : "border-border text-ink-soft hover:border-amber hover:text-amber"
+              }`}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }
