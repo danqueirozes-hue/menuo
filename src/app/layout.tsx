@@ -43,17 +43,26 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* Google Tag Manager container — all Google Ads / analytics tags and
             conversions (e.g. URL contains /billing/confirmado) are managed
             there, not in code. */}
-        <Script
-          src="https://www.googletagmanager.com/gtm.js?id=GTM-53BW6Q23"
-          strategy="afterInteractive"
-        />
+        {/* Official GTM snippet: the gtm.start / "gtm.js" push is what fires
+            the container's Page View ("All Pages") triggers and lets Tag
+            Assistant preview connect. */}
         <Script id="google-tag-manager" strategy="afterInteractive">
           {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-53BW6Q23');
           `}
         </Script>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-53BW6Q23"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
       </body>
     </html>
   );
