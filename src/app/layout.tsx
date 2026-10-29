@@ -40,16 +40,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-paper text-ink">
         {children}
         <SiteAnalyticsTracker />
+        {/* Google Tag Manager container — all Google Ads / analytics tags and
+            conversions (e.g. URL contains /billing/confirmado) are managed
+            there, not in code. */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-18333271816"
+          src="https://www.googletagmanager.com/gtm.js?id=GTM-53BW6Q23"
           strategy="afterInteractive"
         />
-        <Script id="google-ads-tag" strategy="afterInteractive">
+        <Script id="google-tag-manager" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'AW-18333271816');
           `}
         </Script>
       </body>
