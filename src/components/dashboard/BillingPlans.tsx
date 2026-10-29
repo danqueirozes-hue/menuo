@@ -7,21 +7,6 @@ import { Button } from "@/components/ui/Button";
 import { PLAN_ORDER, PLANS, PlanKey, BillingInterval, formatPlanPrice } from "@/lib/plans";
 import type { BillingPlansDict } from "@/lib/billing-content";
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
-
-/** Fires once per real Stripe Checkout success — guarded by stripping the
- * "success" param from the URL right after, so a refresh or back/forward
- * navigation can't replay it as a second conversion. */
-function reportCheckoutConversion() {
-  const label = process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL;
-  if (!label || typeof window.gtag !== "function") return;
-  window.gtag("event", "conversion", { send_to: `AW-18333271816/${label}` });
-}
-
 export function BillingPlans({
   dict,
   currentPlan,
@@ -61,9 +46,10 @@ export function BillingPlans({
 
   useEffect(() => {
     if (searchParams.get("activated") === "1") setNotice(dict.noticeActivated);
+    // Legacy return URL from checkouts started before the move to
+    // /dashboard/billing/confirmado (which now reports the conversion).
     if (searchParams.get("success") === "1") {
       setNotice(dict.noticePaid);
-      reportCheckoutConversion();
       const params = new URLSearchParams(searchParams);
       params.delete("success");
       router.replace(params.size ? `${pathname}?${params}` : pathname);

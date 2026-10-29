@@ -33,7 +33,13 @@ type BillingPageDict = {
   usage: (establishments: number, maxEstablishments: number, menus: number, maxMenus: number) => string;
 };
 
-type BillingText = Omit<BillingPlansDict, keyof LandingDict["pricing"]> & { page: BillingPageDict };
+/** Page Stripe Checkout returns to after the card is added. */
+export type BillingConfirmedDict = { title: string; body: string; primary: string; secondary: string };
+
+type BillingText = Omit<BillingPlansDict, keyof LandingDict["pricing"]> & {
+  page: BillingPageDict;
+  confirmed: BillingConfirmedDict;
+};
 
 const BILLING_TEXT: Record<SiteLocale, BillingText> = {
   en: {
@@ -42,6 +48,12 @@ const BILLING_TEXT: Record<SiteLocale, BillingText> = {
       back: "← Back to dashboard",
       usage: (e, maxE, m, maxM) =>
         `${e} of ${maxE} establishment${maxE === 1 ? "" : "s"} · ${m} of ${maxM} menus used.`,
+    },
+    confirmed: {
+      title: "You're all set!",
+      body: "Your subscription is confirmed. If you started the 14-day free trial, you won't be charged until it ends — and you can cancel anytime.",
+      primary: "Go to dashboard",
+      secondary: "View subscription",
     },
     dateLocale: "en-GB",
     subscribe: "Subscribe",
@@ -69,6 +81,12 @@ const BILLING_TEXT: Record<SiteLocale, BillingText> = {
       usage: (e, maxE, m, maxM) =>
         `${e} de ${maxE} establecimiento${maxE === 1 ? "" : "s"} · ${m} de ${maxM} menús usados.`,
     },
+    confirmed: {
+      title: "¡Todo listo!",
+      body: "Tu suscripción está confirmada. Si has iniciado la prueba gratis de 14 días, no se te cobrará hasta que termine y puedes cancelar cuando quieras.",
+      primary: "Ir al panel",
+      secondary: "Ver suscripción",
+    },
     dateLocale: "es-ES",
     subscribe: "Suscribirse",
     switchPlan: "Cambiar de plan",
@@ -95,6 +113,12 @@ const BILLING_TEXT: Record<SiteLocale, BillingText> = {
       usage: (e, maxE, m, maxM) =>
         `${e} de ${maxE} estabelecimento${maxE === 1 ? "" : "s"} · ${m} de ${maxM} menus utilizados.`,
     },
+    confirmed: {
+      title: "Tudo pronto!",
+      body: "A sua subscrição está confirmada. Se iniciou o teste grátis de 14 dias, não será cobrado até ao fim do teste e pode cancelar quando quiser.",
+      primary: "Ir para o painel",
+      secondary: "Ver subscrição",
+    },
     dateLocale: "pt-PT",
     subscribe: "Assinar",
     switchPlan: "Mudar de plano",
@@ -120,6 +144,12 @@ const BILLING_TEXT: Record<SiteLocale, BillingText> = {
       back: "← Torna alla dashboard",
       usage: (e, maxE, m, maxM) => `${e} di ${maxE} local${maxE === 1 ? "e" : "i"} · ${m} di ${maxM} menu utilizzati.`,
     },
+    confirmed: {
+      title: "Tutto pronto!",
+      body: "Il tuo abbonamento è confermato. Se hai iniziato la prova gratuita di 14 giorni, non ti verrà addebitato nulla fino alla fine della prova e puoi annullare quando vuoi.",
+      primary: "Vai alla dashboard",
+      secondary: "Vedi abbonamento",
+    },
     dateLocale: "it-IT",
     subscribe: "Abbonati",
     switchPlan: "Cambia piano",
@@ -144,6 +174,12 @@ const BILLING_TEXT: Record<SiteLocale, BillingText> = {
       title: "Abonnement",
       back: "← Zurück zum Dashboard",
       usage: (e, maxE, m, maxM) => `${e} von ${maxE} Betrieb${maxE === 1 ? "" : "en"} · ${m} von ${maxM} Speisekarten genutzt.`,
+    },
+    confirmed: {
+      title: "Alles bereit!",
+      body: "Ihr Abonnement ist bestätigt. Wenn Sie die 14-tägige Testphase gestartet haben, wird Ihnen bis zu deren Ende nichts berechnet – und Sie können jederzeit kündigen.",
+      primary: "Zum Dashboard",
+      secondary: "Abonnement ansehen",
     },
     dateLocale: "de-DE",
     subscribe: "Abonnieren",
@@ -171,6 +207,12 @@ const BILLING_TEXT: Record<SiteLocale, BillingText> = {
       usage: (e, maxE, m, maxM) =>
         `${e} sur ${maxE} établissement${maxE === 1 ? "" : "s"} · ${m} sur ${maxM} menus utilisés.`,
     },
+    confirmed: {
+      title: "Tout est prêt !",
+      body: "Votre abonnement est confirmé. Si vous avez commencé l'essai gratuit de 14 jours, vous ne serez pas débité avant la fin de l'essai et vous pouvez résilier à tout moment.",
+      primary: "Aller au tableau de bord",
+      secondary: "Voir l'abonnement",
+    },
     dateLocale: "fr-FR",
     subscribe: "S'abonner",
     switchPlan: "Changer de formule",
@@ -192,8 +234,12 @@ const BILLING_TEXT: Record<SiteLocale, BillingText> = {
   },
 };
 
-export function getBillingContent(locale: SiteLocale): { page: BillingPageDict; plans: BillingPlansDict } {
-  const { page, ...text } = BILLING_TEXT[locale];
+export function getBillingContent(locale: SiteLocale): {
+  page: BillingPageDict;
+  plans: BillingPlansDict;
+  confirmed: BillingConfirmedDict;
+} {
+  const { page, confirmed, ...text } = BILLING_TEXT[locale];
   const { monthly, annual, annualNote, trialNote, price, plans } = LANDING_CONTENT[locale].pricing;
-  return { page, plans: { monthly, annual, annualNote, trialNote, price, plans, ...text } };
+  return { page, confirmed, plans: { monthly, annual, annualNote, trialNote, price, plans, ...text } };
 }

@@ -54,7 +54,8 @@ export async function POST(req: Request) {
     customer_email: existing?.stripeCustomerId ? undefined : session.user.email,
     line_items: [{ price: priceId, quantity: 1 }],
     adaptive_pricing: { enabled: true },
-    success_url: `${siteUrl}/dashboard/billing?success=1`,
+    // Dedicated confirmation page so Google Ads can count a conversion by URL.
+    success_url: `${siteUrl}/dashboard/billing/confirmado`,
     cancel_url: `${siteUrl}/dashboard/billing?canceled=1`,
     client_reference_id: userId,
     metadata: { userId, plan: plan.key, interval },
