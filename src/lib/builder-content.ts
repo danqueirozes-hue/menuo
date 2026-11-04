@@ -4,7 +4,8 @@ import { LANGUAGES } from "@/lib/languages";
 
 /** UI strings for the menu builder screen. The builder follows the menu's
  * source language (the language the owner writes the dishes in) — for now
- * only Portuguese (PT-PT) has its own copy; every other language uses English.
+ * Portuguese (PT-PT) and Italian have their own copy; every other language
+ * uses English.
  * Plain strings only (with {placeholders}) because this dict crosses the
  * server → client component boundary. */
 export type BuilderDict = {
@@ -67,7 +68,7 @@ export type BuilderDict = {
   };
 };
 
-type BuilderLocale = "en" | "pt";
+type BuilderLocale = "en" | "pt" | "it";
 
 const TEXT: Record<BuilderLocale, Omit<BuilderDict, "languageOptions" | "dietary" | "allergens">> = {
   en: {
@@ -174,12 +175,64 @@ const TEXT: Record<BuilderLocale, Omit<BuilderDict, "languageOptions" | "dietary
       errorUpload: "Falha no carregamento",
     },
   },
+  it: {
+    intro:
+      "Aggiungi sezioni e piatti. Le modifiche vengono salvate automaticamente: pubblica quando sei pronto per generare il tuo codice QR.",
+    publishCta: "Pubblica questo menu",
+    republishCta: "Pubblica e codice QR",
+    sourceLanguage: "Lingua di origine:",
+    sectionSuggestions: ["Antipasti", "Primi", "Secondi", "Dolci", "Bevande"],
+    addSectionTitle: "Aggiungi una nuova sezione",
+    customSectionPlaceholder: "Nome personalizzato della sezione",
+    add: "Aggiungi",
+    confirmDeleteSection: "Eliminare questa sezione e tutti i suoi piatti?",
+    confirmDeleteDish: "Eliminare «{name}»?",
+    dragSection: "Trascina per riordinare la sezione",
+    deleteSection: "Elimina sezione",
+    noDishes: "Non ci sono ancora piatti in questa sezione.",
+    addDish: "Aggiungi un piatto",
+    dragDish: "Trascina per riordinare il piatto",
+    editDish: "Modifica piatto",
+    deleteDish: "Elimina piatto",
+    optionsCount: "{count} opzioni",
+    editor: {
+      titleEdit: "Modifica piatto",
+      titleNew: "Aggiungi un piatto",
+      name: "Nome del piatto",
+      namePlaceholder: "Risotto al tartufo",
+      description: "Ingredienti / descrizione",
+      descriptionPlaceholder: "Riso Carnaroli, tartufo nero, parmigiano, vino bianco",
+      allergensTitle: "Allergeni (14 UE)",
+      allergensHint: "Tocca tutti gli allergeni contenuti in questo piatto.",
+      confirmNoOthers: "Confermo che non contiene altri allergeni",
+      highlights: "In evidenza",
+      hasVariants: "Questo piatto ha più prezzi (ad es. porzioni o formati)?",
+      price: "Prezzo",
+      pricePlaceholder: "18,50",
+      options: "Opzioni (da 2 a 3)",
+      optionPlaceholder: "es.: Piccola, Media, Grande",
+      optionPricePlaceholder: "12,00",
+      removeOption: "Rimuovi opzione",
+      addOption: "Aggiungi un'altra opzione",
+      photo: "Foto",
+      photoAlt: "Anteprima del piatto",
+      uploading: "Caricamento…",
+      cancel: "Annulla",
+      saving: "Salvataggio…",
+      save: "Salva piatto",
+      errorName: "Inserisci il nome del piatto.",
+      errorOptions: "Inserisci un nome e un prezzo valido per almeno {min} opzioni.",
+      errorPrice: "Inserisci un prezzo valido.",
+      errorSave: "Impossibile salvare il piatto.",
+      errorUpload: "Caricamento non riuscito",
+    },
+  },
 };
 
-const LANGUAGE_NAME_LOCALE: Record<BuilderLocale, string> = { en: "en", pt: "pt-PT" };
+const LANGUAGE_NAME_LOCALE: Record<BuilderLocale, string> = { en: "en", pt: "pt-PT", it: "it-IT" };
 
 export function getBuilderContent(sourceLanguage: string): BuilderDict {
-  const locale: BuilderLocale = sourceLanguage === "pt" ? "pt" : "en";
+  const locale: BuilderLocale = sourceLanguage === "pt" || sourceLanguage === "it" ? sourceLanguage : "en";
   const names = new Intl.DisplayNames([LANGUAGE_NAME_LOCALE[locale]], { type: "language" });
   const languageOptions = LANGUAGES.map((l) => {
     const name = locale === "en" ? l.englishName : (names.of(l.code) ?? l.englishName);
