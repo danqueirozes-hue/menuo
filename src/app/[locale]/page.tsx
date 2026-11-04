@@ -8,7 +8,15 @@ import { TableGallery } from "@/components/landing/TableGallery";
 import { Pricing } from "@/components/landing/Pricing";
 import { CTA } from "@/components/landing/CTA";
 import { Footer } from "@/components/landing/Footer";
-import { LANDING_CONTENT, isSiteLocale } from "@/lib/landing-content";
+import { LANDING_CONTENT, SITE_LOCALES, isSiteLocale } from "@/lib/landing-content";
+
+// Prerender every localized landing page at build time so it's served from
+// the CDN like "/" instead of being rendered on each visit (slow TTFB and
+// cold starts hurt LCP for ad traffic landing on /it, /pt…). "en" lives at
+// "/" and is still redirected on demand.
+export function generateStaticParams() {
+  return SITE_LOCALES.filter((locale) => locale !== "en").map((locale) => ({ locale }));
+}
 
 export default async function LocalizedHome({
   params,

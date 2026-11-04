@@ -21,11 +21,18 @@ export function HowItWorks({ dict }: { dict: LandingDict["how"] }) {
 
         <div className="mx-auto mt-16 max-w-3xl">
           <div className="overflow-hidden rounded-[1.75rem] border border-paper/10 shadow-2xl shadow-black/40">
+            {/* preload="none" + poster: the mp4 is ~10 MB with its index at
+                the end, so even preload="metadata" made browsers fetch the
+                whole file on page load, hurting LCP. Now it only downloads
+                when the visitor presses play. */}
             <video
-              className="w-full"
+              className="h-auto w-full"
               controls
               playsInline
-              preload="metadata"
+              preload="none"
+              width={1278}
+              height={720}
+              poster="/videos/how-it-works-poster.jpg"
               src="/videos/how-it-works.mp4"
             />
           </div>
