@@ -2,7 +2,7 @@
 
 export function Benefits({ dict }: { dict: LandingDict["benefits"] }) {
   return (
-    <section id="benefits" className="bg-paper py-24">
+    <section id="benefits" className="defer-render bg-paper py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <span className="text-xs uppercase tracking-[0.25em] text-amber">{dict.eyebrow}</span>

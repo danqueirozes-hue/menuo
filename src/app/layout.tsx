@@ -45,8 +45,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             there, not in code. */}
         {/* Official GTM snippet: the gtm.start / "gtm.js" push is what fires
             the container's Page View ("All Pages") triggers and lets Tag
-            Assistant preview connect. */}
-        <Script id="google-tag-manager" strategy="afterInteractive">
+            Assistant preview connect. lazyOnload waits for the page's load
+            event so GTM's ~450 KB script doesn't block the first render. */}
+        <Script id="google-tag-manager" strategy="lazyOnload">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

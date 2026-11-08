@@ -3,7 +3,7 @@ import { LandingDict } from "@/lib/landing-content";
 
 export function LanguagesShowcase({ dict }: { dict: LandingDict["languagesSection"] }) {
   return (
-    <section id="languages" className="bg-paper py-24">
+    <section id="languages" className="defer-render bg-paper py-24">
       <div className="mx-auto max-w-6xl px-6 text-center">
         <span className="text-xs uppercase tracking-[0.25em] text-amber">{dict.eyebrow}</span>
         <h2 className="font-display mt-4 text-3xl text-ink sm:text-4xl">{dict.title}</h2>

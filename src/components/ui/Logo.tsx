@@ -18,6 +18,9 @@ export function Logo({ variant = "primary", className = "h-8" }: LogoProps) {
       width={604}
       height={155}
       priority
+      // Rendered at most ~36px tall (~140px wide); without this hint the
+      // browser fetched the 1920px-wide variant.
+      sizes="160px"
       className={`w-auto ${className}`}
     />
   );

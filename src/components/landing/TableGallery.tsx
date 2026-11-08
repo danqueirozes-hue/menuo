@@ -14,7 +14,7 @@ const TABLES = [
 
 export function TableGallery({ dict }: { dict: LandingDict["tableGallery"] }) {
   return (
-    <section className="bg-navy py-24 text-paper">
+    <section className="defer-render bg-navy py-24 text-paper">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <span className="text-xs uppercase tracking-[0.25em] text-amber">{dict.eyebrow}</span>

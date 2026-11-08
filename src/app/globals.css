@@ -61,3 +61,12 @@ body {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--amber), transparent);
 }
+
+/* Below-the-fold landing sections: the browser skips their layout until
+   they scroll near the viewport. The languages grid alone (native names in
+   CJK, Arabic, Devanagari… → system font fallback) cost seconds of layout
+   on mid-range phones at first paint. */
+@utility defer-render {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1200px;
+}
