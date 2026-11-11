@@ -6,6 +6,8 @@ import { BuilderLocale, builderLocale, localizedLanguageOptions } from "@/lib/bu
  * language uses English.
  * Plain strings only (with {placeholders}) because parts of this dict cross
  * the server → client component boundary. */
+export type OnboardingStep = "section" | "dish" | "trial" | "publish";
+
 export type DashboardDict = {
   nav: {
     menus: string;
@@ -57,6 +59,14 @@ export type DashboardDict = {
     create: string;
     cancel: string;
     error: string;
+  };
+  /** First-run checklist on the menus page. "{done}" = completed steps. */
+  onboarding: {
+    title: string;
+    subtitle: string;
+    progress: string;
+    done: string;
+    steps: Record<OnboardingStep, { title: string; hint: string; cta: string }>;
   };
   contact: {
     email: string;
@@ -115,6 +125,18 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
       cancel: "Cancel",
       error: "Could not create the menu.",
     },
+    onboarding: {
+      title: "Get your menu live in 4 steps",
+      subtitle: "It takes about 5 minutes — the translations into 20 languages are automatic.",
+      progress: "{done} of 4",
+      done: "Done",
+      steps: {
+        section: { title: "Create your first section", hint: "e.g. Starters, Pizzas, Drinks", cta: "Create section" },
+        dish: { title: "Add your dishes", hint: "Name, description, price, photo and the 14 EU allergens.", cta: "Add dishes" },
+        trial: { title: "Start your 14-day free trial", hint: "Nothing is charged for 14 days. Cancel anytime.", cta: "Start free trial" },
+        publish: { title: "Publish and print your QR code", hint: "Guests scan it and read the menu in their own language.", cta: "Publish menu" },
+      },
+    },
     contact: { email: "Email us", instagram: "MENUO on Instagram", help: "Help", supportSubject: "MENUO Support" },
   },
   pt: {
@@ -165,6 +187,18 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
       cancel: "Cancelar",
       error: "Não foi possível criar o menu.",
     },
+    onboarding: {
+      title: "Coloque o seu menu online em 4 passos",
+      subtitle: "Demora cerca de 5 minutos — as traduções para 20 idiomas são automáticas.",
+      progress: "{done} de 4",
+      done: "Concluído",
+      steps: {
+        section: { title: "Crie a primeira secção", hint: "ex.: Entradas, Pratos principais, Bebidas", cta: "Criar secção" },
+        dish: { title: "Adicione os seus pratos", hint: "Nome, descrição, preço, fotografia e os 14 alergénios da UE.", cta: "Adicionar pratos" },
+        trial: { title: "Comece o teste grátis de 14 dias", hint: "Nada é cobrado durante 14 dias. Cancele quando quiser.", cta: "Começar teste grátis" },
+        publish: { title: "Publique e imprima o seu código QR", hint: "Os clientes leem o código e veem o menu no próprio idioma.", cta: "Publicar menu" },
+      },
+    },
     contact: { email: "Enviar e-mail", instagram: "MENUO no Instagram", help: "Ajuda", supportSubject: "Suporte MENUO" },
   },
   it: {
@@ -214,6 +248,18 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
       create: "Crea menu",
       cancel: "Annulla",
       error: "Impossibile creare il menu.",
+    },
+    onboarding: {
+      title: "Metti online il tuo menu in 4 passi",
+      subtitle: "Ci vogliono circa 5 minuti: le traduzioni in 20 lingue sono automatiche.",
+      progress: "{done} di 4",
+      done: "Fatto",
+      steps: {
+        section: { title: "Crea la prima sezione", hint: "es.: Antipasti, Pizze, Bevande", cta: "Crea sezione" },
+        dish: { title: "Aggiungi i tuoi piatti", hint: "Nome, descrizione, prezzo, foto e i 14 allergeni UE.", cta: "Aggiungi piatti" },
+        trial: { title: "Inizia la prova gratuita di 14 giorni", hint: "Nessun addebito per 14 giorni. Disdici quando vuoi.", cta: "Inizia la prova gratuita" },
+        publish: { title: "Pubblica e stampa il tuo codice QR", hint: "I clienti lo inquadrano e leggono il menu nella loro lingua.", cta: "Pubblica menu" },
+      },
     },
     contact: { email: "Scrivici", instagram: "MENUO su Instagram", help: "Aiuto", supportSubject: "Assistenza MENUO" },
   },

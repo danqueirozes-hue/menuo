@@ -17,6 +17,9 @@ model User {
   restaurants  Restaurant[]
   subscription Subscription?
   resetTokens  PasswordResetToken[]
+  // Set once the "finish setting up your menu" nudge has gone out, so the
+  // hourly job never emails the same account twice.
+  onboardingEmailSentAt DateTime?
   createdAt    DateTime      @default(now())
 }
 

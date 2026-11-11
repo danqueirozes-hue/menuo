@@ -1,7 +1,14 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { requireOwnedRestaurant, getSubscription, getEffectiveLimits } from "@/lib/session";
+import {
+  requireOwnedRestaurant,
+  getSubscription,
+  getEffectiveLimits,
+  isSubscriptionActive,
+} from "@/lib/session";
+import { prisma } from "@/lib/prisma";
+import { GettingStarted } from "@/components/dashboard/GettingStarted";
 import { NewMenuForm } from "@/components/dashboard/NewMenuForm";
 import { DuplicateMenuButton } from "@/components/dashboard/DuplicateMenuButton";
 import { DeleteMenuButton } from "@/components/dashboard/DeleteMenuButton";
@@ -27,6 +34,17 @@ export default async function MenusListPage({
   const t = dict.menus;
   const max = limits.maxMenusPerEstablishment;
 
+  // First-run checklist: only until this establishment has a live menu.
+  const firstMenu = restaurant.menus[0];
+  const showGuide = firstMenu && !restaurant.menus.some((m) => m.isPublished);
+  const [sectionCount, itemCount] = showGuide
+    ? await Promise.all([
+        prisma.menuSection.count({ where: { menuId: firstMenu.id } }),
+        prisma.menuItem.count({ where: { section: { menuId: firstMenu.id } } }),
+      ])
+    : [0, 0];
+  const builderHref = firstMenu ? `/dashboard/r/${restaurantId}/menus/${firstMenu.id}` : "";
+
   return (
     <div>
       <h1 className="font-display text-3xl text-ink">{t.title.replace("{name}", restaurant.name)}</h1>
@@ -35,6 +53,26 @@ export default async function MenusListPage({
           .replace("{used}", String(restaurant.menus.length))
           .replace("{max}", String(max))}
       </p>
+
+      {showGuide && (
+        <div className="mt-8">
+          <GettingStarted
+            dict={dict.onboarding}
+            done={{
+              section: sectionCount > 0,
+              dish: itemCount > 0,
+              trial: isSubscriptionActive(subscription),
+              publish: false,
+            }}
+            hrefs={{
+              section: builderHref,
+              dish: builderHref,
+              trial: "/dashboard/billing",
+              publish: `${builderHref}/publish`,
+            }}
+          />
+        </div>
+      )}
 
       <div className="mt-8 grid gap-4">
         {restaurant.menus.map((menu) => (
