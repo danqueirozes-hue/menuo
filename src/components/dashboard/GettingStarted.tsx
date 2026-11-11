@@ -2,7 +2,9 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import type { DashboardDict, OnboardingStep } from "@/lib/dashboard-content";
 
-const ORDER: OnboardingStep[] = ["section", "dish", "trial", "publish"];
+// Trial first: new accounts start it at signup (card required), so it's
+// already ticked when they first land here.
+const ORDER: OnboardingStep[] = ["trial", "section", "dish", "publish"];
 
 /** First-run checklist on the menus page. Every signup so far stopped right
  * after creating the account, in front of an empty dashboard — this points
