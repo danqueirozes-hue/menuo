@@ -5,6 +5,7 @@ import { formatPrice } from "@/lib/currency";
 import { AdminAccountsTable, AdminAccountRow } from "@/components/admin/AdminAccountsTable";
 import { SignupsBarChart } from "@/components/admin/SignupsBarChart";
 import { HorizontalBarChart } from "@/components/admin/HorizontalBarChart";
+import { OnboardingEmailPreviewButton } from "@/components/admin/OnboardingEmailPreviewButton";
 
 const SITE_EVENTS_WINDOW_DAYS = 30;
 
@@ -192,6 +193,9 @@ export default async function AdminPage() {
       <p className="mt-2 text-ink-soft">
         Accounts created and estimated recurring revenue.
       </p>
+      <div className="mt-4">
+        <OnboardingEmailPreviewButton />
+      </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
         <div className="rounded-xl border border-border bg-panel p-5">
