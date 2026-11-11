@@ -59,9 +59,20 @@ export async function POST(req: Request) {
     cancel_url: `${siteUrl}/dashboard/billing?canceled=1`,
     client_reference_id: userId,
     metadata: { userId, plan: plan.key, interval },
+    // Card is always collected, trial included (Stripe's default for
+    // subscription mode, made explicit since the whole signup flow now
+    // depends on it).
+    payment_method_collection: "always",
     subscription_data: {
       metadata: { userId, plan: plan.key, interval },
-      ...(isFirstTimeCustomer ? { trial_period_days: TRIAL_PERIOD_DAYS } : {}),
+      ...(isFirstTimeCustomer
+        ? {
+            trial_period_days: TRIAL_PERIOD_DAYS,
+            // Safety net: if a trial somehow ends with no card on file,
+            // cancel instead of leaving an unpaid subscription around.
+            trial_settings: { end_behavior: { missing_payment_method: "cancel" as const } },
+          }
+        : {}),
     },
   });
 

@@ -30,6 +30,9 @@ export type BillingPlansDict = Pick<
 type BillingPageDict = {
   title: string;
   back: string;
+  /** Banner for new accounts that must pick a plan before using the dashboard. */
+  welcomeTitle: string;
+  welcomeBody: string;
   usage: (establishments: number, maxEstablishments: number, menus: number, maxMenus: number) => string;
 };
 
@@ -46,6 +49,8 @@ const BILLING_TEXT: Record<SiteLocale, BillingText> = {
     page: {
       title: "Billing",
       back: "← Back to dashboard",
+      welcomeTitle: "Last step: choose your plan",
+      welcomeBody: "Your account is ready. Pick a plan and add your card to start your 14-day free trial — nothing is charged today, and you can cancel anytime before the trial ends.",
       usage: (e, maxE, m, maxM) =>
         `${e} of ${maxE} establishment${maxE === 1 ? "" : "s"} · ${m} of ${maxM} menus used.`,
     },
@@ -78,6 +83,8 @@ const BILLING_TEXT: Record<SiteLocale, BillingText> = {
     page: {
       title: "Suscripción",
       back: "← Volver al panel",
+      welcomeTitle: "Último paso: elige tu plan",
+      welcomeBody: "Tu cuenta está lista. Elige un plan y añade tu tarjeta para empezar la prueba gratuita de 14 días: hoy no se cobra nada y puedes cancelar cuando quieras antes de que termine.",
       usage: (e, maxE, m, maxM) =>
         `${e} de ${maxE} establecimiento${maxE === 1 ? "" : "s"} · ${m} de ${maxM} menús usados.`,
     },
@@ -110,6 +117,8 @@ const BILLING_TEXT: Record<SiteLocale, BillingText> = {
     page: {
       title: "Subscrição",
       back: "← Voltar ao painel",
+      welcomeTitle: "Último passo: escolha o seu plano",
+      welcomeBody: "A sua conta está pronta. Escolha um plano e adicione o seu cartão para começar o teste grátis de 14 dias — hoje não é cobrado nada e pode cancelar a qualquer momento antes do fim do teste.",
       usage: (e, maxE, m, maxM) =>
         `${e} de ${maxE} estabelecimento${maxE === 1 ? "" : "s"} · ${m} de ${maxM} menus utilizados.`,
     },
@@ -142,6 +151,8 @@ const BILLING_TEXT: Record<SiteLocale, BillingText> = {
     page: {
       title: "Abbonamento",
       back: "← Torna alla dashboard",
+      welcomeTitle: "Ultimo passo: scegli il tuo piano",
+      welcomeBody: "Il tuo account è pronto. Scegli un piano e aggiungi la tua carta per iniziare la prova gratuita di 14 giorni: oggi non paghi nulla e puoi disdire in qualsiasi momento prima della fine della prova.",
       usage: (e, maxE, m, maxM) => `${e} di ${maxE} local${maxE === 1 ? "e" : "i"} · ${m} di ${maxM} menu utilizzati.`,
     },
     confirmed: {
@@ -173,6 +184,8 @@ const BILLING_TEXT: Record<SiteLocale, BillingText> = {
     page: {
       title: "Abonnement",
       back: "← Zurück zum Dashboard",
+      welcomeTitle: "Letzter Schritt: Wählen Sie Ihren Plan",
+      welcomeBody: "Ihr Konto ist bereit. Wählen Sie einen Plan und hinterlegen Sie Ihre Karte, um die 14-tägige kostenlose Testphase zu starten – heute wird nichts berechnet, und Sie können jederzeit vor Ende der Testphase kündigen.",
       usage: (e, maxE, m, maxM) => `${e} von ${maxE} Betrieb${maxE === 1 ? "" : "en"} · ${m} von ${maxM} Speisekarten genutzt.`,
     },
     confirmed: {
@@ -204,6 +217,8 @@ const BILLING_TEXT: Record<SiteLocale, BillingText> = {
     page: {
       title: "Abonnement",
       back: "← Retour au tableau de bord",
+      welcomeTitle: "Dernière étape : choisissez votre formule",
+      welcomeBody: "Votre compte est prêt. Choisissez une formule et ajoutez votre carte pour démarrer l'essai gratuit de 14 jours : rien n'est débité aujourd'hui et vous pouvez annuler à tout moment avant la fin de l'essai.",
       usage: (e, maxE, m, maxM) =>
         `${e} sur ${maxE} établissement${maxE === 1 ? "" : "s"} · ${m} sur ${maxM} menus utilisés.`,
     },

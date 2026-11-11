@@ -5,6 +5,7 @@ import { getStripe } from "@/lib/stripe";
 import { isSubscriptionActive } from "@/lib/session";
 import { getPlan } from "@/lib/plans";
 import { sendEmail, hasEmailProvider } from "@/lib/email";
+import { buildTrialWelcomeEmail } from "@/lib/onboarding-email";
 
 const NOTIFY_EMAIL = "contato@menuoglobal.com";
 
@@ -38,6 +39,38 @@ async function notifyNewSubscriber(userId: string, plan: string, interval: strin
     });
   } catch (err) {
     console.error("[stripe webhook] failed to send new-subscriber notification:", err);
+  }
+}
+
+/** Customer-facing "your trial has started — build your menu" email, in the
+ * menu's language. Best-effort like notifyNewSubscriber. */
+async function sendTrialWelcome(userId: string, trialEnd: Date) {
+  if (!hasEmailProvider()) return;
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        restaurants: {
+          orderBy: { createdAt: "asc" },
+          take: 1,
+          include: { menus: { orderBy: { createdAt: "asc" }, take: 1 } },
+        },
+      },
+    });
+    const restaurant = user?.restaurants[0];
+    if (!user || !restaurant) return;
+
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://menuoglobal.com";
+    const { subject, html } = buildTrialWelcomeEmail({
+      menuLanguage: restaurant.menus[0]?.defaultLanguage,
+      name: user.name,
+      restaurant: restaurant.name,
+      trialEnd,
+      dashboardUrl: `${siteUrl}/dashboard`,
+    });
+    await sendEmail({ to: user.email, toName: user.name, subject, html });
+  } catch (err) {
+    console.error("[stripe webhook] failed to send trial welcome email:", err);
   }
 }
 
@@ -136,6 +169,9 @@ export async function POST(req: Request) {
 
         if (isNewSubscriber) {
           await notifyNewSubscriber(userId, plan, interval, status);
+          if (status === "trialing" && currentPeriodEnd) {
+            await sendTrialWelcome(userId, currentPeriodEnd);
+          }
         }
       }
       break;

@@ -12,6 +12,8 @@ import { Logo } from "@/components/ui/Logo";
 import { EstablishmentSwitcher } from "@/components/dashboard/EstablishmentSwitcher";
 import { MobileNav } from "@/components/dashboard/MobileNav";
 import { DashboardDict, getDashboardContent } from "@/lib/dashboard-content";
+import { prisma } from "@/lib/prisma";
+import { mustChoosePlan } from "@/lib/billing-gate";
 
 function SidebarNav({
   current,
@@ -105,7 +107,12 @@ export default async function EstablishmentLayout({
   const current = restaurants.find((r) => r.id === restaurantId);
   if (!current) notFound();
 
-  const subscription = await getSubscription(session.user.id);
+  const [subscription, user] = await Promise.all([
+    getSubscription(session.user.id),
+    prisma.user.findUnique({ where: { id: session.user.id }, select: { createdAt: true, isAdmin: true } }),
+  ]);
+  // New accounts choose a plan + card (free trial) before using the dashboard.
+  if (user && mustChoosePlan(user, subscription)) redirect("/dashboard/billing?welcome=1");
   const limits = getEffectiveLimits(subscription);
   const plan = subscription ? getPlan(subscription.plan) : null;
   const active = isSubscriptionActive(subscription);

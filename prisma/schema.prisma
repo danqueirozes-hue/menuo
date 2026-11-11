@@ -20,6 +20,8 @@ model User {
   // Set once the "finish setting up your menu" nudge has gone out, so the
   // hourly job never emails the same account twice.
   onboardingEmailSentAt DateTime?
+  // Same idea for the "trial running, menu still empty" nudge.
+  trialNudgeSentAt      DateTime?
   createdAt    DateTime      @default(now())
 }
 

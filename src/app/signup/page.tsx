@@ -50,7 +50,9 @@ function SignupForm() {
       return;
     }
 
-    router.push(plan ? `/dashboard/billing?plan=${plan}&interval=${interval}` : "/dashboard");
+    // Every new account picks a plan and adds a card (14-day free trial)
+    // right after signup — see src/lib/billing-gate.ts.
+    router.push(plan ? `/dashboard/billing?plan=${plan}&interval=${interval}&welcome=1` : "/dashboard/billing?welcome=1");
   }
 
   return (
@@ -119,6 +121,9 @@ function SignupForm() {
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Creating your menu…" : "Create account"}
         </Button>
+        <p className="text-center text-xs text-ink-soft">
+          Next: choose your plan — 14 days free, nothing charged today, cancel anytime.
+        </p>
       </form>
       <p className="mt-6 text-sm text-ink-soft">
         Already have an account?{" "}
