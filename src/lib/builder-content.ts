@@ -68,7 +68,12 @@ export type BuilderDict = {
   };
 };
 
-type BuilderLocale = "en" | "pt" | "it";
+export type BuilderLocale = "en" | "pt" | "it";
+
+/** Dashboard UI language for a menu written in `sourceLanguage`. */
+export function builderLocale(sourceLanguage: string | null | undefined): BuilderLocale {
+  return sourceLanguage === "pt" || sourceLanguage === "it" ? sourceLanguage : "en";
+}
 
 const TEXT: Record<BuilderLocale, Omit<BuilderDict, "languageOptions" | "dietary" | "allergens">> = {
   en: {
@@ -231,16 +236,20 @@ const TEXT: Record<BuilderLocale, Omit<BuilderDict, "languageOptions" | "dietary
 
 const LANGUAGE_NAME_LOCALE: Record<BuilderLocale, string> = { en: "en", pt: "pt-PT", it: "it-IT" };
 
-export function getBuilderContent(sourceLanguage: string): BuilderDict {
-  const locale: BuilderLocale = sourceLanguage === "pt" || sourceLanguage === "it" ? sourceLanguage : "en";
+/** The 20 menu languages, named in the dashboard UI language. */
+export function localizedLanguageOptions(locale: BuilderLocale): { code: string; label: string }[] {
   const names = new Intl.DisplayNames([LANGUAGE_NAME_LOCALE[locale]], { type: "language" });
-  const languageOptions = LANGUAGES.map((l) => {
+  return LANGUAGES.map((l) => {
     const name = locale === "en" ? l.englishName : (names.of(l.code) ?? l.englishName);
     return { code: l.code, label: `${l.flag} ${name.charAt(0).toUpperCase()}${name.slice(1)}` };
   });
+}
+
+export function getBuilderContent(sourceLanguage: string): BuilderDict {
+  const locale = builderLocale(sourceLanguage);
   return {
     ...TEXT[locale],
-    languageOptions,
+    languageOptions: localizedLanguageOptions(locale),
     dietary: DIETARY_LABELS[sourceLanguage] ?? DIETARY_LABELS.en,
     allergens: allergenLabels(sourceLanguage),
   };

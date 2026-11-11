@@ -4,9 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input, Label } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { LANGUAGES } from "@/lib/languages";
+import type { DashboardDict } from "@/lib/dashboard-content";
 
-export function NewMenuForm({ restaurantId }: { restaurantId: string }) {
+export function NewMenuForm({
+  restaurantId,
+  dict,
+}: {
+  restaurantId: string;
+  dict: DashboardDict["newMenu"];
+}) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -28,7 +34,7 @@ export function NewMenuForm({ restaurantId }: { restaurantId: string }) {
     setLoading(false);
 
     if (!res.ok) {
-      setError(data.error || "Could not create the menu.");
+      setError(data.error || dict.error);
       return;
     }
 
@@ -38,7 +44,7 @@ export function NewMenuForm({ restaurantId }: { restaurantId: string }) {
   if (!open) {
     return (
       <Button onClick={() => setOpen(true)} variant="amber">
-        + New menu
+        {dict.cta}
       </Button>
     );
   }
@@ -47,16 +53,16 @@ export function NewMenuForm({ restaurantId }: { restaurantId: string }) {
     <form onSubmit={handleSubmit} className="rounded-xl border border-border bg-panel p-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <Label>Menu name</Label>
+          <Label>{dict.name}</Label>
           <Input
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Lunch Menu"
+            placeholder={dict.namePlaceholder}
           />
         </div>
         <div>
-          <Label>Language it's written in</Label>
+          <Label>{dict.language}</Label>
           <select
             required
             value={lang}
@@ -64,11 +70,11 @@ export function NewMenuForm({ restaurantId }: { restaurantId: string }) {
             className="w-full rounded-md border border-border bg-panel px-4 py-2.5 text-sm text-ink focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber"
           >
             <option value="" disabled>
-              Select a language
+              {dict.selectLanguage}
             </option>
-            {LANGUAGES.map((l) => (
+            {dict.languageOptions.map((l) => (
               <option key={l.code} value={l.code}>
-                {l.flag} {l.englishName}
+                {l.label}
               </option>
             ))}
           </select>
@@ -77,10 +83,10 @@ export function NewMenuForm({ restaurantId }: { restaurantId: string }) {
       {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
       <div className="mt-4 flex gap-3">
         <Button type="submit" disabled={loading}>
-          {loading ? "Creating…" : "Create menu"}
+          {loading ? dict.creating : dict.create}
         </Button>
         <Button type="button" variant="ghost" onClick={() => setOpen(false)}>
-          Cancel
+          {dict.cancel}
         </Button>
       </div>
     </form>

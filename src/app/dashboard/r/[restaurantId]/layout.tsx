@@ -11,6 +11,7 @@ import { getPlan } from "@/lib/plans";
 import { Logo } from "@/components/ui/Logo";
 import { EstablishmentSwitcher } from "@/components/dashboard/EstablishmentSwitcher";
 import { MobileNav } from "@/components/dashboard/MobileNav";
+import { DashboardDict, getDashboardContent } from "@/lib/dashboard-content";
 
 function SidebarNav({
   current,
@@ -18,17 +19,19 @@ function SidebarNav({
   canAddMore,
   active,
   planName,
+  dict,
 }: {
   current: { id: string; name: string };
   restaurants: { id: string; name: string }[];
   canAddMore: boolean;
   active: boolean;
   planName: string | null;
+  dict: DashboardDict["nav"];
 }) {
   return (
     <>
       <div className="mt-6">
-        <EstablishmentSwitcher current={current} restaurants={restaurants} canAddMore={canAddMore} />
+        <EstablishmentSwitcher current={current} restaurants={restaurants} canAddMore={canAddMore} dict={dict} />
       </div>
 
       <nav className="mt-8 flex flex-col gap-1 text-sm">
@@ -44,28 +47,28 @@ function SidebarNav({
           prefetch={false}
           className="rounded-md px-3 py-2 text-ink hover:bg-paper hover:text-amber"
         >
-          Menus
+          {dict.menus}
         </Link>
         <Link
           href={`/dashboard/r/${current.id}/publish`}
           prefetch={false}
           className="rounded-md px-3 py-2 text-ink hover:bg-paper hover:text-amber"
         >
-          Publish & QR code
+          {dict.publish}
         </Link>
         <Link
           href={`/dashboard/r/${current.id}/settings`}
           prefetch={false}
           className="rounded-md px-3 py-2 text-ink hover:bg-paper hover:text-amber"
         >
-          Establishment settings
+          {dict.settings}
         </Link>
         <Link
           href="/dashboard/billing"
           prefetch={false}
           className="rounded-md px-3 py-2 text-ink hover:bg-paper hover:text-amber"
         >
-          Billing
+          {dict.billing}
         </Link>
       </nav>
 
@@ -77,10 +80,10 @@ function SidebarNav({
             active ? "bg-green/15 text-green" : "bg-amber-soft/40 text-ink-soft"
           }`}
         >
-          {active ? `${planName ?? "Active"} plan` : "No active plan"}
+          {active ? (planName ? dict.activePlan.replace("{plan}", planName) : dict.activeFallback) : dict.noPlan}
         </Link>
         <form action="/api/logout" method="POST">
-          <button className="mt-4 block text-sm text-ink-soft hover:text-amber">Log out</button>
+          <button className="mt-4 block text-sm text-ink-soft hover:text-amber">{dict.logout}</button>
         </form>
       </div>
     </>
@@ -106,6 +109,7 @@ export default async function EstablishmentLayout({
   const limits = getEffectiveLimits(subscription);
   const plan = subscription ? getPlan(subscription.plan) : null;
   const active = isSubscriptionActive(subscription);
+  const dict = getDashboardContent(current.menus[0]?.defaultLanguage).nav;
 
   const sidebarProps = {
     current: { id: current.id, name: current.name },
@@ -113,6 +117,7 @@ export default async function EstablishmentLayout({
     canAddMore: restaurants.length < limits.maxEstablishments,
     active,
     planName: plan?.name ?? null,
+    dict,
   };
 
   return (
@@ -129,7 +134,7 @@ export default async function EstablishmentLayout({
       </aside>
 
       <div className="flex-1">
-        <MobileNav>
+        <MobileNav openLabel={dict.openMenu} closeLabel={dict.closeMenu}>
           <SidebarNav {...sidebarProps} />
         </MobileNav>
         <main className="mx-auto max-w-4xl px-6 py-10">{children}</main>

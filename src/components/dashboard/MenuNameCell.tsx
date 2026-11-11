@@ -4,17 +4,20 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Pencil } from "lucide-react";
+import type { DashboardDict } from "@/lib/dashboard-content";
 
 export function MenuNameCell({
   restaurantId,
   menuId,
   name,
   slug,
+  dict,
 }: {
   restaurantId: string;
   menuId: string;
   name: string;
   slug: string;
+  dict: DashboardDict["menus"];
 }) {
   const router = useRouter();
   const [editing, setEditing] = useState(false);
@@ -63,7 +66,7 @@ export function MenuNameCell({
   return (
     <div className="flex flex-1 items-center gap-2">
       <Link href={`/dashboard/r/${restaurantId}/menus/${menuId}`} className="flex-1">
-        <p className="font-display text-lg text-ink">{saving ? "Saving…" : name}</p>
+        <p className="font-display text-lg text-ink">{saving ? dict.saving : name}</p>
         <p className="text-xs text-ink-soft">/m/{slug}</p>
       </Link>
       <button
@@ -71,8 +74,8 @@ export function MenuNameCell({
           e.preventDefault();
           setEditing(true);
         }}
-        aria-label="Rename menu"
-        title="Rename menu"
+        aria-label={dict.rename}
+        title={dict.rename}
         className="shrink-0 rounded p-1.5 text-ink-soft hover:bg-paper hover:text-amber"
       >
         <Pencil size={14} />

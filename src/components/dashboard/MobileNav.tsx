@@ -5,7 +5,15 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 
-export function MobileNav({ children }: { children: React.ReactNode }) {
+export function MobileNav({
+  children,
+  openLabel,
+  closeLabel,
+}: {
+  children: React.ReactNode;
+  openLabel: string;
+  closeLabel: string;
+}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -16,7 +24,7 @@ export function MobileNav({ children }: { children: React.ReactNode }) {
         </Link>
         <button
           onClick={() => setOpen(true)}
-          aria-label="Open menu"
+          aria-label={openLabel}
           className="text-ink-soft hover:text-amber"
         >
           <Menu size={24} />
@@ -41,7 +49,7 @@ export function MobileNav({ children }: { children: React.ReactNode }) {
               <Logo className="h-7" />
               <button
                 onClick={() => setOpen(false)}
-                aria-label="Close menu"
+                aria-label={closeLabel}
                 className="text-ink-soft hover:text-amber"
               >
                 <X size={22} />

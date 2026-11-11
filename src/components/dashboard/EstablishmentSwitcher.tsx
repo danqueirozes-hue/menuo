@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Plus } from "lucide-react";
+import type { DashboardDict } from "@/lib/dashboard-content";
 
 type Item = { id: string; name: string };
 
@@ -10,10 +11,12 @@ export function EstablishmentSwitcher({
   current,
   restaurants,
   canAddMore,
+  dict,
 }: {
   current: Item;
   restaurants: Item[];
   canAddMore: boolean;
+  dict: DashboardDict["nav"];
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -63,7 +66,7 @@ export function EstablishmentSwitcher({
                 onClick={() => setOpen(false)}
                 className="flex items-center gap-2 px-3 py-2 text-sm text-amber hover:underline"
               >
-                <Plus size={14} /> Add establishment
+                <Plus size={14} /> {dict.addEstablishment}
               </Link>
             ) : (
               <Link
@@ -71,7 +74,7 @@ export function EstablishmentSwitcher({
                 onClick={() => setOpen(false)}
                 className="block px-3 py-2 text-xs text-ink-soft hover:text-amber"
               >
-                Upgrade to add more establishments
+                {dict.upgradeEstablishments}
               </Link>
             )}
           </div>
