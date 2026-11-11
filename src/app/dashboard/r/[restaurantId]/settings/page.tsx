@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireOwnedRestaurant } from "@/lib/session";
 import { SettingsForm } from "@/components/dashboard/SettingsForm";
+import { getDashboardContent } from "@/lib/dashboard-content";
 
 export default async function SettingsPage({
   params,
@@ -15,14 +16,14 @@ export default async function SettingsPage({
   const restaurant = await requireOwnedRestaurant(restaurantId, session.user.id);
   if (!restaurant) notFound();
 
+  const t = getDashboardContent(restaurant.menus[0]?.defaultLanguage).settings;
+
   return (
     <div>
-      <h1 className="font-display text-3xl text-ink">Restaurant settings</h1>
-      <p className="mt-2 text-ink-soft">
-        This information appears on every menu published under this establishment.
-      </p>
+      <h1 className="font-display text-3xl text-ink">{t.title}</h1>
+      <p className="mt-2 text-ink-soft">{t.subtitle}</p>
       <div className="mt-10">
-        <SettingsForm restaurantId={restaurant.id} restaurant={restaurant} />
+        <SettingsForm restaurantId={restaurant.id} restaurant={restaurant} dict={t} />
       </div>
     </div>
   );

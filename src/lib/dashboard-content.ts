@@ -68,6 +68,56 @@ export type DashboardDict = {
     done: string;
     steps: Record<OnboardingStep, { title: string; hint: string; cta: string }>;
   };
+  publish: {
+    title: string;
+    chooseMenu: string;
+    noMenu: string;
+    createFirst: string;
+    /** "{name}" is replaced with the menu name. */
+    intro: string;
+    paidPlan: string;
+    subscribe: string;
+    draftNote: string;
+    publishing: string;
+    publishCta: string;
+    isLive: string;
+    /** "{name}" is replaced with the restaurant name. */
+    cardAria: string;
+    cardNote: string;
+    downloadCard: string;
+    publicLink: string;
+    copyLink: string;
+    translationsTitle: string;
+    translationsHint: string;
+    updating: string;
+    updateTranslations: string;
+    translationsUpdated: string;
+    translateSnag: string;
+    progress: string;
+    printTitle: string;
+    printHint: string;
+    generating: string;
+    downloadPdf: string;
+    pdfError: string;
+    unpublishing: string;
+    unpublish: string;
+    genericError: string;
+  };
+  settings: {
+    title: string;
+    subtitle: string;
+    name: string;
+    logo: string;
+    uploading: string;
+    address: string;
+    city: string;
+    country: string;
+    currency: string;
+    accent: string;
+    saving: string;
+    save: string;
+    saved: string;
+  };
   contact: {
     email: string;
     instagram: string;
@@ -137,6 +187,54 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
         publish: { title: "Publish and print your QR code", hint: "Guests scan it and read the menu in their own language.", cta: "Publish menu" },
       },
     },
+    publish: {
+      title: "Publish & QR code",
+      chooseMenu: "Choose which menu to publish and get its QR code.",
+      noMenu: "You don't have a menu yet.",
+      createFirst: "Create your first menu",
+      intro: "Publishing translates “{name}” into 20 languages and makes it available at the link and QR code below.",
+      paidPlan: "Publishing is part of a paid plan.",
+      subscribe: "Subscribe to go live",
+      draftNote: "Your menu is currently a draft — only visible to you. Publish it to generate your QR code and make it live for guests.",
+      publishing: "Publishing…",
+      publishCta: "Publish menu",
+      isLive: "Your menu is live",
+      cardAria: "Table card with QR code for {name}",
+      cardNote: "A print-ready table card — not just the raw QR code.",
+      downloadCard: "Download table card",
+      publicLink: "Public menu link",
+      copyLink: "Copy link",
+      translationsTitle: "Menu translations",
+      translationsHint: "Use “Update translations” after editing a dish, adding a translation provider, or changing your menu — it fills in whatever is missing without taking your menu offline.",
+      updating: "Updating…",
+      updateTranslations: "Update translations",
+      translationsUpdated: "Translations updated.",
+      translateSnag: "Translating hit a snag. Click “Update translations” to pick up where it left off.",
+      progress: "Bringing your menu to the table…",
+      printTitle: "Print menu / PDF",
+      printHint: "Choose a language and download a print-ready PDF — handy for printing physical menus or emailing to guests.",
+      generating: "Generating…",
+      downloadPdf: "Download PDF",
+      pdfError: "Could not generate the PDF. Please try again.",
+      unpublishing: "Unpublishing…",
+      unpublish: "Unpublish menu",
+      genericError: "Something went wrong. Please try again.",
+    },
+    settings: {
+      title: "Restaurant settings",
+      subtitle: "This information appears on every menu published under this establishment.",
+      name: "Restaurant name",
+      logo: "Logo",
+      uploading: "Uploading…",
+      address: "Address",
+      city: "City",
+      country: "Country",
+      currency: "Currency (ISO code)",
+      accent: "Accent color",
+      saving: "Saving…",
+      save: "Save changes",
+      saved: "Saved",
+    },
     contact: { email: "Email us", instagram: "MENUO on Instagram", help: "Help", supportSubject: "MENUO Support" },
   },
   pt: {
@@ -199,6 +297,54 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
         publish: { title: "Publique e imprima o seu código QR", hint: "Os clientes leem o código e veem o menu no próprio idioma.", cta: "Publicar menu" },
       },
     },
+    publish: {
+      title: "Publicar e código QR",
+      chooseMenu: "Escolha o menu a publicar e obtenha o respetivo código QR.",
+      noMenu: "Ainda não tem nenhum menu.",
+      createFirst: "Crie o seu primeiro menu",
+      intro: "Ao publicar, «{name}» é traduzido para 20 idiomas e fica disponível no link e no código QR abaixo.",
+      paidPlan: "A publicação faz parte de um plano pago.",
+      subscribe: "Subscreva um plano para ficar online",
+      draftNote: "O seu menu ainda é um rascunho, visível apenas para si. Publique-o para gerar o código QR e disponibilizá-lo aos clientes.",
+      publishing: "A publicar…",
+      publishCta: "Publicar menu",
+      isLive: "O seu menu está online",
+      cardAria: "Cartão de mesa com o código QR de {name}",
+      cardNote: "Um cartão de mesa pronto a imprimir — não apenas o código QR.",
+      downloadCard: "Descarregar cartão de mesa",
+      publicLink: "Link público do menu",
+      copyLink: "Copiar link",
+      translationsTitle: "Traduções do menu",
+      translationsHint: "Use «Atualizar traduções» depois de editar um prato ou alterar o menu — completa o que faltar sem colocar o menu offline.",
+      updating: "A atualizar…",
+      updateTranslations: "Atualizar traduções",
+      translationsUpdated: "Traduções atualizadas.",
+      translateSnag: "A tradução foi interrompida. Clique em «Atualizar traduções» para continuar de onde parou.",
+      progress: "A levar o seu menu à mesa…",
+      printTitle: "Imprimir menu / PDF",
+      printHint: "Escolha um idioma e descarregue um PDF pronto a imprimir — útil para menus em papel ou para enviar por e-mail aos clientes.",
+      generating: "A gerar…",
+      downloadPdf: "Descarregar PDF",
+      pdfError: "Não foi possível gerar o PDF. Tente novamente.",
+      unpublishing: "A anular a publicação…",
+      unpublish: "Anular publicação",
+      genericError: "Ocorreu um erro. Tente novamente.",
+    },
+    settings: {
+      title: "Definições do restaurante",
+      subtitle: "Estas informações aparecem em todos os menus publicados por este estabelecimento.",
+      name: "Nome do restaurante",
+      logo: "Logótipo",
+      uploading: "A carregar…",
+      address: "Morada",
+      city: "Cidade",
+      country: "País",
+      currency: "Moeda (código ISO)",
+      accent: "Cor de destaque",
+      saving: "A guardar…",
+      save: "Guardar alterações",
+      saved: "Guardado",
+    },
     contact: { email: "Enviar e-mail", instagram: "MENUO no Instagram", help: "Ajuda", supportSubject: "Suporte MENUO" },
   },
   it: {
@@ -260,6 +406,54 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
         trial: { title: "Inizia la prova gratuita di 14 giorni", hint: "Nessun addebito per 14 giorni. Disdici quando vuoi.", cta: "Inizia la prova gratuita" },
         publish: { title: "Pubblica e stampa il tuo codice QR", hint: "I clienti lo inquadrano e leggono il menu nella loro lingua.", cta: "Pubblica menu" },
       },
+    },
+    publish: {
+      title: "Pubblica e codice QR",
+      chooseMenu: "Scegli quale menu pubblicare e ottieni il suo codice QR.",
+      noMenu: "Non hai ancora nessun menu.",
+      createFirst: "Crea il tuo primo menu",
+      intro: "Pubblicando, «{name}» viene tradotto in 20 lingue e reso disponibile al link e al codice QR qui sotto.",
+      paidPlan: "La pubblicazione è inclusa nei piani a pagamento.",
+      subscribe: "Abbonati per andare online",
+      draftNote: "Il tuo menu è ancora una bozza, visibile solo a te. Pubblicalo per generare il codice QR e renderlo disponibile ai clienti.",
+      publishing: "Pubblicazione…",
+      publishCta: "Pubblica menu",
+      isLive: "Il tuo menu è online",
+      cardAria: "Segnatavolo con il codice QR di {name}",
+      cardNote: "Un segnatavolo pronto da stampare, non solo il codice QR.",
+      downloadCard: "Scarica il segnatavolo",
+      publicLink: "Link pubblico del menu",
+      copyLink: "Copia link",
+      translationsTitle: "Traduzioni del menu",
+      translationsHint: "Usa «Aggiorna traduzioni» dopo aver modificato un piatto o il menu: completa ciò che manca senza mettere offline il menu.",
+      updating: "Aggiornamento…",
+      updateTranslations: "Aggiorna traduzioni",
+      translationsUpdated: "Traduzioni aggiornate.",
+      translateSnag: "La traduzione si è interrotta. Fai clic su «Aggiorna traduzioni» per riprendere da dove si era fermata.",
+      progress: "Stiamo portando il tuo menu in tavola…",
+      printTitle: "Stampa menu / PDF",
+      printHint: "Scegli una lingua e scarica un PDF pronto per la stampa: utile per i menu cartacei o da inviare via e-mail ai clienti.",
+      generating: "Generazione…",
+      downloadPdf: "Scarica PDF",
+      pdfError: "Impossibile generare il PDF. Riprova.",
+      unpublishing: "Annullamento…",
+      unpublish: "Annulla pubblicazione",
+      genericError: "Si è verificato un errore. Riprova.",
+    },
+    settings: {
+      title: "Impostazioni del ristorante",
+      subtitle: "Queste informazioni compaiono in tutti i menu pubblicati da questo locale.",
+      name: "Nome del ristorante",
+      logo: "Logo",
+      uploading: "Caricamento…",
+      address: "Indirizzo",
+      city: "Città",
+      country: "Paese",
+      currency: "Valuta (codice ISO)",
+      accent: "Colore d'accento",
+      saving: "Salvataggio…",
+      save: "Salva modifiche",
+      saved: "Salvato",
     },
     contact: { email: "Scrivici", instagram: "MENUO su Instagram", help: "Aiuto", supportSubject: "Assistenza MENUO" },
   },

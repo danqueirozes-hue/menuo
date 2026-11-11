@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { QrCode } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { requireOwnedRestaurant } from "@/lib/session";
+import { getDashboardContent } from "@/lib/dashboard-content";
 
 export default async function EstablishmentPublishPage({
   params,
@@ -22,16 +23,19 @@ export default async function EstablishmentPublishPage({
     redirect(`/dashboard/r/${restaurantId}/menus/${restaurant.menus[0].id}/publish`);
   }
 
+  const dict = getDashboardContent(restaurant.menus[0]?.defaultLanguage);
+  const t = dict.publish;
+
   return (
     <div>
-      <h1 className="font-display text-3xl text-ink">Publish & QR code</h1>
-      <p className="mt-2 text-ink-soft">Choose which menu to publish and get its QR code.</p>
+      <h1 className="font-display text-3xl text-ink">{t.title}</h1>
+      <p className="mt-2 text-ink-soft">{t.chooseMenu}</p>
 
       {restaurant.menus.length === 0 ? (
         <div className="mt-8 rounded-xl border border-dashed border-border p-6 text-sm text-ink-soft">
-          You don&apos;t have a menu yet.{" "}
+          {t.noMenu}{" "}
           <Link href={`/dashboard/r/${restaurantId}`} className="text-amber hover:underline">
-            Create your first menu
+            {t.createFirst}
           </Link>
           .
         </div>
@@ -53,7 +57,7 @@ export default async function EstablishmentPublishPage({
                 }`}
               >
                 <QrCode size={14} />
-                {menu.isPublished ? "Live" : "Draft"}
+                {menu.isPublished ? dict.menus.live : dict.menus.draft}
               </span>
             </Link>
           ))}

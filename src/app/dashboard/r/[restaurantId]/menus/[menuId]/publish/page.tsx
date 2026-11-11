@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { requireOwnedRestaurant, getSubscription, isSubscriptionActive } from "@/lib/session";
 import { generateQrDataUrl } from "@/lib/qr";
 import { PublishPanel } from "@/components/dashboard/PublishPanel";
+import { getDashboardContent } from "@/lib/dashboard-content";
 
 export default async function PublishPage({
   params,
@@ -27,13 +28,13 @@ export default async function PublishPage({
   const publicUrl = `${siteUrl}/m/${menu.slug}`;
   const qrDataUrl = menu.isPublished ? await generateQrDataUrl(publicUrl) : null;
 
+  // Same rule as the builder: this menu's own source language.
+  const dict = getDashboardContent(menu.defaultLanguage);
+
   return (
     <div>
-      <h1 className="font-display text-3xl text-ink">Publish & QR code</h1>
-      <p className="mt-2 text-ink-soft">
-        Publishing translates &quot;{menu.name}&quot; into 20 languages and
-        makes it available at the link and QR code below.
-      </p>
+      <h1 className="font-display text-3xl text-ink">{dict.publish.title}</h1>
+      <p className="mt-2 text-ink-soft">{dict.publish.intro.replace("{name}", menu.name)}</p>
       <div className="mt-10">
         <PublishPanel
           menuId={menu.id}
@@ -43,6 +44,8 @@ export default async function PublishPage({
           qrDataUrl={qrDataUrl}
           restaurantName={restaurant.name}
           defaultLanguage={menu.defaultLanguage}
+          dict={dict.publish}
+          languageOptions={dict.newMenu.languageOptions}
         />
       </div>
     </div>

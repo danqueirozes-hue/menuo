@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Input, Label } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { resizeImageForUpload } from "@/lib/resize-image";
+import type { DashboardDict } from "@/lib/dashboard-content";
 
 type Restaurant = {
   name: string;
@@ -16,7 +17,15 @@ type Restaurant = {
   logoUrl: string | null;
 };
 
-export function SettingsForm({ restaurantId, restaurant }: { restaurantId: string; restaurant: Restaurant }) {
+export function SettingsForm({
+  restaurantId,
+  restaurant,
+  dict,
+}: {
+  restaurantId: string;
+  restaurant: Restaurant;
+  dict: DashboardDict["settings"];
+}) {
   const [form, setForm] = useState({
     name: restaurant.name,
     address: restaurant.address ?? "",
@@ -63,36 +72,36 @@ export function SettingsForm({ restaurantId, restaurant }: { restaurantId: strin
   return (
     <form onSubmit={handleSubmit} className="max-w-xl space-y-6">
       <div>
-        <Label>Restaurant name</Label>
+        <Label>{dict.name}</Label>
         <Input value={form.name} onChange={(e) => update("name", e.target.value)} />
       </div>
 
       <div>
-        <Label>Logo</Label>
+        <Label>{dict.logo}</Label>
         <div className="flex items-center gap-4">
           {form.logoUrl && (
-            <Image src={form.logoUrl} alt="Logo" width={56} height={56} className="h-14 w-14 rounded-md object-cover" />
+            <Image src={form.logoUrl} alt={dict.logo} width={56} height={56} className="h-14 w-14 rounded-md object-cover" />
           )}
           <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handleLogoChange} className="text-sm" />
         </div>
-        {uploading && <p className="mt-1 text-xs text-ink-soft">Uploading…</p>}
+        {uploading && <p className="mt-1 text-xs text-ink-soft">{dict.uploading}</p>}
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>Address</Label>
+          <Label>{dict.address}</Label>
           <Input value={form.address} onChange={(e) => update("address", e.target.value)} />
         </div>
         <div>
-          <Label>City</Label>
+          <Label>{dict.city}</Label>
           <Input value={form.city} onChange={(e) => update("city", e.target.value)} />
         </div>
         <div>
-          <Label>Country</Label>
+          <Label>{dict.country}</Label>
           <Input value={form.country} onChange={(e) => update("country", e.target.value)} />
         </div>
         <div>
-          <Label>Currency (ISO code)</Label>
+          <Label>{dict.currency}</Label>
           <Input
             value={form.currency}
             maxLength={3}
@@ -103,7 +112,7 @@ export function SettingsForm({ restaurantId, restaurant }: { restaurantId: strin
       </div>
 
       <div>
-        <Label>Accent color</Label>
+        <Label>{dict.accent}</Label>
         <div className="flex items-center gap-3">
           <input
             type="color"
@@ -117,9 +126,9 @@ export function SettingsForm({ restaurantId, restaurant }: { restaurantId: strin
 
       <div className="flex items-center gap-4">
         <Button type="submit" disabled={saving}>
-          {saving ? "Saving…" : "Save changes"}
+          {saving ? dict.saving : dict.save}
         </Button>
-        {saved && <span className="text-sm text-green">Saved</span>}
+        {saved && <span className="text-sm text-green">{dict.saved}</span>}
       </div>
     </form>
   );

@@ -1,13 +1,13 @@
 import { ChefHat, UtensilsCrossed } from "lucide-react";
 
-export function TranslationProgress({ percent }: { percent: number }) {
+export function TranslationProgress({ percent, label }: { percent: number; label: string }) {
   const clamped = Math.min(100, Math.max(0, percent));
 
   return (
     <div>
       <div className="flex items-center justify-between text-xs text-ink-soft">
         <span className="flex items-center gap-1.5">
-          <ChefHat size={14} /> Bringing your menu to the table…
+          <ChefHat size={14} /> {label}
         </span>
         <span className="font-medium text-ink">{clamped}%</span>
       </div>

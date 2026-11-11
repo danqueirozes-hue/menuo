@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Check, Copy, Download, RefreshCw, Printer, Lock, Languages } from "lucide-react";
-import { LANGUAGES } from "@/lib/languages";
+import type { DashboardDict } from "@/lib/dashboard-content";
 import { drawQrCard, canvasToPngBlob } from "@/lib/qr-card";
 import { TranslationProgress } from "@/components/dashboard/TranslationProgress";
 
@@ -17,6 +17,8 @@ export function PublishPanel({
   qrDataUrl,
   restaurantName,
   defaultLanguage,
+  dict,
+  languageOptions,
 }: {
   menuId: string;
   isPublished: boolean;
@@ -25,6 +27,8 @@ export function PublishPanel({
   qrDataUrl: string | null;
   restaurantName: string;
   defaultLanguage: string;
+  dict: DashboardDict["publish"];
+  languageOptions: { code: string; label: string }[];
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -82,7 +86,7 @@ export function PublishPanel({
         if (!res.ok) {
           consecutiveFailures++;
           if (consecutiveFailures >= 3) {
-            setError("Translating hit a snag. Click \"Update translations\" to pick up where it left off.");
+            setError(dict.translateSnag);
             break;
           }
           continue;
@@ -117,7 +121,9 @@ export function PublishPanel({
       const data = await res.json();
       if (!res.ok) {
         if (data.code === "SUBSCRIPTION_REQUIRED") setNeedsSubscription(true);
-        setError(data.error || "Something went wrong.");
+        // API errors are English-only; the subscription case has its own
+        // localized notice above the button.
+        setError(dict.genericError);
         return;
       }
       if (publish && isPublished) {
@@ -130,7 +136,7 @@ export function PublishPanel({
         runTranslationBatches(data.pendingTranslations);
       }
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError(dict.genericError);
     } finally {
       setLoading(false);
     }
@@ -158,7 +164,7 @@ export function PublishPanel({
       a.remove();
       URL.revokeObjectURL(url);
     } catch {
-      setPdfError("Could not generate the PDF. Please try again.");
+      setPdfError(dict.pdfError);
     } finally {
       setDownloadingPdf(false);
     }
@@ -172,17 +178,16 @@ export function PublishPanel({
             <div className="mb-4 flex items-start gap-3 rounded-lg bg-amber/10 p-4 text-sm text-navy">
               <Lock size={16} className="mt-0.5 shrink-0" />
               <div>
-                Publishing is part of a paid plan.{" "}
+                {dict.paidPlan}{" "}
                 <Link href="/dashboard/billing" className="font-medium text-amber hover:underline">
-                  Subscribe to go live
+                  {dict.subscribe}
                 </Link>
                 .
               </div>
             </div>
           )}
           <p className="text-sm text-ink-soft">
-            Your menu is currently a draft — only visible to you. Publish it
-            to generate your QR code and make it live for guests.
+            {dict.draftNote}
           </p>
           {error && !needsSubscription && <p className="mt-3 text-sm text-red-600">{error}</p>}
           <Button
@@ -191,13 +196,13 @@ export function PublishPanel({
             onClick={() => togglePublish(true)}
             disabled={loading}
           >
-            {loading ? "Publishing…" : "Publish menu"}
+            {loading ? dict.publishing : dict.publishCta}
           </Button>
         </div>
       ) : (
         <div className="space-y-6">
           <div className="flex items-center gap-2 rounded-full bg-green/10 px-4 py-2 text-sm text-green w-fit">
-            <Check size={16} /> Your menu is live
+            <Check size={16} /> {dict.isLive}
           </div>
 
           {qrDataUrl && (
@@ -205,23 +210,23 @@ export function PublishPanel({
               <canvas
                 ref={cardCanvasRef}
                 className="w-64 rounded-lg shadow-md"
-                aria-label={`Table card with QR code for ${restaurantName}`}
+                aria-label={dict.cardAria.replace("{name}", restaurantName)}
               />
               <p className="mt-4 text-xs text-ink-soft">
-                A print-ready table card — not just the raw QR code.
+                {dict.cardNote}
               </p>
               <button
                 onClick={downloadCard}
                 disabled={!cardReady}
                 className="mt-3 inline-flex items-center gap-2 text-sm text-amber hover:underline disabled:opacity-50"
               >
-                <Download size={16} /> Download table card
+                <Download size={16} /> {dict.downloadCard}
               </button>
             </div>
           )}
 
           <div>
-            <p className="text-xs uppercase tracking-wide text-ink-soft">Public menu link</p>
+            <p className="text-xs uppercase tracking-wide text-ink-soft">{dict.publicLink}</p>
             <div className="mt-2 flex items-center gap-2">
               <code className="flex-1 truncate rounded-md border border-border bg-paper px-3 py-2 text-sm text-ink">
                 {publicUrl}
@@ -229,7 +234,7 @@ export function PublishPanel({
               <button
                 onClick={copyLink}
                 className="rounded-md border border-border p-2 text-ink-soft hover:border-amber hover:text-amber"
-                aria-label="Copy link"
+                aria-label={dict.copyLink}
               >
                 {copied ? <Check size={16} /> : <Copy size={16} />}
               </button>
@@ -238,34 +243,32 @@ export function PublishPanel({
 
           <div className="rounded-xl border border-border bg-panel p-5">
             <p className="flex items-center gap-2 text-sm font-medium text-ink">
-              <Languages size={16} /> Menu translations
+              <Languages size={16} /> {dict.translationsTitle}
             </p>
             <p className="mt-1 text-xs text-ink-soft">
-              Use &quot;Update translations&quot; after editing a dish, adding a
-              translation provider, or changing your menu — it fills in
-              whatever is missing without taking your menu offline.
+              {dict.translationsHint}
             </p>
             <div className="mt-4">
               {translating && translationTotal && translationsRemaining !== null ? (
                 <TranslationProgress
                   percent={Math.round(((translationTotal - translationsRemaining) / translationTotal) * 100)}
+                  label={dict.progress}
                 />
               ) : (
                 <Button variant="outline" onClick={() => togglePublish(true)} disabled={loading || translating}>
-                  <RefreshCw size={16} /> {loading ? "Updating…" : "Update translations"}
+                  <RefreshCw size={16} /> {loading ? dict.updating : dict.updateTranslations}
                 </Button>
               )}
             </div>
-            {refreshed && !translating && <p className="mt-2 text-sm text-green">Translations updated.</p>}
+            {refreshed && !translating && <p className="mt-2 text-sm text-green">{dict.translationsUpdated}</p>}
           </div>
 
           <div className="rounded-xl border border-border bg-panel p-5">
             <p className="flex items-center gap-2 text-sm font-medium text-ink">
-              <Printer size={16} /> Print menu / PDF
+              <Printer size={16} /> {dict.printTitle}
             </p>
             <p className="mt-1 text-xs text-ink-soft">
-              Choose a language and download a print-ready PDF — handy for
-              printing physical menus or emailing to guests.
+              {dict.printHint}
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <select
@@ -273,14 +276,14 @@ export function PublishPanel({
                 onChange={(e) => setPdfLang(e.target.value)}
                 className="rounded-md border border-border bg-panel px-3 py-2 text-sm text-ink focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber"
               >
-                {LANGUAGES.map((l) => (
+                {languageOptions.map((l) => (
                   <option key={l.code} value={l.code}>
-                    {l.flag} {l.englishName}
+                    {l.label}
                   </option>
                 ))}
               </select>
               <Button variant="outline" onClick={downloadPdf} disabled={downloadingPdf}>
-                <Download size={16} /> {downloadingPdf ? "Generating…" : "Download PDF"}
+                <Download size={16} /> {downloadingPdf ? dict.generating : dict.downloadPdf}
               </Button>
             </div>
             {pdfError && <p className="mt-2 text-sm text-red-600">{pdfError}</p>}
@@ -288,7 +291,7 @@ export function PublishPanel({
 
           {error && <p className="text-sm text-red-600">{error}</p>}
           <Button variant="outline" onClick={() => togglePublish(false)} disabled={loading || translating}>
-            {loading ? "Unpublishing…" : "Unpublish menu"}
+            {loading ? dict.unpublishing : dict.unpublish}
           </Button>
         </div>
       )}
