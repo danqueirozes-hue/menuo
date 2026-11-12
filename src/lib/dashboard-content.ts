@@ -162,6 +162,8 @@ export type DashboardDict = {
     /** Highlight card shown in the builder while the menu has no dishes. */
     heroTitle: string;
     heroBody: string;
+    /** Heading over the manual builder, below the highlight card. */
+    manualTitle: string;
     title: string;
     back: string;
     intro: string;
@@ -344,6 +346,7 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
     menuImport: {
       entry: "Import from PDF or photo",
       badge: "AI",
+      manualTitle: "Create your menu manually",
       heroTitle: "Already have a printed menu?",
       heroBody: "Send a photo or the PDF and MENUO fills in the sections, dishes and prices for you to review. It takes about a minute.",
       title: "Import your menu",
@@ -518,6 +521,7 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
     menuImport: {
       entry: "Importar de PDF ou fotografia",
       badge: "IA",
+      manualTitle: "Criação manual do menu",
       heroTitle: "Já tem um menu impresso?",
       heroBody: "Envie uma fotografia ou o PDF e o MENUO preenche as secções, os pratos e os preços para rever. Demora cerca de um minuto.",
       title: "Importar o seu menu",
@@ -692,6 +696,7 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
     menuImport: {
       entry: "Importa da PDF o foto",
       badge: "IA",
+      manualTitle: "Creazione manuale del menu",
       heroTitle: "Hai già un menu stampato?",
       heroBody: "Invia una foto o il PDF e MENUO compila sezioni, piatti e prezzi da rivedere. Ci vuole circa un minuto.",
       title: "Importa il tuo menu",

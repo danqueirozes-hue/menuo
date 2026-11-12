@@ -71,6 +71,7 @@ export default async function MenuBuilderPage({
 
   const importText = getDashboardContent(menu.defaultLanguage).menuImport;
   const importHref = `/dashboard/r/${restaurantId}/menus/${menu.id}/import`;
+  const menuIsEmpty = sections.every((s) => s.items.length === 0);
 
   return (
     <div>
@@ -106,7 +107,7 @@ export default async function MenuBuilderPage({
       </div>
 
       {/* While the menu is still empty, the import is the fastest way in. */}
-      {sections.every((s) => s.items.length === 0) && (
+      {menuIsEmpty && (
         <div className="mb-8 flex flex-col gap-5 rounded-2xl border border-amber bg-amber-soft/20 p-6 sm:flex-row sm:items-center">
           <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-amber text-navy">
             <FileUp size={26} />
@@ -124,6 +125,8 @@ export default async function MenuBuilderPage({
           </Link>
         </div>
       )}
+
+      {menuIsEmpty && <h2 className="font-display mb-4 text-xl text-ink">{importText.manualTitle}</h2>}
 
       <MenuBuilder menuId={menu.id} initialSections={sections} currency={restaurant.currency} dict={dict} />
     </div>
