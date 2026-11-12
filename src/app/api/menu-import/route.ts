@@ -75,7 +75,8 @@ export async function POST(req: Request) {
     body: JSON.stringify({ jobId }),
   });
   if (!res.ok) {
-    await store.setJSON(`${jobId}/job`, { ...job, status: "error", error: "failed" });
+    await store.setJSON(`${jobId}/job`, { ...job, status: "error", error: "failed", refunded: true });
+    await prisma.user.update({ where: { id: userId }, data: { menuImportCount: { decrement: 1 } } });
     return NextResponse.json({ error: "failed" }, { status: 502 });
   }
 

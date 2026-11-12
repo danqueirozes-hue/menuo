@@ -93,4 +93,6 @@ export type MenuImportJob = {
   createdAt: string;
   error?: "unreadable" | "too_long" | "failed";
   result?: ImportedMenu;
+  /** The import credit was given back after a failed read. */
+  refunded?: boolean;
 };
