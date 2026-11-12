@@ -36,7 +36,7 @@ export default async function LocalizedHome({
       <main>
         <Hero dict={dict.hero} />
         <Benefits dict={dict.benefits} />
-        <HowItWorks dict={dict.how} />
+        <HowItWorks dict={dict.how} locale={locale} />
         <LanguagesShowcase dict={dict.languagesSection} />
         <TableGallery dict={dict.tableGallery} />
         <Pricing dict={dict.pricing} />

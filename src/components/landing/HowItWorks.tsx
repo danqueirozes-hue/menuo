@@ -1,6 +1,6 @@
-﻿import { LandingDict } from "@/lib/landing-content";
+﻿import { LandingDict, SiteLocale } from "@/lib/landing-content";
 
-export function HowItWorks({ dict }: { dict: LandingDict["how"] }) {
+export function HowItWorks({ dict, locale }: { dict: LandingDict["how"]; locale: SiteLocale }) {
   return (
     <section id="how-it-works" className="defer-render bg-navy py-24 text-paper">
       <div className="mx-auto max-w-6xl px-6">
@@ -21,19 +21,18 @@ export function HowItWorks({ dict }: { dict: LandingDict["how"] }) {
 
         <div className="mx-auto mt-16 max-w-3xl">
           <div className="overflow-hidden rounded-[1.75rem] border border-paper/10 shadow-2xl shadow-black/40">
-            {/* preload="none" + poster: the mp4 is ~10 MB with its index at
-                the end, so even preload="metadata" made browsers fetch the
-                whole file on page load, hurting LCP. Now it only downloads
-                when the visitor presses play. */}
+            {/* 45 s product demo with captions in the page's language
+                (~1.2 MB each, 720p). preload="none" + poster keeps it out of
+                the initial page load; it only downloads on play. */}
             <video
               className="h-auto w-full"
               controls
               playsInline
               preload="none"
-              width={1278}
+              width={1280}
               height={720}
               poster="/videos/how-it-works-poster.jpg"
-              src="/videos/how-it-works.mp4"
+              src={`/videos/how-it-works-${locale}.mp4`}
             />
           </div>
         </div>
