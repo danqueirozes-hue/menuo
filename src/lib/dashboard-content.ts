@@ -157,6 +157,11 @@ export type DashboardDict = {
   /** AI import of an existing menu (PDF/photos → reviewed draft). */
   menuImport: {
     entry: string;
+    /** Short tag on the import button. */
+    badge: string;
+    /** Highlight card shown in the builder while the menu has no dishes. */
+    heroTitle: string;
+    heroBody: string;
     title: string;
     back: string;
     intro: string;
@@ -338,6 +343,9 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
     },
     menuImport: {
       entry: "Import from PDF or photo",
+      badge: "AI",
+      heroTitle: "Already have a printed menu?",
+      heroBody: "Send a photo or the PDF and MENUO fills in the sections, dishes and prices for you to review. It takes about a minute.",
       title: "Import your menu",
       back: "← Back to the menu",
       intro: "Upload a PDF or photos of your current menu. MENUO reads it and prepares a draft for you to review — nothing is added until you confirm.",
@@ -509,6 +517,9 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
     },
     menuImport: {
       entry: "Importar de PDF ou fotografia",
+      badge: "IA",
+      heroTitle: "Já tem um menu impresso?",
+      heroBody: "Envie uma fotografia ou o PDF e o MENUO preenche as secções, os pratos e os preços para rever. Demora cerca de um minuto.",
       title: "Importar o seu menu",
       back: "← Voltar ao menu",
       intro: "Envie um PDF ou fotografias do seu menu atual. O MENUO lê-o e prepara um rascunho para rever — nada é adicionado sem a sua confirmação.",
@@ -680,6 +691,9 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
     },
     menuImport: {
       entry: "Importa da PDF o foto",
+      badge: "IA",
+      heroTitle: "Hai già un menu stampato?",
+      heroBody: "Invia una foto o il PDF e MENUO compila sezioni, piatti e prezzi da rivedere. Ci vuole circa un minuto.",
       title: "Importa il tuo menu",
       back: "← Torna al menu",
       intro: "Carica un PDF o le foto del tuo menu attuale. MENUO lo legge e prepara una bozza da rivedere: nulla viene aggiunto finché non confermi.",

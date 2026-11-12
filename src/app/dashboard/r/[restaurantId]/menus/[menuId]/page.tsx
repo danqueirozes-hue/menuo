@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { FileUp, QrCode } from "lucide-react";
+import { FileUp, QrCode, Sparkles } from "lucide-react";
 import { getDashboardContent } from "@/lib/dashboard-content";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -69,6 +69,9 @@ export default async function MenuBuilderPage({
     })),
   }));
 
+  const importText = getDashboardContent(menu.defaultLanguage).menuImport;
+  const importHref = `/dashboard/r/${restaurantId}/menus/${menu.id}/import`;
+
   return (
     <div>
       <MenuSettingsBar
@@ -80,14 +83,17 @@ export default async function MenuBuilderPage({
       />
       <div className="-mt-4 mb-8 flex flex-wrap items-center justify-between gap-3">
         <p className="text-ink-soft">{dict.intro}</p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-3">
           <Link
-            href={`/dashboard/r/${restaurantId}/menus/${menu.id}/import`}
+            href={importHref}
             prefetch={false}
-            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-ink/20 px-5 py-2.5 text-sm text-ink hover:border-amber hover:text-amber"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-amber px-6 py-3 text-base font-medium text-navy shadow-sm transition-colors hover:bg-amber-soft"
           >
-            <FileUp size={16} />
-            {getDashboardContent(menu.defaultLanguage).menuImport.entry}
+            <Sparkles size={18} />
+            {importText.entry}
+            <span className="rounded-full bg-navy px-2 py-0.5 text-[11px] font-semibold tracking-wide text-paper">
+              {importText.badge}
+            </span>
           </Link>
           <Link
             href={`/dashboard/r/${restaurantId}/menus/${menu.id}/publish`}
@@ -98,6 +104,26 @@ export default async function MenuBuilderPage({
           </Link>
         </div>
       </div>
+
+      {/* While the menu is still empty, the import is the fastest way in. */}
+      {sections.every((s) => s.items.length === 0) && (
+        <div className="mb-8 flex flex-col gap-5 rounded-2xl border border-amber bg-amber-soft/20 p-6 sm:flex-row sm:items-center">
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-amber text-navy">
+            <FileUp size={26} />
+          </span>
+          <div className="flex-1">
+            <p className="font-display text-xl text-ink">{importText.heroTitle}</p>
+            <p className="mt-1 text-sm text-ink-soft">{importText.heroBody}</p>
+          </div>
+          <Link
+            href={importHref}
+            prefetch={false}
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-navy px-6 py-3 text-base font-medium text-paper hover:bg-navy-soft"
+          >
+            <Sparkles size={18} /> {importText.entry}
+          </Link>
+        </div>
+      )}
 
       <MenuBuilder menuId={menu.id} initialSections={sections} currency={restaurant.currency} dict={dict} />
     </div>

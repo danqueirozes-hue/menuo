@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 import type { DashboardDict, OnboardingStep } from "@/lib/dashboard-content";
 
 // Trial first: new accounts start it at signup (card required), so it's
@@ -72,8 +72,12 @@ export function GettingStarted({
                   </Link>
                   {/* Shortcut for owners who already have a printed menu. */}
                   {importLink && (step === "section" || step === "dish") && (
-                    <Link href={importLink.href} prefetch={false} className="text-xs text-amber hover:underline">
-                      {importLink.label}
+                    <Link
+                      href={importLink.href}
+                      prefetch={false}
+                      className="inline-flex items-center gap-1.5 rounded-full bg-amber px-4 py-1.5 text-xs font-medium text-navy hover:bg-amber-soft"
+                    >
+                      <Sparkles size={13} /> {importLink.label}
                     </Link>
                   )}
                 </div>
