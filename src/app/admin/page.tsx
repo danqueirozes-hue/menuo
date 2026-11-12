@@ -7,6 +7,8 @@ import { AdminAccountsTable, AdminAccountRow } from "@/components/admin/AdminAcc
 import { SignupsBarChart } from "@/components/admin/SignupsBarChart";
 import { HorizontalBarChart } from "@/components/admin/HorizontalBarChart";
 import { OnboardingEmailPreviewButton } from "@/components/admin/OnboardingEmailPreviewButton";
+import { ImportAnnouncementPanel } from "@/components/admin/ImportAnnouncementPanel";
+import { IMPORT_ANNOUNCEMENT_RECIPIENTS } from "@/lib/announcement-email";
 
 const SITE_EVENTS_WINDOW_DAYS = 30;
 const RECENT_WINDOW_DAYS = 7;
@@ -215,6 +217,9 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
       </p>
       <div className="mt-4">
         <OnboardingEmailPreviewButton />
+      </div>
+      <div className="mt-4 max-w-2xl">
+        <ImportAnnouncementPanel recipients={IMPORT_ANNOUNCEMENT_RECIPIENTS.map((r) => r.email)} />
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
