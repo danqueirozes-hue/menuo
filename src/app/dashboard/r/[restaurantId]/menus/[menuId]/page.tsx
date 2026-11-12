@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { QrCode } from "lucide-react";
+import { FileUp, QrCode } from "lucide-react";
+import { getDashboardContent } from "@/lib/dashboard-content";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { requireOwnedRestaurant } from "@/lib/session";
@@ -79,13 +80,23 @@ export default async function MenuBuilderPage({
       />
       <div className="-mt-4 mb-8 flex flex-wrap items-center justify-between gap-3">
         <p className="text-ink-soft">{dict.intro}</p>
-        <Link
-          href={`/dashboard/r/${restaurantId}/menus/${menu.id}/publish`}
-          className="inline-flex shrink-0 items-center gap-2 rounded-full bg-navy px-5 py-2.5 text-sm font-medium text-paper hover:bg-navy-soft"
-        >
-          <QrCode size={16} />
-          {menu.isPublished ? dict.republishCta : dict.publishCta}
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href={`/dashboard/r/${restaurantId}/menus/${menu.id}/import`}
+            prefetch={false}
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-ink/20 px-5 py-2.5 text-sm text-ink hover:border-amber hover:text-amber"
+          >
+            <FileUp size={16} />
+            {getDashboardContent(menu.defaultLanguage).menuImport.entry}
+          </Link>
+          <Link
+            href={`/dashboard/r/${restaurantId}/menus/${menu.id}/publish`}
+            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-navy px-5 py-2.5 text-sm font-medium text-paper hover:bg-navy-soft"
+          >
+            <QrCode size={16} />
+            {menu.isPublished ? dict.republishCta : dict.publishCta}
+          </Link>
+        </div>
       </div>
 
       <MenuBuilder menuId={menu.id} initialSections={sections} currency={restaurant.currency} dict={dict} />

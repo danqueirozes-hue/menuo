@@ -154,6 +154,36 @@ export type DashboardDict = {
     deleting: string;
     error: string;
   };
+  /** AI import of an existing menu (PDF/photos → reviewed draft). */
+  menuImport: {
+    entry: string;
+    title: string;
+    back: string;
+    intro: string;
+    pick: string;
+    hint: string;
+    /** "{count}" = number of files. */
+    selected: string;
+    start: string;
+    reading: string;
+    /** "{count}" = imports left. */
+    remaining: string;
+    limitReached: string;
+    unavailable: string;
+    reviewTitle: string;
+    reviewHint: string;
+    /** "{count}" = dishes in a section. */
+    dishesCount: string;
+    noPrice: string;
+    allergensToConfirm: string;
+    apply: string;
+    applying: string;
+    retry: string;
+    empty: string;
+    failed: string;
+    tooLarge: string;
+    tooLong: string;
+  };
   contact: {
     email: string;
     instagram: string;
@@ -306,6 +336,32 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
       deleting: "Deleting…",
       error: "Something went wrong. Please try again.",
     },
+    menuImport: {
+      entry: "Import from PDF or photo",
+      title: "Import your menu",
+      back: "← Back to the menu",
+      intro: "Upload a PDF or photos of your current menu. MENUO reads it and prepares a draft for you to review — nothing is added until you confirm.",
+      pick: "Choose PDF or photos",
+      hint: "One PDF or up to 4 photos (JPG, PNG). Clear, straight photos work best.",
+      selected: "{count} file(s) selected",
+      start: "Read my menu",
+      reading: "Reading your menu… this usually takes about a minute. You can leave this page open.",
+      remaining: "{count} imports left",
+      limitReached: "You've used all your imports. Add the dishes manually, or write to us and we'll help.",
+      unavailable: "Import isn't available right now. Please add the dishes manually.",
+      reviewTitle: "Review the draft",
+      reviewHint: "Untick any section you don't want. Allergens found on your menu come in as “to confirm” — check each dish in the editor.",
+      dishesCount: "{count} dishes",
+      noPrice: "no price",
+      allergensToConfirm: "Allergens to confirm",
+      apply: "Add to my menu",
+      applying: "Adding…",
+      retry: "Try other files",
+      empty: "We couldn't find dishes in these files. Try a clearer photo or the PDF.",
+      failed: "We couldn't read the menu. Please try again.",
+      tooLarge: "The files are too large (5 MB in total at most).",
+      tooLong: "This menu is too long to import in one go. Try one page at a time.",
+    },
     contact: { email: "Email us", instagram: "MENUO on Instagram", help: "Help", supportSubject: "MENUO Support" },
   },
   pt: {
@@ -451,6 +507,32 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
       deleting: "A eliminar…",
       error: "Ocorreu um erro. Tente novamente.",
     },
+    menuImport: {
+      entry: "Importar de PDF ou fotografia",
+      title: "Importar o seu menu",
+      back: "← Voltar ao menu",
+      intro: "Envie um PDF ou fotografias do seu menu atual. O MENUO lê-o e prepara um rascunho para rever — nada é adicionado sem a sua confirmação.",
+      pick: "Escolher PDF ou fotografias",
+      hint: "Um PDF ou até 4 fotografias (JPG, PNG). Fotografias nítidas e direitas dão melhor resultado.",
+      selected: "{count} ficheiro(s) selecionado(s)",
+      start: "Ler o meu menu",
+      reading: "A ler o seu menu… normalmente demora cerca de um minuto. Pode deixar esta página aberta.",
+      remaining: "Restam {count} importações",
+      limitReached: "Já usou todas as importações. Adicione os pratos manualmente ou escreva-nos e ajudamos.",
+      unavailable: "A importação não está disponível de momento. Adicione os pratos manualmente.",
+      reviewTitle: "Reveja o rascunho",
+      reviewHint: "Desmarque as secções que não quer. Os alergénios encontrados no menu entram como «a confirmar» — verifique cada prato no editor.",
+      dishesCount: "{count} pratos",
+      noPrice: "sem preço",
+      allergensToConfirm: "Alergénios a confirmar",
+      apply: "Adicionar ao meu menu",
+      applying: "A adicionar…",
+      retry: "Tentar outros ficheiros",
+      empty: "Não encontrámos pratos nestes ficheiros. Tente uma fotografia mais nítida ou o PDF.",
+      failed: "Não foi possível ler o menu. Tente novamente.",
+      tooLarge: "Os ficheiros são demasiado grandes (máximo de 5 MB no total).",
+      tooLong: "Este menu é demasiado longo para importar de uma vez. Tente uma página de cada vez.",
+    },
     contact: { email: "Enviar e-mail", instagram: "MENUO no Instagram", help: "Ajuda", supportSubject: "Suporte MENUO" },
   },
   it: {
@@ -595,6 +677,32 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
       deleteCta: "Elimina il mio account",
       deleting: "Eliminazione…",
       error: "Si è verificato un errore. Riprova.",
+    },
+    menuImport: {
+      entry: "Importa da PDF o foto",
+      title: "Importa il tuo menu",
+      back: "← Torna al menu",
+      intro: "Carica un PDF o le foto del tuo menu attuale. MENUO lo legge e prepara una bozza da rivedere: nulla viene aggiunto finché non confermi.",
+      pick: "Scegli PDF o foto",
+      hint: "Un PDF o fino a 4 foto (JPG, PNG). Foto nitide e dritte danno risultati migliori.",
+      selected: "{count} file selezionati",
+      start: "Leggi il mio menu",
+      reading: "Stiamo leggendo il tuo menu… di solito ci vuole circa un minuto. Puoi lasciare aperta questa pagina.",
+      remaining: "Ti restano {count} importazioni",
+      limitReached: "Hai usato tutte le importazioni. Aggiungi i piatti a mano oppure scrivici e ti aiutiamo.",
+      unavailable: "L'importazione non è disponibile al momento. Aggiungi i piatti a mano.",
+      reviewTitle: "Rivedi la bozza",
+      reviewHint: "Deseleziona le sezioni che non vuoi. Gli allergeni trovati nel menu vengono importati come «da confermare»: controlla ogni piatto nell'editor.",
+      dishesCount: "{count} piatti",
+      noPrice: "senza prezzo",
+      allergensToConfirm: "Allergeni da confermare",
+      apply: "Aggiungi al mio menu",
+      applying: "Aggiunta in corso…",
+      retry: "Prova altri file",
+      empty: "Non abbiamo trovato piatti in questi file. Prova con una foto più nitida o con il PDF.",
+      failed: "Impossibile leggere il menu. Riprova.",
+      tooLarge: "I file sono troppo grandi (massimo 5 MB in totale).",
+      tooLong: "Questo menu è troppo lungo da importare in una volta. Prova una pagina alla volta.",
     },
     contact: { email: "Scrivici", instagram: "MENUO su Instagram", help: "Aiuto", supportSubject: "Assistenza MENUO" },
   },

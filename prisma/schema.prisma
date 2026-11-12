@@ -22,6 +22,9 @@ model User {
   onboardingEmailSentAt DateTime?
   // Same idea for the "trial running, menu still empty" nudge.
   trialNudgeSentAt      DateTime?
+  // AI menu imports (PDF/photo → draft) started by this account; capped
+  // per account to keep the per-call AI cost predictable.
+  menuImportCount       Int       @default(0)
   createdAt    DateTime      @default(now())
 }
 

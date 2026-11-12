@@ -70,6 +70,7 @@ export default async function MenusListPage({
               trial: "/dashboard/billing",
               publish: `${builderHref}/publish`,
             }}
+            importLink={{ href: `${builderHref}/import`, label: dict.menuImport.entry }}
           />
         </div>
       )}

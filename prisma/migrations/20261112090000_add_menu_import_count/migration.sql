@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN "menuImportCount" INTEGER NOT NULL DEFAULT 0;
