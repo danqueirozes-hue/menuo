@@ -86,19 +86,24 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
         "MENUO isn't just a translation. It's a tool that helps your restaurant sell more and run better, every single day.",
       items: [
         {
+          title: "Send a photo of your menu: it's ready in 20 languages",
+          description:
+            "No retyping. Upload a photo or the PDF of the menu you already have, and MENUO's AI fills in the sections, dishes and prices for you to review. Minutes later your menu is live in 20 languages, with a QR code ready to print. No app, no developer, no contract, and 14 days free.",
+        },
+        {
           title: "Higher average ticket",
           description:
             "When guests understand a dish (its ingredients, how it's prepared, its story), they order with confidence. They stop picking the safest, cheapest option and take a chance on your signature dishes, starters and wine.",
         },
         {
-          title: "Your team serves, not translates",
-          description:
-            "In high season, every minute counts. With the menu in each guest's language, staff stop explaining dishes in improvised English, orders go out faster and tables turn more often. No need to hire staff who speak five languages.",
-        },
-        {
           title: "Clear allergens, in any language",
           description:
             "The 14 allergens that must be declared in the EU, flagged on every dish and translated into each guest's language. With one tap, guests with coeliac disease, a shellfish allergy or a vegan diet see only the dishes they can eat. More safety for your guests, more peace of mind for you and your team.",
+        },
+        {
+          title: "Your team serves, not translates",
+          description:
+            "In high season, every minute counts. With the menu in each guest's language, staff stop explaining dishes in improvised English, orders go out faster and tables turn more often. No need to hire staff who speak five languages.",
         },
         {
           title: "Fewer misunderstandings, better reviews",
@@ -109,11 +114,6 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           title: "Change your menu in seconds, no reprinting",
           description:
             "Prices, seasonal dishes and daily specials update in one click, in every language at once. Prefer paper? Export your menu as a PDF in any language. All from €9.90/month, less than a single reprint.",
-        },
-        {
-          title: "Ready today, no risk",
-          description:
-            "No app, no developer, no contract. Build your menu in minutes, print the QR code and you're up and running. Try it free for 14 days and cancel anytime.",
         },
       ],
     },
@@ -169,19 +169,19 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       plans: {
         essential: {
           tagline: "1 menu · 1 establishment",
-          features: ["1 digital menu", "1 establishment", "20 languages, QR code, PDF export", "All 14 EU allergens, in every language"],
+          features: ["1 digital menu", "1 establishment", "20 languages, QR code, PDF export", "All 14 EU allergens, in every language", "Menu import from a photo or PDF (AI)"],
         },
         business: {
           tagline: "Up to 3 menus · 1 establishment",
-          features: ["Up to 3 digital menus", "1 establishment", "20 languages, QR code, PDF export", "All 14 EU allergens, in every language"],
+          features: ["Up to 3 digital menus", "1 establishment", "20 languages, QR code, PDF export", "All 14 EU allergens, in every language", "Menu import from a photo or PDF (AI)"],
         },
         hospitality: {
           tagline: "Up to 10 menus · 1 establishment",
-          features: ["Up to 10 digital menus", "1 establishment", "20 languages, QR code, PDF export", "All 14 EU allergens, in every language"],
+          features: ["Up to 10 digital menus", "1 establishment", "20 languages, QR code, PDF export", "All 14 EU allergens, in every language", "Menu import from a photo or PDF (AI)"],
         },
         "multi-location": {
           tagline: "Up to 5 establishments · up to 5 menus each",
-          features: ["Up to 5 establishments", "Up to 5 menus per establishment", "20 languages, QR code, PDF export", "All 14 EU allergens, in every language"],
+          features: ["Up to 5 establishments", "Up to 5 menus per establishment", "20 languages, QR code, PDF export", "All 14 EU allergens, in every language", "Menu import from a photo or PDF (AI)"],
         },
       },
     },
@@ -221,19 +221,24 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
         "MENUO no es solo una traducción. Es una herramienta que hace que tu restaurante venda más y funcione mejor, todos los días.",
       items: [
         {
+          title: "Envía una foto de tu carta: lista en 20 idiomas",
+          description:
+            "Sin volver a teclear nada. Sube una foto o el PDF de la carta que ya tienes y la IA de MENUO rellena secciones, platos y precios para que los revises. En pocos minutos tu menú está online en 20 idiomas, con el código QR listo para imprimir. Sin app, sin programador, sin permanencia y con 14 días gratis.",
+        },
+        {
           title: "Mayor ticket medio",
           description:
             "Cuando el cliente entiende el plato (los ingredientes, la preparación, la historia), pide con confianza. Deja de elegir lo más seguro y barato y se anima con los platos estrella, los entrantes y el vino.",
         },
         {
-          title: "Tu equipo sirve, no traduce",
-          description:
-            "En temporada alta, cada minuto cuenta. Con el menú en el idioma de cada cliente, los camareros dejan de explicar platos en un inglés improvisado, los pedidos salen más rápido y las mesas rotan más. No necesitas contratar personal que hable cinco idiomas.",
-        },
-        {
           title: "Alérgenos claros, en cualquier idioma",
           description:
             "Los 14 alérgenos de declaración obligatoria en la UE, identificados en cada plato y traducidos al idioma del cliente. Con un toque, quien es celíaco, alérgico al marisco o vegano ve solo los platos que puede comer. Más seguridad para el cliente y más tranquilidad para ti y tu equipo.",
+        },
+        {
+          title: "Tu equipo sirve, no traduce",
+          description:
+            "En temporada alta, cada minuto cuenta. Con el menú en el idioma de cada cliente, los camareros dejan de explicar platos en un inglés improvisado, los pedidos salen más rápido y las mesas rotan más. No necesitas contratar personal que hable cinco idiomas.",
         },
         {
           title: "Menos malentendidos, mejores reseñas",
@@ -244,11 +249,6 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           title: "Cambia el menú en segundos, sin reimprimir",
           description:
             "Precios, platos de temporada y sugerencias del día se actualizan con un clic, en todos los idiomas a la vez. Y si prefieres papel, exporta el menú en PDF en el idioma que quieras. Todo desde 9,90 €/mes, menos que una sola reimpresión.",
-        },
-        {
-          title: "Listo hoy, sin riesgos",
-          description:
-            "Sin app, sin programador, sin contrato. Crea tu menú en minutos, imprime el código QR y ya está funcionando. Pruébalo gratis 14 días y cancela cuando quieras.",
         },
       ],
     },
@@ -304,19 +304,19 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       plans: {
         essential: {
           tagline: "1 menú · 1 establecimiento",
-          features: ["1 menú digital", "1 establecimiento", "20 idiomas, código QR, exportación en PDF", "Los 14 alérgenos de la UE, en todos los idiomas"],
+          features: ["1 menú digital", "1 establecimiento", "20 idiomas, código QR, exportación en PDF", "Los 14 alérgenos de la UE, en todos los idiomas", "Importación de la carta desde foto o PDF (IA)"],
         },
         business: {
           tagline: "Hasta 3 menús · 1 establecimiento",
-          features: ["Hasta 3 menús digitales", "1 establecimiento", "20 idiomas, código QR, exportación en PDF", "Los 14 alérgenos de la UE, en todos los idiomas"],
+          features: ["Hasta 3 menús digitales", "1 establecimiento", "20 idiomas, código QR, exportación en PDF", "Los 14 alérgenos de la UE, en todos los idiomas", "Importación de la carta desde foto o PDF (IA)"],
         },
         hospitality: {
           tagline: "Hasta 10 menús · 1 establecimiento",
-          features: ["Hasta 10 menús digitales", "1 establecimiento", "20 idiomas, código QR, exportación en PDF", "Los 14 alérgenos de la UE, en todos los idiomas"],
+          features: ["Hasta 10 menús digitales", "1 establecimiento", "20 idiomas, código QR, exportación en PDF", "Los 14 alérgenos de la UE, en todos los idiomas", "Importación de la carta desde foto o PDF (IA)"],
         },
         "multi-location": {
           tagline: "Hasta 5 establecimientos · hasta 5 menús cada uno",
-          features: ["Hasta 5 establecimientos", "Hasta 5 menús por establecimiento", "20 idiomas, código QR, exportación en PDF", "Los 14 alérgenos de la UE, en todos los idiomas"],
+          features: ["Hasta 5 establecimientos", "Hasta 5 menús por establecimiento", "20 idiomas, código QR, exportación en PDF", "Los 14 alérgenos de la UE, en todos los idiomas", "Importación de la carta desde foto o PDF (IA)"],
         },
       },
     },
@@ -356,19 +356,24 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
         "O MENUO não é só uma tradução. É uma ferramenta que faz o seu restaurante vender mais e trabalhar melhor, todos os dias.",
       items: [
         {
+          title: "Envie uma fotografia do seu menu: fica pronto em 20 idiomas",
+          description:
+            "Sem voltar a escrever nada. Envie uma fotografia ou o PDF do menu que já tem e a IA do MENUO preenche secções, pratos e preços para rever. Em poucos minutos o seu menu está online em 20 idiomas, com o código QR pronto a imprimir. Sem app, sem programador, sem fidelização e com 14 dias grátis.",
+        },
+        {
           title: "Ticket médio mais alto",
           description:
             "Quando o cliente entende o prato (os ingredientes, a preparação, a história), pede com confiança. Deixa de escolher o mais seguro e mais barato e arrisca nos pratos de assinatura, nas entradas e no vinho.",
         },
         {
-          title: "A sua equipa serve, não traduz",
-          description:
-            "Na época alta, cada minuto conta. Com o menu no idioma de cada cliente, os empregados deixam de explicar pratos em inglês improvisado, os pedidos saem mais rápido e as mesas rodam mais. Não precisa de contratar pessoal que fale cinco línguas.",
-        },
-        {
           title: "Alergénios claros, em qualquer idioma",
           description:
             "Os 14 alergénios de declaração obrigatória na UE, identificados em cada prato e traduzidos para o idioma do cliente. Com um toque, quem é celíaco, alérgico a marisco ou vegano vê apenas os pratos que pode comer. Mais segurança para o cliente, mais tranquilidade para si e para a sua equipa.",
+        },
+        {
+          title: "A sua equipa serve, não traduz",
+          description:
+            "Na época alta, cada minuto conta. Com o menu no idioma de cada cliente, os empregados deixam de explicar pratos em inglês improvisado, os pedidos saem mais rápido e as mesas rodam mais. Não precisa de contratar pessoal que fale cinco línguas.",
         },
         {
           title: "Menos mal-entendidos, melhores avaliações",
@@ -379,11 +384,6 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           title: "Mude o menu em segundos, sem reimprimir",
           description:
             "Preços, pratos da época e sugestões do dia são atualizados num clique, em todos os idiomas ao mesmo tempo. E se preferir papel, exporte o menu em PDF no idioma que quiser. Tudo a partir de €9,90/mês, menos do que uma única reimpressão.",
-        },
-        {
-          title: "Pronto hoje, sem riscos",
-          description:
-            "Sem aplicação, sem programador, sem contrato. Cria o menu em minutos, imprime o código QR e está a funcionar. Experimente 14 dias grátis e cancele quando quiser.",
         },
       ],
     },
@@ -439,19 +439,19 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       plans: {
         essential: {
           tagline: "1 menu · 1 estabelecimento",
-          features: ["1 menu digital", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF", "Os 14 alergénios da UE, em todos os idiomas"],
+          features: ["1 menu digital", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF", "Os 14 alergénios da UE, em todos os idiomas", "Importação do menu por fotografia ou PDF (IA)"],
         },
         business: {
           tagline: "Até 3 menus · 1 estabelecimento",
-          features: ["Até 3 menus digitais", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF", "Os 14 alergénios da UE, em todos os idiomas"],
+          features: ["Até 3 menus digitais", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF", "Os 14 alergénios da UE, em todos os idiomas", "Importação do menu por fotografia ou PDF (IA)"],
         },
         hospitality: {
           tagline: "Até 10 menus · 1 estabelecimento",
-          features: ["Até 10 menus digitais", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF", "Os 14 alergénios da UE, em todos os idiomas"],
+          features: ["Até 10 menus digitais", "1 estabelecimento", "20 idiomas, código QR, exportação em PDF", "Os 14 alergénios da UE, em todos os idiomas", "Importação do menu por fotografia ou PDF (IA)"],
         },
         "multi-location": {
           tagline: "Até 5 estabelecimentos · até 5 menus cada",
-          features: ["Até 5 estabelecimentos", "Até 5 menus por estabelecimento", "20 idiomas, código QR, exportação em PDF", "Os 14 alergénios da UE, em todos os idiomas"],
+          features: ["Até 5 estabelecimentos", "Até 5 menus por estabelecimento", "20 idiomas, código QR, exportação em PDF", "Os 14 alergénios da UE, em todos os idiomas", "Importação do menu por fotografia ou PDF (IA)"],
         },
       },
     },
@@ -491,19 +491,24 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
         "MENUO non è solo una traduzione. È uno strumento che fa vendere di più il tuo ristorante e lo fa lavorare meglio, ogni giorno.",
       items: [
         {
+          title: "Invia una foto del tuo menu: è pronto in 20 lingue",
+          description:
+            "Niente da ridigitare. Carica una foto o il PDF del menu che hai già e l'IA di MENUO compila sezioni, piatti e prezzi da rivedere. In pochi minuti il tuo menu è online in 20 lingue, con il codice QR pronto da stampare. Niente app, niente programmatori, nessun vincolo e 14 giorni gratis.",
+        },
+        {
           title: "Scontrino medio più alto",
           description:
             "Quando l'ospite capisce il piatto (gli ingredienti, la preparazione, la storia), ordina con sicurezza. Smette di scegliere l'opzione più sicura ed economica e si lascia tentare dai piatti signature, dagli antipasti e dal vino.",
         },
         {
-          title: "Il tuo staff serve, non traduce",
-          description:
-            "In alta stagione ogni minuto conta. Con il menu nella lingua di ogni ospite, i camerieri smettono di spiegare i piatti in un inglese improvvisato, le comande escono più velocemente e i tavoli girano di più. Non serve assumere personale che parli cinque lingue.",
-        },
-        {
           title: "Allergeni chiari, in ogni lingua",
           description:
             "I 14 allergeni a dichiarazione obbligatoria nell'UE, indicati su ogni piatto e tradotti nella lingua dell'ospite. Con un tocco, chi è celiaco, allergico ai frutti di mare o vegano vede solo i piatti che può mangiare. Più sicurezza per l'ospite, più tranquillità per te e per il tuo staff.",
+        },
+        {
+          title: "Il tuo staff serve, non traduce",
+          description:
+            "In alta stagione ogni minuto conta. Con il menu nella lingua di ogni ospite, i camerieri smettono di spiegare i piatti in un inglese improvvisato, le comande escono più velocemente e i tavoli girano di più. Non serve assumere personale che parli cinque lingue.",
         },
         {
           title: "Meno equivoci, recensioni migliori",
@@ -514,11 +519,6 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           title: "Cambia il menu in pochi secondi, senza ristampare",
           description:
             "Prezzi, piatti di stagione e suggerimenti del giorno si aggiornano con un clic, in tutte le lingue contemporaneamente. E se preferisci la carta, esporta il menu in PDF nella lingua che vuoi. Tutto a partire da €9,90/mese, meno di una sola ristampa.",
-        },
-        {
-          title: "Pronto oggi, senza rischi",
-          description:
-            "Niente app, niente sviluppatori, niente contratti. Crei il menu in pochi minuti, stampi il codice QR e sei operativo. Provalo gratis per 14 giorni e annulla quando vuoi.",
         },
       ],
     },
@@ -574,19 +574,19 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       plans: {
         essential: {
           tagline: "1 menu · 1 locale",
-          features: ["1 menu digitale", "1 locale", "20 lingue, codice QR, esportazione PDF", "I 14 allergeni UE, in ogni lingua"],
+          features: ["1 menu digitale", "1 locale", "20 lingue, codice QR, esportazione PDF", "I 14 allergeni UE, in ogni lingua", "Importazione del menu da foto o PDF (IA)"],
         },
         business: {
           tagline: "Fino a 3 menu · 1 locale",
-          features: ["Fino a 3 menu digitali", "1 locale", "20 lingue, codice QR, esportazione PDF", "I 14 allergeni UE, in ogni lingua"],
+          features: ["Fino a 3 menu digitali", "1 locale", "20 lingue, codice QR, esportazione PDF", "I 14 allergeni UE, in ogni lingua", "Importazione del menu da foto o PDF (IA)"],
         },
         hospitality: {
           tagline: "Fino a 10 menu · 1 locale",
-          features: ["Fino a 10 menu digitali", "1 locale", "20 lingue, codice QR, esportazione PDF", "I 14 allergeni UE, in ogni lingua"],
+          features: ["Fino a 10 menu digitali", "1 locale", "20 lingue, codice QR, esportazione PDF", "I 14 allergeni UE, in ogni lingua", "Importazione del menu da foto o PDF (IA)"],
         },
         "multi-location": {
           tagline: "Fino a 5 locali · fino a 5 menu ciascuno",
-          features: ["Fino a 5 locali", "Fino a 5 menu per locale", "20 lingue, codice QR, esportazione PDF", "I 14 allergeni UE, in ogni lingua"],
+          features: ["Fino a 5 locali", "Fino a 5 menu per locale", "20 lingue, codice QR, esportazione PDF", "I 14 allergeni UE, in ogni lingua", "Importazione del menu da foto o PDF (IA)"],
         },
       },
     },
@@ -626,19 +626,24 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
         "MENUO ist nicht nur eine Übersetzung. Es ist ein Werkzeug, mit dem Ihr Restaurant jeden Tag mehr verkauft und besser arbeitet.",
       items: [
         {
+          title: "Ein Foto Ihrer Speisekarte genügt: fertig in 20 Sprachen",
+          description:
+            "Kein Abtippen. Laden Sie ein Foto oder das PDF Ihrer bestehenden Speisekarte hoch, und die KI von MENUO erfasst Kategorien, Gerichte und Preise zur Kontrolle. Wenige Minuten später ist Ihre Karte in 20 Sprachen online, mit druckfertigem QR-Code. Keine App, kein Entwickler, kein Vertrag – und 14 Tage kostenlos.",
+        },
+        {
           title: "Höherer Durchschnittsbon",
           description:
             "Wenn Gäste ein Gericht verstehen (die Zutaten, die Zubereitung, die Geschichte), bestellen sie mit Zuversicht. Sie wählen nicht mehr das Sicherste und Günstigste, sondern trauen sich an Signature-Gerichte, Vorspeisen und Wein.",
         },
         {
-          title: "Ihr Team serviert, statt zu übersetzen",
-          description:
-            "In der Hochsaison zählt jede Minute. Mit der Speisekarte in der Sprache jedes Gastes muss Ihr Personal Gerichte nicht mehr in improvisiertem Englisch erklären, Bestellungen gehen schneller raus und die Tische werden öfter belegt. Sie müssen kein Personal einstellen, das fünf Sprachen spricht.",
-        },
-        {
           title: "Klare Allergene, in jeder Sprache",
           description:
             "Die 14 in der EU kennzeichnungspflichtigen Allergene, bei jedem Gericht angegeben und in die Sprache des Gastes übersetzt. Mit einem Fingertipp sehen Gäste mit Zöliakie, Meeresfrüchteallergie oder veganer Ernährung nur die Gerichte, die sie essen können. Mehr Sicherheit für Ihre Gäste, mehr Gelassenheit für Sie und Ihr Team.",
+        },
+        {
+          title: "Ihr Team serviert, statt zu übersetzen",
+          description:
+            "In der Hochsaison zählt jede Minute. Mit der Speisekarte in der Sprache jedes Gastes muss Ihr Personal Gerichte nicht mehr in improvisiertem Englisch erklären, Bestellungen gehen schneller raus und die Tische werden öfter belegt. Sie müssen kein Personal einstellen, das fünf Sprachen spricht.",
         },
         {
           title: "Weniger Missverständnisse, bessere Bewertungen",
@@ -649,11 +654,6 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           title: "Speisekarte in Sekunden ändern, ohne Neudruck",
           description:
             "Preise, Saisongerichte und Tagesempfehlungen werden mit einem Klick aktualisiert, in allen Sprachen gleichzeitig. Und wenn Sie Papier bevorzugen, exportieren Sie die Speisekarte als PDF in jeder gewünschten Sprache. Alles ab 9,90 €/Monat, weniger als ein einziger Neudruck.",
-        },
-        {
-          title: "Heute startklar, ohne Risiko",
-          description:
-            "Keine App, kein Entwickler, kein Vertrag. Erstellen Sie Ihre Speisekarte in wenigen Minuten, drucken Sie den QR-Code aus und schon läuft es. Testen Sie 14 Tage kostenlos und kündigen Sie jederzeit.",
         },
       ],
     },
@@ -709,19 +709,19 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       plans: {
         essential: {
           tagline: "1 Speisekarte · 1 Betrieb",
-          features: ["1 digitale Speisekarte", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export", "Alle 14 EU-Allergene, in jeder Sprache"],
+          features: ["1 digitale Speisekarte", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export", "Alle 14 EU-Allergene, in jeder Sprache", "Speisekarten-Import per Foto oder PDF (KI)"],
         },
         business: {
           tagline: "Bis zu 3 Speisekarten · 1 Betrieb",
-          features: ["Bis zu 3 digitale Speisekarten", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export", "Alle 14 EU-Allergene, in jeder Sprache"],
+          features: ["Bis zu 3 digitale Speisekarten", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export", "Alle 14 EU-Allergene, in jeder Sprache", "Speisekarten-Import per Foto oder PDF (KI)"],
         },
         hospitality: {
           tagline: "Bis zu 10 Speisekarten · 1 Betrieb",
-          features: ["Bis zu 10 digitale Speisekarten", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export", "Alle 14 EU-Allergene, in jeder Sprache"],
+          features: ["Bis zu 10 digitale Speisekarten", "1 Betrieb", "20 Sprachen, QR-Code, PDF-Export", "Alle 14 EU-Allergene, in jeder Sprache", "Speisekarten-Import per Foto oder PDF (KI)"],
         },
         "multi-location": {
           tagline: "Bis zu 5 Betriebe · je bis zu 5 Speisekarten",
-          features: ["Bis zu 5 Betriebe", "Bis zu 5 Speisekarten pro Betrieb", "20 Sprachen, QR-Code, PDF-Export", "Alle 14 EU-Allergene, in jeder Sprache"],
+          features: ["Bis zu 5 Betriebe", "Bis zu 5 Speisekarten pro Betrieb", "20 Sprachen, QR-Code, PDF-Export", "Alle 14 EU-Allergene, in jeder Sprache", "Speisekarten-Import per Foto oder PDF (KI)"],
         },
       },
     },
@@ -761,19 +761,24 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
         "MENUO n'est pas qu'une traduction. C'est un outil qui aide votre restaurant à vendre plus et à mieux travailler, tous les jours.",
       items: [
         {
+          title: "Envoyez une photo de votre carte : elle est prête en 20 langues",
+          description:
+            "Rien à ressaisir. Importez une photo ou le PDF de la carte que vous avez déjà, et l'IA de MENUO remplit les rubriques, les plats et les prix pour que vous les vérifiiez. Quelques minutes plus tard, votre carte est en ligne en 20 langues, avec un QR code prêt à imprimer. Sans appli, sans développeur, sans engagement, et 14 jours gratuits.",
+        },
+        {
           title: "Un ticket moyen plus élevé",
           description:
             "Quand le client comprend le plat (les ingrédients, la préparation, l'histoire), il commande en confiance. Il cesse de choisir le plus sûr et le moins cher et ose les plats signature, les entrées et le vin.",
         },
         {
-          title: "Votre équipe sert, elle ne traduit pas",
-          description:
-            "En haute saison, chaque minute compte. Avec le menu dans la langue de chaque client, les serveurs n'expliquent plus les plats dans un anglais improvisé, les commandes partent plus vite et les tables tournent davantage. Inutile d'embaucher du personnel qui parle cinq langues.",
-        },
-        {
           title: "Des allergènes clairs, dans toutes les langues",
           description:
             "Les 14 allergènes à déclaration obligatoire dans l'UE, signalés sur chaque plat et traduits dans la langue du client. En un geste, les personnes cœliaques, allergiques aux fruits de mer ou véganes ne voient que les plats qu'elles peuvent manger. Plus de sécurité pour vos clients, plus de sérénité pour vous et votre équipe.",
+        },
+        {
+          title: "Votre équipe sert, elle ne traduit pas",
+          description:
+            "En haute saison, chaque minute compte. Avec le menu dans la langue de chaque client, les serveurs n'expliquent plus les plats dans un anglais improvisé, les commandes partent plus vite et les tables tournent davantage. Inutile d'embaucher du personnel qui parle cinq langues.",
         },
         {
           title: "Moins de malentendus, de meilleurs avis",
@@ -784,11 +789,6 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
           title: "Modifiez le menu en quelques secondes, sans réimprimer",
           description:
             "Prix, plats de saison et suggestions du jour se mettent à jour en un clic, dans toutes les langues à la fois. Et si vous préférez le papier, exportez le menu en PDF dans la langue de votre choix. Le tout à partir de 9,90 €/mois, moins qu'une seule réimpression.",
-        },
-        {
-          title: "Prêt aujourd'hui, sans risque",
-          description:
-            "Sans application, sans développeur, sans engagement. Créez votre menu en quelques minutes, imprimez le code QR et c'est parti. Essayez gratuitement pendant 14 jours et annulez quand vous voulez.",
         },
       ],
     },
@@ -844,19 +844,19 @@ export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = {
       plans: {
         essential: {
           tagline: "1 menu · 1 établissement",
-          features: ["1 menu numérique", "1 établissement", "20 langues, code QR, export PDF", "Les 14 allergènes UE, dans toutes les langues"],
+          features: ["1 menu numérique", "1 établissement", "20 langues, code QR, export PDF", "Les 14 allergènes UE, dans toutes les langues", "Import de la carte par photo ou PDF (IA)"],
         },
         business: {
           tagline: "Jusqu'à 3 menus · 1 établissement",
-          features: ["Jusqu'à 3 menus numériques", "1 établissement", "20 langues, code QR, export PDF", "Les 14 allergènes UE, dans toutes les langues"],
+          features: ["Jusqu'à 3 menus numériques", "1 établissement", "20 langues, code QR, export PDF", "Les 14 allergènes UE, dans toutes les langues", "Import de la carte par photo ou PDF (IA)"],
         },
         hospitality: {
           tagline: "Jusqu'à 10 menus · 1 établissement",
-          features: ["Jusqu'à 10 menus numériques", "1 établissement", "20 langues, code QR, export PDF", "Les 14 allergènes UE, dans toutes les langues"],
+          features: ["Jusqu'à 10 menus numériques", "1 établissement", "20 langues, code QR, export PDF", "Les 14 allergènes UE, dans toutes les langues", "Import de la carte par photo ou PDF (IA)"],
         },
         "multi-location": {
           tagline: "Jusqu'à 5 établissements · jusqu'à 5 menus chacun",
-          features: ["Jusqu'à 5 établissements", "Jusqu'à 5 menus par établissement", "20 langues, code QR, export PDF", "Les 14 allergènes UE, dans toutes les langues"],
+          features: ["Jusqu'à 5 établissements", "Jusqu'à 5 menus par établissement", "20 langues, code QR, export PDF", "Les 14 allergènes UE, dans toutes les langues", "Import de la carte par photo ou PDF (IA)"],
         },
       },
     },

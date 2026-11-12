@@ -60,7 +60,7 @@ const TEXT: Record<
       subject: "Your 14-day free trial has started",
       intro: "Welcome to MENUO! Your free trial for <strong>{restaurant}</strong> is active until <strong>{date}</strong>. The best way to use it: get your menu live this week and see guests read it in their own language.",
       steps: [
-        "Create your sections (e.g. Starters, Pizzas, Drinks).",
+        "Send a photo of your current menu (MENUO fills it in for you) or create your sections (e.g. Starters, Pizzas, Drinks).",
         "Add your dishes: name, price, photo and the 14 EU allergens.",
         "Publish and print your QR code — your table card is ready to download.",
       ],
@@ -104,7 +104,7 @@ const TEXT: Record<
       subject: "O seu teste grátis de 14 dias começou",
       intro: "Damos-lhe as boas-vindas ao MENUO! O teste grátis de <strong>{restaurant}</strong> está ativo até <strong>{date}</strong>. A melhor forma de o aproveitar: ponha o menu online esta semana e veja os clientes a lê-lo no próprio idioma.",
       steps: [
-        "Crie as secções (ex.: Entradas, Pratos principais, Bebidas).",
+        "Envie uma fotografia do seu menu atual (o MENUO preenche-o por si) ou crie as secções (ex.: Entradas, Pratos principais, Bebidas).",
         "Adicione os pratos: nome, preço, fotografia e os 14 alergénios da UE.",
         "Publique e imprima o código QR — o cartão de mesa fica pronto a descarregar.",
       ],
@@ -148,7 +148,7 @@ const TEXT: Record<
       subject: "La tua prova gratuita di 14 giorni è iniziata",
       intro: "Ti diamo il benvenuto su MENUO! La prova gratuita di <strong>{restaurant}</strong> è attiva fino al <strong>{date}</strong>. Il modo migliore per sfruttarla: metti online il menu questa settimana e guarda i clienti leggerlo nella loro lingua.",
       steps: [
-        "Crea le sezioni (es.: Antipasti, Pizze, Bevande).",
+        "Invia una foto del tuo menu attuale (MENUO lo compila per te) oppure crea le sezioni (es.: Antipasti, Pizze, Bevande).",
         "Aggiungi i piatti: nome, prezzo, foto e i 14 allergeni UE.",
         "Pubblica e stampa il codice QR: il segnatavolo è pronto da scaricare.",
       ],
