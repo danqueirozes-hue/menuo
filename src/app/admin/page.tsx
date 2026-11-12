@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LCPThresholds, CLSThresholds, INPThresholds } from "web-vitals";
 import { prisma } from "@/lib/prisma";
 import { getPlan, priceCentsFor, PLAN_ORDER, PLANS, BillingInterval } from "@/lib/plans";
@@ -75,8 +76,18 @@ function buildWeeklySignups(users: { createdAt: Date }[], weeksCount = 12) {
   return buckets.map(({ label, count }) => ({ label, count }));
 }
 
-export default async function AdminPage() {
+// Period filter for the "Top referrers" card (?ref=1d|7d|30d).
+const REFERRER_RANGES = [
+  { key: "1d", label: "Last day", days: 1 },
+  { key: "7d", label: "Last week", days: 7 },
+  { key: "30d", label: "Last month", days: 30 },
+] as const;
+
+export default async function AdminPage({ searchParams }: { searchParams: Promise<{ ref?: string }> }) {
   const since = new Date(Date.now() - SITE_EVENTS_WINDOW_DAYS * 24 * 60 * 60 * 1000);
+  const { ref } = await searchParams;
+  const referrerRange = REFERRER_RANGES.find((r) => r.key === ref) ?? REFERRER_RANGES[2];
+  const referrerSince = new Date(since.getTime() + (SITE_EVENTS_WINDOW_DAYS - referrerRange.days) * 24 * 60 * 60 * 1000);
 
   const [
     users,
@@ -122,7 +133,7 @@ export default async function AdminPage() {
     }),
     prisma.siteEvent.groupBy({
       by: ["referrerHost"],
-      where: { type: "pageview", createdAt: { gte: since }, referrerHost: { not: null } },
+      where: { type: "pageview", createdAt: { gte: referrerSince }, referrerHost: { not: null } },
       _count: { _all: true },
       orderBy: { _count: { referrerHost: "desc" } },
       take: 8,
@@ -335,8 +346,27 @@ export default async function AdminPage() {
             </div>
           </div>
           <div className="rounded-xl border border-border bg-panel p-5">
-            <p className="text-sm font-medium text-ink">Top referrers</p>
-            <p className="text-xs text-ink-soft">Sites that linked here — excludes direct visits.</p>
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div>
+                <p className="text-sm font-medium text-ink">Top referrers</p>
+                <p className="text-xs text-ink-soft">Sites that linked here — excludes direct visits.</p>
+              </div>
+              <div className="flex gap-1">
+                {REFERRER_RANGES.map((r) => (
+                  <Link
+                    key={r.key}
+                    href={`/admin?ref=${r.key}`}
+                    scroll={false}
+                    prefetch={false}
+                    className={`rounded-full px-2.5 py-1 text-[11px] font-medium ${
+                      r.key === referrerRange.key ? "bg-navy text-paper" : "bg-paper text-ink-soft hover:text-amber"
+                    }`}
+                  >
+                    {r.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
             <div className="mt-4">
               <HorizontalBarChart
                 ariaLabel="Top referrers"
