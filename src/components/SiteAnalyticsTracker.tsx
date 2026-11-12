@@ -6,8 +6,17 @@ import { onCLS, onFCP, onINP, onLCP, onTTFB, type Metric } from "web-vitals";
 
 const EXCLUDED_PREFIXES = ["/dashboard", "/admin"];
 
+// Lab tools (PageSpeed Insights / Lighthouse, WebPageTest, headless or
+// automated browsers) load pages on throttled, simulated devices; counting
+// them made the admin's real-user performance numbers look far worse.
+const LAB_UA = /Lighthouse|Speed Insights|HeadlessChrome|PTST|bot|crawler|spider/i;
+
+function isLabOrBot(): boolean {
+  return navigator.webdriver === true || LAB_UA.test(navigator.userAgent);
+}
+
 function isExcluded(path: string) {
-  return EXCLUDED_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`));
+  return isLabOrBot() || EXCLUDED_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`));
 }
 
 function send(event: Record<string, unknown>) {

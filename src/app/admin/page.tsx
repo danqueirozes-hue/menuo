@@ -8,6 +8,7 @@ import { HorizontalBarChart } from "@/components/admin/HorizontalBarChart";
 import { OnboardingEmailPreviewButton } from "@/components/admin/OnboardingEmailPreviewButton";
 
 const SITE_EVENTS_WINDOW_DAYS = 30;
+const RECENT_WINDOW_DAYS = 7;
 
 function percentile(values: number[], p: number): number | null {
   if (values.length === 0) return null;
@@ -128,24 +129,32 @@ export default async function AdminPage() {
     }),
     prisma.siteEvent.findMany({
       where: { type: "vitals", createdAt: { gte: since } },
-      select: { metricName: true, metricValue: true },
+      select: { metricName: true, metricValue: true, createdAt: true },
     }),
   ]);
 
+  // A 30-day p75 reacts slowly to a fix, so the last 7 days are shown too.
+  const recentSince = since.getTime() + (SITE_EVENTS_WINDOW_DAYS - RECENT_WINDOW_DAYS) * 24 * 60 * 60 * 1000;
   const vitalsByMetric: Record<string, number[]> = {};
+  const recentByMetric: Record<string, number[]> = {};
   for (const v of vitalsRaw) {
     if (!v.metricName || v.metricValue == null) continue;
     (vitalsByMetric[v.metricName] ??= []).push(v.metricValue);
+    if (v.createdAt.getTime() >= recentSince) (recentByMetric[v.metricName] ??= []).push(v.metricValue);
   }
   const vitalsSummary = Object.entries(VITAL_META).map(([name, meta]) => {
     const values = vitalsByMetric[name] ?? [];
+    const recent = recentByMetric[name] ?? [];
     const p75 = percentile(values, 75);
+    const recentP75 = percentile(recent, 75);
     return {
       name,
       label: meta.label,
       sampleSize: values.length,
       p75Formatted: p75 !== null ? meta.format(p75) : null,
       status: p75 !== null ? classify(p75, meta.thresholds) : null,
+      recentFormatted: recentP75 !== null ? meta.format(recentP75) : null,
+      recentSize: recent.length,
     };
   });
 
@@ -281,6 +290,12 @@ export default async function AdminPage() {
               <p className="mt-1 text-xs text-ink-soft">
                 {v.label} · p75{v.sampleSize > 0 ? ` of ${v.sampleSize} loads` : ""}
               </p>
+              {v.recentFormatted && (
+                <p className="mt-2 text-xs text-ink">
+                  Last {RECENT_WINDOW_DAYS} days: <span className="font-medium">{v.recentFormatted}</span>{" "}
+                  <span className="text-ink-soft">({v.recentSize} loads)</span>
+                </p>
+              )}
             </div>
           ))}
         </div>
