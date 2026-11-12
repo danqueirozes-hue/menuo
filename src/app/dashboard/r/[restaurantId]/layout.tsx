@@ -22,6 +22,7 @@ function SidebarNav({
   active,
   planName,
   dict,
+  accountLabel,
 }: {
   current: { id: string; name: string };
   restaurants: { id: string; name: string }[];
@@ -29,6 +30,7 @@ function SidebarNav({
   active: boolean;
   planName: string | null;
   dict: DashboardDict["nav"];
+  accountLabel: string;
 }) {
   return (
     <>
@@ -72,11 +74,18 @@ function SidebarNav({
         >
           {dict.billing}
         </Link>
+        <Link
+          href="/dashboard/account"
+          prefetch={false}
+          className="rounded-md px-3 py-2 text-ink hover:bg-paper hover:text-amber"
+        >
+          {accountLabel}
+        </Link>
       </nav>
 
       <div className="mt-auto">
         <Link
-          href="/dashboard/billing"
+          href="/dashboard/account"
           prefetch={false}
           className={`block rounded-full px-3 py-1 text-xs w-fit ${
             active ? "bg-green/15 text-green" : "bg-amber-soft/40 text-ink-soft"
@@ -116,7 +125,8 @@ export default async function EstablishmentLayout({
   const limits = getEffectiveLimits(subscription);
   const plan = subscription ? getPlan(subscription.plan) : null;
   const active = isSubscriptionActive(subscription);
-  const dict = getDashboardContent(current.menus[0]?.defaultLanguage).nav;
+  const content = getDashboardContent(current.menus[0]?.defaultLanguage);
+  const dict = content.nav;
 
   const sidebarProps = {
     current: { id: current.id, name: current.name },
@@ -125,6 +135,7 @@ export default async function EstablishmentLayout({
     active,
     planName: plan?.name ?? null,
     dict,
+    accountLabel: content.account.navLabel,
   };
 
   return (

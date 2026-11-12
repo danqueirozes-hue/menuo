@@ -118,6 +118,42 @@ export type DashboardDict = {
     save: string;
     saved: string;
   };
+  /** "My account" page. "{date}" placeholders get a formatted date. */
+  account: {
+    navLabel: string;
+    title: string;
+    back: string;
+    profile: string;
+    name: string;
+    email: string;
+    memberSince: string;
+    plan: string;
+    noPlan: string;
+    choosePlan: string;
+    trialing: string;
+    active: string;
+    trialCancelPending: string;
+    cancelPending: string;
+    pastDue: string;
+    canceled: string;
+    changePlan: string;
+    invoices: string;
+    invoicesHint: string;
+    opening: string;
+    cancelTitle: string;
+    cancelTrialHint: string;
+    cancelHint: string;
+    cancelCta: string;
+    cancelConfirm: string;
+    cancelling: string;
+    resumeCta: string;
+    deleteTitle: string;
+    deleteHint: string;
+    deletePrompt: string;
+    deleteCta: string;
+    deleting: string;
+    error: string;
+  };
   contact: {
     email: string;
     instagram: string;
@@ -235,6 +271,41 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
       save: "Save changes",
       saved: "Saved",
     },
+    account: {
+      navLabel: "My account",
+      title: "My account",
+      back: "← Back to dashboard",
+      profile: "Account",
+      name: "Name",
+      email: "Email",
+      memberSince: "Customer since",
+      plan: "Plan",
+      noPlan: "No active plan",
+      choosePlan: "Choose a plan",
+      trialing: "Free trial until {date}",
+      active: "Active — renews on {date}",
+      trialCancelPending: "Trial cancelled — access until {date}. You won't be charged.",
+      cancelPending: "Cancelled — access until {date}. You won't be charged again.",
+      pastDue: "Payment pending — please update your card.",
+      canceled: "Cancelled",
+      changePlan: "Change plan",
+      invoices: "Invoices & payment method",
+      invoicesHint: "Download your invoices and update your card on Stripe's secure page.",
+      opening: "Opening…",
+      cancelTitle: "Cancel subscription",
+      cancelTrialHint: "Cancel now and you won't be charged: you keep access until {date}, when the trial ends.",
+      cancelHint: "Your access continues until {date}, with no further charges.",
+      cancelCta: "Cancel subscription",
+      cancelConfirm: "Cancel your subscription? You keep access until {date}.",
+      cancelling: "Cancelling…",
+      resumeCta: "Keep my subscription",
+      deleteTitle: "Delete account",
+      deleteHint: "Permanently deletes your account, establishments, menus and QR codes, and immediately cancels any subscription. This cannot be undone.",
+      deletePrompt: "To confirm, type your email:",
+      deleteCta: "Delete my account",
+      deleting: "Deleting…",
+      error: "Something went wrong. Please try again.",
+    },
     contact: { email: "Email us", instagram: "MENUO on Instagram", help: "Help", supportSubject: "MENUO Support" },
   },
   pt: {
@@ -345,6 +416,41 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
       save: "Guardar alterações",
       saved: "Guardado",
     },
+    account: {
+      navLabel: "A minha conta",
+      title: "A minha conta",
+      back: "← Voltar ao painel",
+      profile: "Conta",
+      name: "Nome",
+      email: "E-mail",
+      memberSince: "Cliente desde",
+      plan: "Plano",
+      noPlan: "Sem plano ativo",
+      choosePlan: "Escolher plano",
+      trialing: "Teste grátis até {date}",
+      active: "Ativo — renova a {date}",
+      trialCancelPending: "Teste cancelado — acesso até {date}. Não será cobrado.",
+      cancelPending: "Cancelado — acesso até {date}. Não será cobrado novamente.",
+      pastDue: "Pagamento pendente — atualize o seu cartão.",
+      canceled: "Cancelado",
+      changePlan: "Mudar de plano",
+      invoices: "Faturas e método de pagamento",
+      invoicesHint: "Descarregue as faturas e atualize o cartão na página segura da Stripe.",
+      opening: "A abrir…",
+      cancelTitle: "Cancelar subscrição",
+      cancelTrialHint: "Se cancelar agora, não será cobrado: mantém o acesso até {date}, quando o teste termina.",
+      cancelHint: "O acesso continua até {date}, sem novas cobranças.",
+      cancelCta: "Cancelar subscrição",
+      cancelConfirm: "Cancelar a subscrição? Mantém o acesso até {date}.",
+      cancelling: "A cancelar…",
+      resumeCta: "Manter a subscrição",
+      deleteTitle: "Eliminar conta",
+      deleteHint: "Elimina definitivamente a sua conta, estabelecimentos, menus e códigos QR, e cancela de imediato qualquer subscrição. Não pode ser anulado.",
+      deletePrompt: "Para confirmar, escreva o seu e-mail:",
+      deleteCta: "Eliminar a minha conta",
+      deleting: "A eliminar…",
+      error: "Ocorreu um erro. Tente novamente.",
+    },
     contact: { email: "Enviar e-mail", instagram: "MENUO no Instagram", help: "Ajuda", supportSubject: "Suporte MENUO" },
   },
   it: {
@@ -454,6 +560,41 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
       saving: "Salvataggio…",
       save: "Salva modifiche",
       saved: "Salvato",
+    },
+    account: {
+      navLabel: "Il mio account",
+      title: "Il mio account",
+      back: "← Torna alla dashboard",
+      profile: "Account",
+      name: "Nome",
+      email: "E-mail",
+      memberSince: "Cliente dal",
+      plan: "Piano",
+      noPlan: "Nessun piano attivo",
+      choosePlan: "Scegli un piano",
+      trialing: "Prova gratuita fino al {date}",
+      active: "Attivo — si rinnova il {date}",
+      trialCancelPending: "Prova annullata — accesso fino al {date}. Non ti verrà addebitato nulla.",
+      cancelPending: "Annullato — accesso fino al {date}. Non riceverai altri addebiti.",
+      pastDue: "Pagamento in sospeso — aggiorna la tua carta.",
+      canceled: "Annullato",
+      changePlan: "Cambia piano",
+      invoices: "Fatture e metodo di pagamento",
+      invoicesHint: "Scarica le fatture e aggiorna la carta sulla pagina sicura di Stripe.",
+      opening: "Apertura…",
+      cancelTitle: "Disdici l'abbonamento",
+      cancelTrialHint: "Se disdici ora non ti verrà addebitato nulla: mantieni l'accesso fino al {date}, quando finisce la prova.",
+      cancelHint: "L'accesso continua fino al {date}, senza ulteriori addebiti.",
+      cancelCta: "Disdici l'abbonamento",
+      cancelConfirm: "Disdire l'abbonamento? Mantieni l'accesso fino al {date}.",
+      cancelling: "Annullamento…",
+      resumeCta: "Mantieni l'abbonamento",
+      deleteTitle: "Elimina account",
+      deleteHint: "Elimina definitivamente account, locali, menu e codici QR, e annulla subito qualsiasi abbonamento. L'operazione non può essere annullata.",
+      deletePrompt: "Per confermare, scrivi la tua e-mail:",
+      deleteCta: "Elimina il mio account",
+      deleting: "Eliminazione…",
+      error: "Si è verificato un errore. Riprova.",
     },
     contact: { email: "Scrivici", instagram: "MENUO su Instagram", help: "Aiuto", supportSubject: "Assistenza MENUO" },
   },
