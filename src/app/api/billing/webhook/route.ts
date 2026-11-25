@@ -167,6 +167,8 @@ export async function POST(req: Request) {
           },
         });
 
+        await markReverseCharge(stripe, checkoutSession);
+
         if (isNewSubscriber) {
           await notifyNewSubscriber(userId, plan, interval, status);
           if (status === "trialing" && currentPeriodEnd) {
@@ -212,4 +214,21 @@ export async function POST(req: Request) {
   }
 
   return NextResponse.json({ received: true });
+}
+
+/** A business that entered its VAT number at checkout gets reverse-charge
+ * invoices: MENUO (outside the EU) charges no VAT and the customer accounts
+ * for it. The note goes on the customer, so every future invoice carries it. */
+async function markReverseCharge(stripe: Stripe, checkoutSession: Stripe.Checkout.Session) {
+  const customerId = typeof checkoutSession.customer === "string" ? checkoutSession.customer : checkoutSession.customer?.id;
+  if (!customerId || !checkoutSession.customer_details?.tax_ids?.length) return;
+  try {
+    await stripe.customers.update(customerId, {
+      invoice_settings: {
+        footer: "Reverse charge – VAT to be accounted for by the recipient (art. 196, Council Directive 2006/112/EC).",
+      },
+    });
+  } catch (err) {
+    console.error("[webhook] could not set the reverse-charge note:", err);
+  }
 }
