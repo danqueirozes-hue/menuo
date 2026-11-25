@@ -9,6 +9,10 @@ import { HorizontalBarChart } from "@/components/admin/HorizontalBarChart";
 import { OnboardingEmailPreviewButton } from "@/components/admin/OnboardingEmailPreviewButton";
 import { ImportAnnouncementPanel } from "@/components/admin/ImportAnnouncementPanel";
 import { IMPORT_ANNOUNCEMENT_RECIPIENTS } from "@/lib/announcement-email";
+import { DEMO_ACCOUNT_EMAIL } from "@/lib/demo";
+
+// The landing page's sample-menu account is not a customer.
+const NOT_DEMO_USER = { email: { not: DEMO_ACCOUNT_EMAIL } };
 
 const SITE_EVENTS_WINDOW_DAYS = 30;
 const RECENT_WINDOW_DAYS = 7;
@@ -103,15 +107,16 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
     vitalsRaw,
   ] = await Promise.all([
     prisma.user.findMany({
+      where: NOT_DEMO_USER,
       orderBy: { createdAt: "desc" },
       include: {
         subscription: true,
         restaurants: { select: { id: true, name: true } },
       },
     }),
-    prisma.restaurant.count(),
-    prisma.menu.count(),
-    prisma.menu.count({ where: { isPublished: true } }),
+    prisma.restaurant.count({ where: { owner: NOT_DEMO_USER } }),
+    prisma.menu.count({ where: { restaurant: { owner: NOT_DEMO_USER } } }),
+    prisma.menu.count({ where: { isPublished: true, restaurant: { owner: NOT_DEMO_USER } } }),
     prisma.siteEvent.groupBy({
       by: ["path"],
       where: { type: "pageview", createdAt: { gte: since } },
