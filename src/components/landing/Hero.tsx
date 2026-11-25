@@ -3,7 +3,7 @@ import { Check } from "lucide-react";
 import { LinkButton } from "@/components/ui/Button";
 import { LandingDict } from "@/lib/landing-content";
 
-export function Hero({ dict }: { dict: LandingDict["hero"] }) {
+export function Hero({ dict, imageAlt }: { dict: LandingDict["hero"]; imageAlt: string }) {
   return (
     <section className="relative overflow-hidden bg-navy text-paper">
       <div className="pointer-events-none absolute inset-0 opacity-40">
@@ -40,7 +40,7 @@ export function Hero({ dict }: { dict: LandingDict["hero"] }) {
           <div className="relative overflow-hidden rounded-[1.75rem] border border-paper/10 shadow-2xl shadow-black/40">
             <Image
               src="/images/landing/hero-scan.jpg"
-              alt="Guest scanning a MENUO QR code and reading the digital menu on her phone at a restaurant table"
+              alt={imageAlt}
               width={1200}
               height={800}
               priority

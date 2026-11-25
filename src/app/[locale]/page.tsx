@@ -8,7 +8,9 @@ import { TableGallery } from "@/components/landing/TableGallery";
 import { Pricing } from "@/components/landing/Pricing";
 import { CTA } from "@/components/landing/CTA";
 import { Footer } from "@/components/landing/Footer";
+import type { Metadata } from "next";
 import { LANDING_CONTENT, SITE_LOCALES, isSiteLocale } from "@/lib/landing-content";
+import { LANDING_IMAGE_ALTS, landingMetadata } from "@/lib/landing-seo";
 
 // Prerender every localized landing page at build time so it's served from
 // the CDN like "/" instead of being rendered on each visit (slow TTFB and
@@ -16,6 +18,11 @@ import { LANDING_CONTENT, SITE_LOCALES, isSiteLocale } from "@/lib/landing-conte
 // "/" and is still redirected on demand.
 export function generateStaticParams() {
   return SITE_LOCALES.filter((locale) => locale !== "en").map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return isSiteLocale(locale) ? landingMetadata(locale) : {};
 }
 
 export default async function LocalizedHome({
@@ -34,11 +41,11 @@ export default async function LocalizedHome({
     <>
       <Navbar dict={dict.nav} locale={locale} />
       <main>
-        <Hero dict={dict.hero} />
+        <Hero dict={dict.hero} imageAlt={LANDING_IMAGE_ALTS[locale].hero} />
         <Benefits dict={dict.benefits} />
         <HowItWorks dict={dict.how} locale={locale} />
         <LanguagesShowcase dict={dict.languagesSection} />
-        <TableGallery dict={dict.tableGallery} />
+        <TableGallery dict={dict.tableGallery} alts={LANDING_IMAGE_ALTS[locale].tables} />
         <Pricing dict={dict.pricing} />
         <CTA dict={dict.cta} />
       </main>

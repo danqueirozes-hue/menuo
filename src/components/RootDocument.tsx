@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+
 import Script from "next/script";
 import { Manrope, Montserrat, Playfair_Display } from "next/font/google";
 import { SiteAnalyticsTracker } from "@/components/SiteAnalyticsTracker";
-import "./globals.css";
+import "@/app/globals.css";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -25,16 +25,13 @@ const playfair = Playfair_Display({
   weight: ["700", "900"],
 });
 
-export const metadata: Metadata = {
-  title: "MENUO — One menu. Every language.",
-  description:
-    "MENUO turns your restaurant menu into an elegant, QR-based digital menu translated into 20 languages, boosting average ticket and guest confidence.",
-};
-
-export default function RootLayout({ children }: LayoutProps<"/">) {
+/** The <html> shell shared by the two root layouts: "(main)" (English site,
+ * app, admin) and "[locale]" (localized landing pages, which need their own
+ * <html lang>). */
+export function RootDocument({ lang, children }: { lang: string; children: React.ReactNode }) {
   return (
     <html
-      lang="en"
+      lang={lang}
       className={`${manrope.variable} ${montserrat.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">

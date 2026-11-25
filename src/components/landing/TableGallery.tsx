@@ -1,18 +1,9 @@
 import Image from "next/image";
 import { LandingDict } from "@/lib/landing-content";
 
-const TABLES = [
-  {
-    src: "/images/landing/table-paris.jpg",
-    alt: "MENUO table stand with QR code at a rooftop restaurant overlooking the Eiffel Tower",
-  },
-  {
-    src: "/images/landing/table-puerto-niza.jpg",
-    alt: "MENUO table stand with QR code at Puerto Niza restaurant",
-  },
-];
+const TABLES = ["/images/landing/table-paris.jpg", "/images/landing/table-puerto-niza.jpg"];
 
-export function TableGallery({ dict }: { dict: LandingDict["tableGallery"] }) {
+export function TableGallery({ dict, alts }: { dict: LandingDict["tableGallery"]; alts: readonly string[] }) {
   return (
     <section className="defer-render bg-navy py-24 text-paper">
       <div className="mx-auto max-w-6xl px-6">
@@ -23,11 +14,11 @@ export function TableGallery({ dict }: { dict: LandingDict["tableGallery"] }) {
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2">
-          {TABLES.map((t) => (
-            <div key={t.src} className="group relative overflow-hidden rounded-2xl border border-paper/10">
+          {TABLES.map((src, i) => (
+            <div key={src} className="group relative overflow-hidden rounded-2xl border border-paper/10">
               <Image
-                src={t.src}
-                alt={t.alt}
+                src={src}
+                alt={alts[i]}
                 width={1200}
                 height={800}
                 sizes="(min-width: 640px) 45vw, 90vw"
