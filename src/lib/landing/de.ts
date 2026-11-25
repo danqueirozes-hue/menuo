@@ -80,10 +80,10 @@ export const de: LandingDict = {
     subtitle:
       "Alle Tarife enthalten 20 Sprachen, QR-Codes, PDF-Export, alle 14 EU-Allergene und den KI-Import aus Foto oder PDF.",
     planDesc: {
-      essential: "1 Karte, 1 Standort – z. B. Ihre Hauptkarte",
-      business: "Bis zu 3 Karten, 1 Standort – z. B. Mittag, Abend und Weinkarte",
-      hospitality: "Bis zu 10 Karten, 1 Standort – z. B. Restaurant, Bar, Frühstück und Room Service",
-      "multi-location": "Bis zu 5 Standorte, je 5 Karten",
+      essential: "Z. B. Ihre Hauptkarte",
+      business: "Z. B. Mittag, Abend und Weinkarte",
+      hospitality: "Z. B. Restaurant, Bar, Frühstück und Room Service",
+      "multi-location": "Für Gruppen mit mehreren Standorten",
     },
     anchor: "Weniger als ein Kaffee pro Woche",
     fiscal: "Preise zzgl. MwSt. · Rechnung auf Ihre Firma (USt-IdNr.)",

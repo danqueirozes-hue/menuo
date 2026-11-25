@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { X, TriangleAlert } from "lucide-react";
 import { formatPrice } from "@/lib/currency";
 import { getLanguage } from "@/lib/languages";
@@ -11,6 +10,7 @@ import { DIETARY_TAGS, DietaryKey, dietaryLabel } from "@/lib/dietary-tags";
 import { AllergenKey, allergenLabels, normalizeAllergens } from "@/lib/allergens";
 import { menuString } from "@/lib/menu-strings";
 import { FilterSheet, FilterTrigger } from "@/components/menu/DietaryFilter";
+import { LanguageSwitch } from "@/components/menu/LanguageSwitch";
 import { SectionNav } from "@/components/menu/SectionNav";
 
 type ItemTranslation = { language: string; name: string; description: string | null };
@@ -202,12 +202,7 @@ export function MenuView({
             Powered by <Logo variant="negative" className="h-3.5" />
           </p>
         ) : (
-          <Link
-            href={`/m/${restaurant.slug}`}
-            className="mt-5 text-xs uppercase tracking-wide text-amber-soft hover:text-amber"
-          >
-            {language.flag} {language.nativeName} · change
-          </Link>
+          <LanguageSwitch slug={restaurant.slug} lang={lang} variant="hero" />
         )}
       </header>
 
@@ -220,11 +215,14 @@ export function MenuView({
           activeId={activeSectionId}
           onSelect={scrollToSection}
           leading={
-            <FilterTrigger
-              lang={lang}
-              activeCount={activeFilterCount}
-              onOpen={() => setFilterOpen(true)}
-            />
+            <>
+              <LanguageSwitch slug={restaurant.slug} lang={lang} variant="compact" />
+              <FilterTrigger
+                lang={lang}
+                activeCount={activeFilterCount}
+                onOpen={() => setFilterOpen(true)}
+              />
+            </>
           }
         />
       )}

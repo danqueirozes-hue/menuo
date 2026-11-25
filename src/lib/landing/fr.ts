@@ -83,10 +83,10 @@ export const fr: LandingDict = {
     subtitle:
       "Toutes les formules incluent 20 langues, les QR codes, l'export PDF, les 14 allergènes UE et l'import depuis une photo ou un PDF.",
     planDesc: {
-      essential: "1 menu, 1 établissement — par ex. votre carte principale",
-      business: "Jusqu'à 3 menus, 1 établissement — par ex. déjeuner, dîner et carte des vins",
-      hospitality: "Jusqu'à 10 menus, 1 établissement — par ex. restaurant, bar, petit-déjeuner et room service",
-      "multi-location": "Jusqu'à 5 établissements, 5 menus chacun",
+      essential: "Par ex. votre carte principale",
+      business: "Par ex. déjeuner, dîner et carte des vins",
+      hospitality: "Par ex. restaurant, bar, petit-déjeuner et room service",
+      "multi-location": "Pour les groupes à plusieurs établissements",
     },
     anchor: "Moins de deux cafés par semaine",
     fiscal: "Prix HT · Facture au nom de votre entreprise (n° de TVA)",

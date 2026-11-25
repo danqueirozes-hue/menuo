@@ -76,10 +76,10 @@ export const es: LandingDict = {
     subtitle:
       "Todos los planes incluyen 20 idiomas, código QR, exportación en PDF, los 14 alérgenos de la UE y la importación desde foto o PDF.",
     planDesc: {
-      essential: "1 menú, 1 local — p. ej. tu carta principal",
-      business: "Hasta 3 menús, 1 local — p. ej. comida, cena y carta de vinos",
-      hospitality: "Hasta 10 menús, 1 local — p. ej. restaurante, bar, desayunos y room service",
-      "multi-location": "Hasta 5 locales, 5 menús cada uno",
+      essential: "P. ej. tu carta principal",
+      business: "P. ej. comida, cena y carta de vinos",
+      hospitality: "P. ej. restaurante, bar, desayunos y room service",
+      "multi-location": "Para grupos con varios locales",
     },
     anchor: "Menos que dos cafés a la semana",
     fiscal: "Precios sin IVA · Factura a nombre de tu empresa (NIF/CIF)",

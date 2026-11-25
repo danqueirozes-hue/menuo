@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Check } from "lucide-react";
 import { PLAN_ORDER, PLANS, formatPlanPrice, BillingInterval } from "@/lib/plans";
 import { LandingDict, SiteLocale, signupHref } from "@/lib/landing-content";
 
@@ -56,7 +57,16 @@ export function Pricing({ dict, cta, locale }: { dict: LandingDict["pricing"]; c
                 <p className="font-display text-lg text-ink">{plan.name}</p>
                 <p className="font-display mt-1 text-2xl text-amber">{formatPlanPrice(plan, interval, dict.price)}</p>
                 {key === "essential" && <p className="mt-1 text-xs font-medium text-green">{dict.anchor}</p>}
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-soft">{dict.planDesc[key]}</p>
+                <p className="mt-3 text-xs italic leading-relaxed text-ink-soft">{dict.planDesc[key]}</p>
+                {/* The first two bullets (menus, establishments) are what sets
+                    the plans apart; the rest is included in every plan. */}
+                <ul className="mt-5 flex-1 space-y-2 text-sm">
+                  {dict.plans[key].features.map((f, i) => (
+                    <li key={f} className={`flex items-start gap-2 ${i < 2 ? "font-medium text-ink" : "text-ink-soft"}`}>
+                      <Check size={15} className={`mt-0.5 shrink-0 ${i < 2 ? "text-amber" : "text-green"}`} /> {f}
+                    </li>
+                  ))}
+                </ul>
                 <Link
                   href={signupHref(locale, `plan=${key}&interval=${interval}`)}
                   className={`mt-6 block rounded-full px-4 py-2.5 text-center text-sm font-medium transition-colors ${
