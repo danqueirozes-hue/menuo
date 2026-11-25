@@ -8,7 +8,9 @@ import { prisma } from "@/lib/prisma";
 // enriched payload here. This route is the only piece that touches Prisma,
 // since the query engine doesn't run in Netlify's Deno-based Edge runtime.
 const schema = z.object({
-  type: z.enum(["pageview", "click", "vitals"]),
+  // "event" = funnel event (src/lib/funnel.ts): name in metricName, detail
+  // (e.g. CTA position) in linkLabel.
+  type: z.enum(["pageview", "click", "vitals", "event"]),
   path: z.string().max(300),
   href: z.string().max(500).optional(),
   linkLabel: z.string().max(200).optional(),

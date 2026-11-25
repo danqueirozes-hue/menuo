@@ -3,9 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { PLAN_ORDER, PLANS, formatPlanPrice, BillingInterval } from "@/lib/plans";
-import { LandingDict } from "@/lib/landing-content";
+import { LandingDict, SiteLocale, signupHref } from "@/lib/landing-content";
 
-export function Pricing({ dict, cta }: { dict: LandingDict["pricing"]; cta: string }) {
+export function Pricing({ dict, cta, locale }: { dict: LandingDict["pricing"]; cta: string; locale: SiteLocale }) {
   const [interval, setInterval] = useState<BillingInterval>("monthly");
 
   return (
@@ -58,7 +58,7 @@ export function Pricing({ dict, cta }: { dict: LandingDict["pricing"]; cta: stri
                 {key === "essential" && <p className="mt-1 text-xs font-medium text-green">{dict.anchor}</p>}
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-soft">{dict.planDesc[key]}</p>
                 <Link
-                  href={`/signup?plan=${key}&interval=${interval}`}
+                  href={signupHref(locale, `plan=${key}&interval=${interval}`)}
                   className={`mt-6 block rounded-full px-4 py-2.5 text-center text-sm font-medium transition-colors ${
                     isMostPopular
                       ? "bg-amber text-navy hover:bg-amber-soft"

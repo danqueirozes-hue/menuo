@@ -9,7 +9,7 @@ export function Faq({ dict }: { dict: LandingDict["faq"] }) {
         <h2 className="font-display text-center text-3xl text-ink sm:text-4xl">{dict.title}</h2>
         <div className="mt-10 divide-y divide-border rounded-2xl border border-border bg-paper">
           {dict.items.map((item) => (
-            <details key={item.q} className="group px-5 py-4 sm:px-6" data-event="faq_open">
+            <details key={item.q} className="group px-5 py-4 sm:px-6">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-ink [&::-webkit-details-marker]:hidden">
                 {item.q}
                 <ChevronDown size={18} className="shrink-0 text-ink-soft transition-transform group-open:rotate-180" />

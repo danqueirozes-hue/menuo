@@ -27,6 +27,11 @@ export function isSiteLocale(value: string): value is SiteLocale {
  * signed-in screens (e.g. billing) can follow it. */
 export const SITE_LOCALE_COOKIE = "site_locale";
 
+/** Signup link carrying the landing language (and an optional plan). */
+export function signupHref(locale: SiteLocale, extra = ""): string {
+  return `/signup?lang=${locale}${extra ? `&${extra}` : ""}`;
+}
+
 export function localeHref(locale: SiteLocale): string {
   return locale === "en" ? "/" : `/${locale}`;
 }

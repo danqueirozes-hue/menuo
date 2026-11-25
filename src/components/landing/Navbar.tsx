@@ -3,7 +3,7 @@ import { LinkButton } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
 import { LanguageSwitcher } from "@/components/landing/LanguageSwitcher";
 import { MobileMenu } from "@/components/landing/MobileMenu";
-import { LandingDict, SiteLocale, localeHref } from "@/lib/landing-content";
+import { LandingDict, SiteLocale, localeHref, signupHref } from "@/lib/landing-content";
 import { LANDING_CONFIG } from "@/lib/landing/config";
 
 export type NavLink = { href: string; label: string };
@@ -40,7 +40,7 @@ export function Navbar({ dict, cta, locale }: { dict: LandingDict["nav"]; cta: s
             {dict.login}
           </Link>
           {/* Always visible, mobile included (the header is sticky). */}
-          <LinkButton href="/signup" variant="amber" className="px-3.5 py-2 text-xs sm:px-5 sm:text-sm">
+          <LinkButton href={signupHref(locale)} variant="amber" className="px-3.5 py-2 text-xs sm:px-5 sm:text-sm">
             {cta}
           </LinkButton>
           <MobileMenu links={links} login={dict.login} locale={locale} />

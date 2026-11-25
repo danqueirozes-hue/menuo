@@ -1,12 +1,12 @@
 ﻿import Image from "next/image";
 import { Check } from "lucide-react";
 import { LinkButton } from "@/components/ui/Button";
-import { LandingDict } from "@/lib/landing-content";
+import { LandingDict, SiteLocale, signupHref } from "@/lib/landing-content";
 import { LANDING_CONFIG } from "@/lib/landing/config";
 
-export function Hero({ dict, cta }: { dict: LandingDict["hero"]; cta: string }) {
+export function Hero({ dict, cta, locale }: { dict: LandingDict["hero"]; cta: string; locale: SiteLocale }) {
   return (
-    <section className="relative overflow-hidden bg-navy text-paper">
+    <section data-section="hero" className="relative overflow-hidden bg-navy text-paper">
       <div className="pointer-events-none absolute inset-0 opacity-40">
         <div className="absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-amber/20 blur-3xl" />
       </div>
@@ -20,7 +20,7 @@ export function Hero({ dict, cta }: { dict: LandingDict["hero"]; cta: string }) 
           </h1>
           <p className="mt-6 max-w-xl text-base text-paper/70 sm:text-lg">{dict.subtitle}</p>
           <div className="mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-4">
-            <LinkButton href="/signup" variant="amber">
+            <LinkButton href={signupHref(locale)} variant="amber">
               {cta}
             </LinkButton>
             <LinkButton

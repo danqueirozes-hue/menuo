@@ -10,6 +10,7 @@ import { Pricing } from "@/components/landing/Pricing";
 import { Faq } from "@/components/landing/Faq";
 import { FinalCta } from "@/components/landing/FinalCta";
 import { Footer } from "@/components/landing/Footer";
+import { FunnelEvents } from "@/components/landing/FunnelEvents";
 import { LANDING_CONTENT, SiteLocale } from "@/lib/landing-content";
 import { LANDING_CONFIG } from "@/lib/landing/config";
 import { LANDING_IMAGE_ALTS } from "@/lib/landing-seo";
@@ -22,7 +23,7 @@ export function LandingPage({ locale }: { locale: SiteLocale }) {
     <>
       <Navbar dict={dict.nav} cta={dict.cta} locale={locale} />
       <main>
-        <Hero dict={dict.hero} cta={dict.cta} />
+        <Hero dict={dict.hero} cta={dict.cta} locale={locale} />
         <Demo dict={dict.demo} />
         <Benefits dict={dict.benefits} />
         <HowItWorks dict={dict.how} locale={locale} />
@@ -31,10 +32,11 @@ export function LandingPage({ locale }: { locale: SiteLocale }) {
         {LANDING_CONFIG.showSocialProof && (
           <TableGallery dict={dict.social} alts={LANDING_IMAGE_ALTS[locale].tables} />
         )}
-        <Pricing dict={dict.pricing} cta={dict.cta} />
+        <Pricing dict={dict.pricing} cta={dict.cta} locale={locale} />
         <Faq dict={dict.faq} />
-        <FinalCta dict={dict.final} cta={dict.cta} />
+        <FinalCta dict={dict.final} cta={dict.cta} locale={locale} />
       </main>
+      <FunnelEvents />
       <Footer tagline={dict.footer.tagline} cookies={dict.footer.cookies} locale={locale} />
     </>
   );

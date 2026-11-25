@@ -6,15 +6,17 @@ export function AuthLayout({
   title,
   subtitle,
   children,
+  homeHref = "/",
 }: {
   title: string;
   subtitle: string;
   children: ReactNode;
+  homeHref?: string;
 }) {
   return (
     <div className="flex min-h-screen flex-col bg-paper">
       <div className="mx-auto w-full max-w-md flex-1 px-6 py-16">
-        <Link href="/">
+        <Link href={homeHref}>
           <Logo className="h-8" />
         </Link>
         <div className="mt-10">

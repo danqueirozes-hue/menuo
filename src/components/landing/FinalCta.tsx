@@ -1,17 +1,17 @@
 import { Mail, MessageCircle } from "lucide-react";
 import { LinkButton } from "@/components/ui/Button";
-import { LandingDict } from "@/lib/landing-content";
+import { LandingDict, SiteLocale, signupHref } from "@/lib/landing-content";
 import { LANDING_CONFIG } from "@/lib/landing/config";
 
 /** Section 10: closing headline + CTA, and a human contact for whoever still
  * hesitates (WhatsApp once a number is configured, email meanwhile). */
-export function FinalCta({ dict, cta }: { dict: LandingDict["final"]; cta: string }) {
+export function FinalCta({ dict, cta, locale }: { dict: LandingDict["final"]; cta: string; locale: SiteLocale }) {
   const { whatsappNumber, contactEmail } = LANDING_CONFIG;
   return (
-    <section className="defer-render bg-navy py-20 text-paper">
+    <section data-section="final" className="defer-render bg-navy py-20 text-paper">
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 text-center">
         <h2 className="font-display text-3xl sm:text-4xl">{dict.title}</h2>
-        <LinkButton href="/signup" variant="amber">
+        <LinkButton href={signupHref(locale)} variant="amber">
           {cta}
         </LinkButton>
         <div className="mt-4 flex flex-col items-center gap-3 text-sm text-paper/75">

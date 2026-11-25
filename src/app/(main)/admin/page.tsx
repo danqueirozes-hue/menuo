@@ -10,6 +10,8 @@ import { OnboardingEmailPreviewButton } from "@/components/admin/OnboardingEmail
 import { ImportAnnouncementPanel } from "@/components/admin/ImportAnnouncementPanel";
 import { IMPORT_ANNOUNCEMENT_RECIPIENTS } from "@/lib/announcement-email";
 import { DEMO_ACCOUNT_EMAIL } from "@/lib/demo";
+import { FUNNEL_EVENTS } from "@/lib/funnel";
+import { SITE_LOCALES, localeHref } from "@/lib/landing-content";
 
 // The landing page's sample-menu account is not a customer.
 const NOT_DEMO_USER = { email: { not: DEMO_ACCOUNT_EMAIL } };
@@ -152,6 +154,25 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
   ]);
 
   // A 30-day p75 reacts slowly to a fix, so the last 7 days are shown too.
+  // Landing funnel (last 30 days): landing visits, then each funnel event.
+  const [landingVisits, funnelCounts] = await Promise.all([
+    prisma.siteEvent.count({
+      where: { type: "pageview", createdAt: { gte: since }, path: { in: SITE_LOCALES.map(localeHref) } },
+    }),
+    prisma.siteEvent.groupBy({
+      by: ["metricName"],
+      where: { type: "event", createdAt: { gte: since } },
+      _count: { _all: true },
+    }),
+  ]);
+  const funnel = [
+    { label: "landing visits", count: landingVisits },
+    ...FUNNEL_EVENTS.map((name) => ({
+      label: name,
+      count: funnelCounts.find((f) => f.metricName === name)?._count._all ?? 0,
+    })),
+  ];
+
   const recentSince = since.getTime() + (SITE_EVENTS_WINDOW_DAYS - RECENT_WINDOW_DAYS) * 24 * 60 * 60 * 1000;
   const vitalsByMetric: Record<string, number[]> = {};
   const recentByMetric: Record<string, number[]> = {};
@@ -382,6 +403,15 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
                 ariaLabel="Top referrers"
                 data={topReferrers.map((r) => ({ label: r.referrerHost || "Unknown", count: r._count._all }))}
               />
+            </div>
+          </div>
+          <div className="rounded-xl border border-border bg-panel p-5">
+            <p className="text-sm font-medium text-ink">Landing funnel</p>
+            <p className="text-xs text-ink-soft">
+              Last {SITE_EVENTS_WINDOW_DAYS} days, all languages. Anonymous, counts every visitor (also without cookie consent).
+            </p>
+            <div className="mt-4">
+              <HorizontalBarChart ariaLabel="Landing funnel" data={funnel} />
             </div>
           </div>
         </div>
