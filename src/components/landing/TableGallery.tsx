@@ -3,14 +3,12 @@ import { LandingDict } from "@/lib/landing-content";
 
 const TABLES = ["/images/landing/table-paris.jpg", "/images/landing/table-puerto-niza.jpg"];
 
-export function TableGallery({ dict, alts }: { dict: LandingDict["tableGallery"]; alts: readonly string[] }) {
+export function TableGallery({ dict, alts }: { dict: LandingDict["social"]; alts: readonly string[] }) {
   return (
     <section className="defer-render bg-navy py-24 text-paper">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <span className="text-xs uppercase tracking-[0.25em] text-amber">{dict.eyebrow}</span>
-          <h2 className="font-display mt-4 text-3xl sm:text-4xl">{dict.title}</h2>
-          <p className="mt-4 text-paper/65">{dict.subtitle}</p>
+          <h2 className="font-display text-3xl sm:text-4xl">{dict.title}</h2>
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2">

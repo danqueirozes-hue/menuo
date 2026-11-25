@@ -3,13 +3,11 @@ import { LandingDict } from "@/lib/landing-content";
 
 export function LanguagesShowcase({ dict }: { dict: LandingDict["languagesSection"] }) {
   return (
-    <section id="languages" className="defer-render bg-paper py-24">
+    <section id="languages" className="defer-render bg-paper py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-6 text-center">
-        <span className="text-xs uppercase tracking-[0.25em] text-amber">{dict.eyebrow}</span>
-        <h2 className="font-display mt-4 text-3xl text-ink sm:text-4xl">{dict.title}</h2>
-        <p className="mx-auto mt-4 max-w-xl text-ink-soft">{dict.subtitle}</p>
+        <h2 className="font-display text-3xl text-ink sm:text-4xl">{dict.title}</h2>
 
-        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 lg:grid-cols-5">
+        <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 lg:grid-cols-5">
           {LANGUAGES.map((lang) => (
             <div
               key={lang.code}
@@ -17,12 +15,13 @@ export function LanguagesShowcase({ dict }: { dict: LandingDict["languagesSectio
             >
               <span className="text-xl">{lang.flag}</span>
               <div>
-                <p className="text-sm font-medium text-ink">{lang.englishName}</p>
-                <p className="text-xs text-ink-soft">{lang.nativeName}</p>
+                <p className="text-sm font-medium text-ink">{lang.nativeName}</p>
+                <p className="text-xs text-ink-soft">{lang.englishName}</p>
               </div>
             </div>
           ))}
         </div>
+        <p className="mt-8 text-sm text-ink-soft">{dict.note}</p>
       </div>
     </section>
   );

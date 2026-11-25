@@ -74,30 +74,24 @@ export function landingMetadata(locale: SiteLocale): Metadata {
   };
 }
 
-/** Translated alt text for the landing images (hero + table gallery). */
-export const LANDING_IMAGE_ALTS: Record<SiteLocale, { hero: string; tables: [string, string] }> = {
+/** Translated alt text for the table-gallery photos (the hero alt lives in each locale file). */
+export const LANDING_IMAGE_ALTS: Record<SiteLocale, { tables: [string, string] }> = {
   en: {
-    hero: SEO.en.ogAlt,
     tables: ["MENUO table stand with QR code at a rooftop restaurant overlooking the Eiffel Tower", "MENUO table stand with QR code at a seaside restaurant"],
   },
   it: {
-    hero: SEO.it.ogAlt,
     tables: ["Segnaposto MENUO con QR code su una terrazza con vista sulla Torre Eiffel", "Segnaposto MENUO con QR code in un ristorante sul mare"],
   },
   pt: {
-    hero: SEO.pt.ogAlt,
     tables: ["Suporte de mesa MENUO com QR code num terraço com vista para a Torre Eiffel", "Suporte de mesa MENUO com QR code num restaurante à beira-mar"],
   },
   es: {
-    hero: SEO.es.ogAlt,
     tables: ["Soporte de mesa MENUO con código QR en una terraza con vistas a la Torre Eiffel", "Soporte de mesa MENUO con código QR en un restaurante junto al mar"],
   },
   fr: {
-    hero: SEO.fr.ogAlt,
     tables: ["Chevalet de table MENUO avec QR code sur un rooftop face à la tour Eiffel", "Chevalet de table MENUO avec QR code dans un restaurant en bord de mer"],
   },
   de: {
-    hero: SEO.de.ogAlt,
     tables: ["MENUO-Tischaufsteller mit QR-Code auf einer Dachterrasse mit Blick auf den Eiffelturm", "MENUO-Tischaufsteller mit QR-Code in einem Restaurant am Meer"],
   },
 };
