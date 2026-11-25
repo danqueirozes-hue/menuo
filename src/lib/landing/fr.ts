@@ -104,8 +104,8 @@ export const fr: LandingDict = {
         a: "Oui. Indiquez le numéro de TVA de votre entreprise lors de l'abonnement et vous recevez chaque mois (ou chaque année) une facture à son nom.",
       },
       {
-        q: "Les traductions sont-elles fiables ?",
-        a: "Les traductions sont générées par des moteurs de traduction professionnels et se mettent à jour à chaque publication de vos modifications.",
+        q: "Les traductions sont-elles justes ? Puis-je les modifier ?",
+        a: "Les traductions sont générées automatiquement et vous pouvez corriger chaque texte, dans chaque langue. Le nom d’origine des plats ne change pas.",
       },
       {
         q: "Mes clients doivent-ils télécharger une application ?",

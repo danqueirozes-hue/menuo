@@ -197,6 +197,27 @@ export type DashboardDict = {
     help: string;
     supportSubject: string;
   };
+  /** Review/edit screen for a menu's translations. */
+  translations: {
+    link: string;
+    title: string;
+    intro: string;
+    back: string;
+    language: string;
+    keepNames: string;
+    keepNamesHint: string;
+    sections: string;
+    original: string;
+    name: string;
+    description: string;
+    nameHint: string;
+    empty: string;
+    save: string;
+    saving: string;
+    saved: string;
+    error: string;
+    resetHint: string;
+  };
 };
 
 const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Omit<DashboardDict["newMenu"], "languageOptions"> }> = {
@@ -374,6 +395,7 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
       tooLong: "This menu is too long to import in one go. Try one page at a time.",
     },
     contact: { email: "Email us", instagram: "MENUO on Instagram", help: "Help", supportSubject: "MENUO Support" },
+    translations: {"link":"Review translations","title":"Translations","intro":"Check and correct how your menu reads in each language. Your edits are kept until you change the dish itself.","back":"Back to the menu","language":"Language","keepNames":"Keep dish names in the original language","keepNamesHint":"Guests see “Carbonara” as you wrote it, with the description translated underneath. Turn off to translate the names too.","sections":"Sections","original":"Original","name":"Name","description":"Description","nameHint":"Shown only for dishes without a description (or when names are translated).","empty":"No translations yet. Publish the menu first and MENUO will translate it into every language.","save":"Save translations","saving":"Saving…","saved":"Saved. Your guests see the new text right away.","error":"Could not save. Please try again.","resetHint":"Leave a field empty to let MENUO translate it again at the next publish."},
   },
   pt: {
     nav: {
@@ -549,6 +571,7 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
       tooLong: "Este menu é demasiado longo para importar de uma vez. Tente uma página de cada vez.",
     },
     contact: { email: "Enviar e-mail", instagram: "MENUO no Instagram", help: "Ajuda", supportSubject: "Suporte MENUO" },
+    translations: {"link":"Rever traduções","title":"Traduções","intro":"Confira e corrija como o seu menu aparece em cada idioma. As suas alterações ficam guardadas até mudar o próprio prato.","back":"Voltar ao menu","language":"Idioma","keepNames":"Manter o nome dos pratos no idioma original","keepNamesHint":"O cliente vê «Bacalhau à Brás» como escreveu, com a descrição traduzida por baixo. Desative para traduzir também os nomes.","sections":"Secções","original":"Original","name":"Nome","description":"Descrição","nameHint":"Aparece só nos pratos sem descrição (ou quando os nomes são traduzidos).","empty":"Ainda não há traduções. Publique o menu primeiro e o MENUO traduz para todos os idiomas.","save":"Guardar traduções","saving":"A guardar…","saved":"Guardado. Os clientes já veem o novo texto.","error":"Não foi possível guardar. Tente novamente.","resetHint":"Deixe um campo vazio para o MENUO voltar a traduzi-lo na próxima publicação."},
   },
   it: {
     nav: {
@@ -724,6 +747,7 @@ const TEXT: Record<BuilderLocale, Omit<DashboardDict, "newMenu"> & { newMenu: Om
       tooLong: "Questo menu è troppo lungo da importare in una volta. Prova una pagina alla volta.",
     },
     contact: { email: "Scrivici", instagram: "MENUO su Instagram", help: "Aiuto", supportSubject: "Assistenza MENUO" },
+    translations: {"link":"Rivedi le traduzioni","title":"Traduzioni","intro":"Controlla e correggi come si legge il tuo menu in ogni lingua. Le tue modifiche restano finché non cambi il piatto.","back":"Torna al menu","language":"Lingua","keepNames":"Mantieni i nomi dei piatti in lingua originale","keepNamesHint":"Il cliente vede “Carbonara” come l’hai scritto, con la descrizione tradotta sotto. Disattiva per tradurre anche i nomi.","sections":"Sezioni","original":"Originale","name":"Nome","description":"Descrizione","nameHint":"Compare solo per i piatti senza descrizione (o se i nomi vengono tradotti).","empty":"Ancora nessuna traduzione. Pubblica prima il menu e MENUO lo tradurrà in tutte le lingue.","save":"Salva le traduzioni","saving":"Salvataggio…","saved":"Salvato. I tuoi clienti vedono subito il nuovo testo.","error":"Impossibile salvare. Riprova.","resetHint":"Lascia un campo vuoto perché MENUO lo traduca di nuovo alla prossima pubblicazione."},
   },
 };
 

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { FileUp, QrCode, Sparkles } from "lucide-react";
+import { FileUp, Languages, QrCode, Sparkles } from "lucide-react";
 import { getDashboardContent } from "@/lib/dashboard-content";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -69,7 +69,8 @@ export default async function MenuBuilderPage({
     })),
   }));
 
-  const importText = getDashboardContent(menu.defaultLanguage).menuImport;
+  const dashboardText = getDashboardContent(menu.defaultLanguage);
+  const importText = dashboardText.menuImport;
   const importHref = `/dashboard/r/${restaurantId}/menus/${menu.id}/import`;
   const menuIsEmpty = sections.every((s) => s.items.length === 0);
 
@@ -96,6 +97,15 @@ export default async function MenuBuilderPage({
               {importText.badge}
             </span>
           </Link>
+          {menu.isPublished && (
+            <Link
+              href={`/dashboard/r/${restaurantId}/menus/${menu.id}/translations`}
+              className="inline-flex shrink-0 items-center gap-2 rounded-full border border-ink/20 px-5 py-2.5 text-sm font-medium text-ink hover:border-amber hover:text-amber"
+            >
+              <Languages size={16} />
+              {dashboardText.translations.link}
+            </Link>
+          )}
           <Link
             href={`/dashboard/r/${restaurantId}/menus/${menu.id}/publish`}
             className="inline-flex shrink-0 items-center gap-2 rounded-full bg-navy px-5 py-2.5 text-sm font-medium text-paper hover:bg-navy-soft"

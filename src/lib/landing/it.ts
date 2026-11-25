@@ -97,8 +97,8 @@ export const it: LandingDict = {
         a: "Sì. Inserisci la Partita IVA al momento dell'abbonamento e ricevi ogni mese (o ogni anno) la fattura intestata alla tua attività, in regime di inversione contabile (reverse charge).",
       },
       {
-        q: "Le traduzioni sono affidabili?",
-        a: "Le traduzioni sono generate da motori di traduzione professionali e si aggiornano ogni volta che pubblichi le modifiche.",
+        q: "Le traduzioni sono corrette? Posso modificarle?",
+        a: "Le traduzioni sono generate automaticamente e puoi correggere ogni testo, in ogni lingua. Il nome originale dei piatti resta invariato.",
       },
       {
         q: "I miei clienti devono scaricare un'app?",

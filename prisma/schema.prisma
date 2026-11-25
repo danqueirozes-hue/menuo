@@ -90,6 +90,9 @@ model Menu {
   defaultLanguage String        @default("en")
   isPublished     Boolean       @default(false)
   publishedAt     DateTime?
+  // Guests see dish names exactly as written (only descriptions are
+  // translated) — "carbonara stays carbonara". Owners can turn it off.
+  keepOriginalNames Boolean     @default(true)
   sections        MenuSection[]
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt

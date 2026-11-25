@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import { Languages } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { requireOwnedRestaurant, getSubscription, isSubscriptionActive } from "@/lib/session";
@@ -48,6 +50,14 @@ export default async function PublishPage({
           languageOptions={dict.newMenu.languageOptions}
         />
       </div>
+      {menu.isPublished && (
+        <Link
+          href={`/dashboard/r/${restaurantId}/menus/${menu.id}/translations`}
+          className="mt-8 inline-flex items-center gap-2 rounded-full border border-ink/20 px-5 py-2.5 text-sm font-medium text-ink hover:border-amber hover:text-amber"
+        >
+          <Languages size={16} /> {dict.translations.link}
+        </Link>
+      )}
     </div>
   );
 }

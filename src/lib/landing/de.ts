@@ -101,8 +101,8 @@ export const de: LandingDict = {
         a: "Ja. Geben Sie beim Abschluss die USt-IdNr. Ihres Unternehmens an und Sie erhalten jeden Monat (oder jedes Jahr) eine Rechnung auf Ihre Firma.",
       },
       {
-        q: "Sind die Übersetzungen zuverlässig?",
-        a: "Die Übersetzungen entstehen mit professionellen Übersetzungsdiensten und werden bei jeder Veröffentlichung Ihrer Änderungen aktualisiert.",
+        q: "Sind die Übersetzungen korrekt? Kann ich sie bearbeiten?",
+        a: "Die Übersetzungen entstehen automatisch, und Sie können jeden Text in jeder Sprache korrigieren. Die Originalnamen der Gerichte bleiben unverändert.",
       },
       {
         q: "Müssen meine Gäste eine App herunterladen?",

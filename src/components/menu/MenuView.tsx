@@ -58,6 +58,8 @@ type Restaurant = {
   country: string | null;
   currency: string;
   defaultLanguage: string;
+  /** Dish names shown exactly as written; only descriptions are translated. */
+  keepOriginalNames: boolean;
   slug: string;
   sections: Section[];
 };
@@ -67,10 +69,15 @@ function sectionName(section: Section, lang: string, defaultLang: string) {
   return section.translations.find((t) => t.language === lang)?.name ?? section.name;
 }
 
-function itemText(item: Item, lang: string, defaultLang: string) {
+function itemText(item: Item, lang: string, defaultLang: string, keepOriginalNames: boolean) {
   if (lang === defaultLang) return { name: item.name, description: item.description };
   const t = item.translations.find((t) => t.language === lang);
-  return { name: t?.name ?? item.name, description: t?.description ?? item.description };
+  if (!keepOriginalNames) return { name: t?.name ?? item.name, description: t?.description ?? item.description };
+  // "Carbonara stays carbonara": the original name, with the translated
+  // description underneath. A dish with no description gets its translated
+  // name there instead, so a foreign guest still understands what it is.
+  const translatedName = t?.name && t.name.trim().toLowerCase() !== item.name.trim().toLowerCase() ? t.name : null;
+  return { name: item.name, description: t?.description || translatedName || item.description };
 }
 
 function variantLabel(variant: ItemVariant, lang: string, defaultLang: string) {
@@ -263,7 +270,7 @@ export function MenuView({
 
             <div className="space-y-8">
               {section.items.map((item) => {
-                const text = itemText(item, lang, restaurant.defaultLanguage);
+                const text = itemText(item, lang, restaurant.defaultLanguage, restaurant.keepOriginalNames);
                 return (
                   <div key={item.id} className="flex gap-4">
                     {item.photoUrl && (

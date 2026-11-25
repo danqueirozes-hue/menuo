@@ -97,8 +97,8 @@ export const es: LandingDict = {
         a: "Sí. Añade el NIF/CIF de tu empresa al suscribirte y recibirás cada mes (o cada año) la factura a nombre de tu empresa.",
       },
       {
-        q: "¿Las traducciones son fiables?",
-        a: "Las traducciones se generan con motores de traducción profesionales y se actualizan cada vez que publicas los cambios.",
+        q: "¿Las traducciones son correctas? ¿Puedo editarlas?",
+        a: "Las traducciones se generan automáticamente y puedes corregir cada texto, en cada idioma. El nombre original de los platos no cambia.",
       },
       {
         q: "¿Mis clientes tienen que descargar una app?",

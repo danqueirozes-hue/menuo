@@ -6,6 +6,7 @@ import { getCurrentUserId, requireMenuIdOwnership } from "@/lib/session";
 const schema = z.object({
   name: z.string().min(1).max(60).optional(),
   defaultLanguage: z.string().optional(),
+  keepOriginalNames: z.boolean().optional(),
 });
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {

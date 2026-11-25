@@ -70,6 +70,7 @@ export default async function PublicMenuPage({
     country: menu.restaurant.country,
     currency: menu.restaurant.currency,
     defaultLanguage: menu.defaultLanguage,
+    keepOriginalNames: menu.keepOriginalNames,
     slug: menu.slug,
     sections: menu.sections,
   };
