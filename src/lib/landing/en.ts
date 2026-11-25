@@ -13,7 +13,7 @@ export const en: LandingDict = {
       "Upload a photo or PDF of your menu: in minutes it becomes a digital menu in 20 languages, with allergens fully covered. Foreign guests scan one QR code and read everything in their own language, no app needed.",
     cta2: "Try the live demo",
     trust: ["14 days free", "No app for guests", "Cancel anytime"],
-    imageAlt: "Guest at a table scanning the menu QR code with a phone",
+    imageAlt: "MENUO table card with a QR code on a restaurant table in the Tuscan countryside",
   },
   demo: {
     title: "See your menu through a tourist's eyes",

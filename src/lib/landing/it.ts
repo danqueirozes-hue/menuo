@@ -12,7 +12,7 @@ export const it: LandingDict = {
       "Carica il tuo menu in foto o PDF: in pochi minuti diventa un menu digitale in 20 lingue, con gli allergeni in regola. I clienti stranieri inquadrano un QR code e leggono tutto nella loro lingua, senza scaricare nessuna app.",
     cta2: "Prova la demo",
     trust: ["14 giorni gratis", "Nessuna app per i clienti", "Disdici quando vuoi"],
-    imageAlt: "Cliente al tavolo che inquadra il QR code del menu con lo smartphone",
+    imageAlt: "Segnaposto MENUO con QR code sul tavolo di un ristorante nella campagna toscana",
   },
   demo: {
     title: "Guarda il menu con gli occhi di un turista",

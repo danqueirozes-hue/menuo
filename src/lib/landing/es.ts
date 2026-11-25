@@ -12,7 +12,7 @@ export const es: LandingDict = {
       "Sube una foto o el PDF de tu carta: en pocos minutos se convierte en una carta digital en 20 idiomas, con los alérgenos en regla. Los clientes extranjeros escanean un código QR y lo leen todo en su idioma, sin descargar ninguna app.",
     cta2: "Prueba la demo",
     trust: ["14 días gratis", "Sin app para los clientes", "Cancela cuando quieras"],
-    imageAlt: "Cliente en la mesa escaneando el código QR de la carta con el móvil",
+    imageAlt: "Soporte de mesa MENUO con código QR en la mesa de un restaurante en la campiña toscana",
   },
   demo: {
     title: "Mira tu carta con los ojos de un turista",

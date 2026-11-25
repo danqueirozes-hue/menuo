@@ -44,10 +44,10 @@ export function Hero({ dict, cta, locale }: { dict: LandingDict["hero"]; cta: st
           <div className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-amber/10 blur-2xl" />
           <div className="relative overflow-hidden rounded-[1.75rem] border border-paper/10 shadow-2xl shadow-black/40">
             <Image
-              src="/images/landing/hero-scan.jpg"
+              src="/images/landing/hero-table.jpg"
               alt={dict.imageAlt}
-              width={1536}
-              height={1024}
+              width={1264}
+              height={848}
               priority
               sizes="(min-width: 1024px) 45vw, (min-width: 640px) 384px, 90vw"
               className="h-full w-full object-cover"

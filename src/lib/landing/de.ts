@@ -12,7 +12,7 @@ export const de: LandingDict = {
       "Laden Sie ein Foto oder PDF Ihrer Speisekarte hoch: In wenigen Minuten wird daraus eine digitale Karte in 20 Sprachen, mit korrekt ausgewiesenen Allergenen. Internationale Gäste scannen einen QR-Code und lesen alles in ihrer Sprache – ganz ohne App.",
     cta2: "Live-Demo ansehen",
     trust: ["14 Tage kostenlos", "Keine App für Gäste", "Jederzeit kündbar"],
-    imageAlt: "Gast am Tisch scannt den QR-Code der Speisekarte mit dem Handy",
+    imageAlt: "MENUO-Tischaufsteller mit QR-Code auf einem Restauranttisch in der toskanischen Landschaft",
   },
   demo: {
     title: "Ihre Karte mit den Augen eines Touristen",

@@ -8,42 +8,42 @@ const SEO: Record<SiteLocale, { title: string; description: string; ogAlt: strin
     title: "Multilingual QR code digital menu for restaurants · MENUO",
     description:
       "Turn your menu into a digital menu in 20 languages with one QR code. EU allergens included, no app. Try it free for 14 days.",
-    ogAlt: "Guest at a table scanning the menu QR code with a phone",
+    ogAlt: "MENUO table card with a QR code on a restaurant table in the Tuscan countryside",
     ogLocale: "en_GB",
   },
   it: {
     title: "Menu digitale multilingue con QR code per ristoranti · MENUO",
     description:
       "Trasforma il tuo menu in un menu digitale in 20 lingue con un solo QR code. Allergeni UE inclusi, senza app. Prova gratis 14 giorni.",
-    ogAlt: "Cliente al tavolo che inquadra il QR code del menu con lo smartphone",
+    ogAlt: "Segnaposto MENUO con QR code sul tavolo di un ristorante nella campagna toscana",
     ogLocale: "it_IT",
   },
   pt: {
     title: "Menu digital multilingue com QR code para restaurantes · MENUO",
     description:
       "Transforme o seu menu num menu digital em 20 idiomas com um só QR code. Alergénios da UE incluídos, sem app. Experimente grátis durante 14 dias.",
-    ogAlt: "Cliente à mesa a ler o QR code do menu com o telemóvel",
+    ogAlt: "Suporte de mesa MENUO com QR code numa mesa de restaurante no campo toscano",
     ogLocale: "pt_PT",
   },
   es: {
     title: "Carta digital multilingüe con código QR para restaurantes · MENUO",
     description:
       "Convierte tu carta en una carta digital en 20 idiomas con un solo código QR. Alérgenos de la UE incluidos, sin app. Pruébalo gratis 14 días.",
-    ogAlt: "Cliente en la mesa escaneando el código QR de la carta con el móvil",
+    ogAlt: "Soporte de mesa MENUO con código QR en la mesa de un restaurante en la campiña toscana",
     ogLocale: "es_ES",
   },
   fr: {
     title: "Menu digital multilingue avec QR code pour restaurants · MENUO",
     description:
       "Transformez votre carte en menu digital en 20 langues avec un seul QR code. Allergènes UE inclus, sans application. Essai gratuit de 14 jours.",
-    ogAlt: "Client à table scannant le QR code du menu avec son téléphone",
+    ogAlt: "Chevalet MENUO avec QR code sur une table de restaurant dans la campagne toscane",
     ogLocale: "fr_FR",
   },
   de: {
     title: "Mehrsprachige digitale Speisekarte mit QR-Code für Restaurants · MENUO",
     description:
       "Machen Sie Ihre Speisekarte zur digitalen Karte in 20 Sprachen – mit einem einzigen QR-Code. EU-Allergene inklusive, ohne App. 14 Tage kostenlos testen.",
-    ogAlt: "Gast am Tisch scannt den QR-Code der Speisekarte mit dem Handy",
+    ogAlt: "MENUO-Tischaufsteller mit QR-Code auf einem Restauranttisch in der toskanischen Landschaft",
     ogLocale: "de_DE",
   },
 };
@@ -68,7 +68,7 @@ export function landingMetadata(locale: SiteLocale): Metadata {
       title: seo.title,
       description: seo.description,
       locale: seo.ogLocale,
-      images: [{ url: "/images/landing/hero-scan.jpg", width: 1536, height: 1024, alt: seo.ogAlt }],
+      images: [{ url: "/images/landing/hero-table.jpg", width: 1264, height: 848, alt: seo.ogAlt }],
     },
     twitter: { card: "summary_large_image", title: seo.title, description: seo.description },
   };

@@ -12,7 +12,7 @@ export const pt: LandingDict = {
       "Carregue uma foto ou o PDF do seu menu: em poucos minutos torna-se um menu digital em 20 idiomas, com os alergénios em conformidade. Os clientes estrangeiros leem um QR code e veem tudo no seu idioma, sem descarregar nenhuma app.",
     cta2: "Experimente a demo",
     trust: ["14 dias grátis", "Sem app para os clientes", "Cancele quando quiser"],
-    imageAlt: "Cliente à mesa a ler o QR code do menu com o telemóvel",
+    imageAlt: "Suporte de mesa MENUO com QR code numa mesa de restaurante no campo toscano",
   },
   demo: {
     title: "Veja o seu menu com os olhos de um turista",
