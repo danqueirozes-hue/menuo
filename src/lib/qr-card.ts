@@ -1,4 +1,4 @@
-import { LANGUAGES } from "@/lib/languages";
+import { LANGUAGES, flagSrc } from "@/lib/languages";
 
 const CARD_WIDTH = 1000;
 const CARD_HEIGHT = 1400;
@@ -33,38 +33,8 @@ function pickBadgeLanguages(defaultLanguage: string): string[] {
   return [defaultLanguage, ...rest].slice(0, 3);
 }
 
-// Flag *emoji* are unreliable here: Windows in particular renders the
-// regional-indicator sequence as plain letters ("GB") instead of an actual
-// flag glyph, both directly in <canvas> text and when rasterized from an
-// SVG <text> image — it's a font/OS limitation, not something fixable from
-// CSS. Real flag SVGs (bundled from the "flag-icons" package into
-// public/flags/, MIT licensed) render identically everywhere instead.
-const FLAG_COUNTRY: Record<string, string> = {
-  en: "gb",
-  fr: "fr",
-  de: "de",
-  es: "es",
-  it: "it",
-  pt: "pt",
-  nl: "nl",
-  pl: "pl",
-  sv: "se",
-  el: "gr",
-  ru: "ru",
-  tr: "tr",
-  ar: "sa",
-  zh: "cn",
-  ja: "jp",
-  ko: "kr",
-  hi: "in",
-  th: "th",
-  vi: "vn",
-  sw: "ke",
-};
-
-function flagImageSrc(languageCode: string): string {
-  return `/flags/${FLAG_COUNTRY[languageCode] ?? "gb"}.svg`;
-}
+// Flag SVGs instead of emoji (see flagSrc in src/lib/languages.ts).
+const flagImageSrc = flagSrc;
 
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {

@@ -241,7 +241,7 @@ export function localizedLanguageOptions(locale: BuilderLocale): { code: string;
   const names = new Intl.DisplayNames([LANGUAGE_NAME_LOCALE[locale]], { type: "language" });
   return LANGUAGES.map((l) => {
     const name = locale === "en" ? l.englishName : (names.of(l.code) ?? l.englishName);
-    return { code: l.code, label: `${l.flag} ${name.charAt(0).toUpperCase()}${name.slice(1)}` };
+    return { code: l.code, label: `${name.charAt(0).toUpperCase()}${name.slice(1)}` };
   });
 }
 

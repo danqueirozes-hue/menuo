@@ -108,7 +108,7 @@ function SignupForm() {
             </option>
             {LANGUAGES.map((l) => (
               <option key={l.code} value={l.code}>
-                {l.flag} {locale === "en" ? l.englishName : capitalize(languageNames.of(l.code) ?? l.englishName)}
+                {locale === "en" ? l.englishName : capitalize(languageNames.of(l.code) ?? l.englishName)}
               </option>
             ))}
           </select>

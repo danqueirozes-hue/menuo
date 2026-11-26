@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Check, ChevronDown, Globe, X } from "lucide-react";
 import { LANGUAGES, getLanguage } from "@/lib/languages";
+import { Flag } from "@/components/ui/Flag";
 
 /** "Language" in each language, for the sheet title and the button's label. */
 const LANGUAGE_WORD: Record<string, string> = {
@@ -48,7 +49,7 @@ export function LanguageSwitch({ slug, lang, variant }: { slug: string; lang: st
           className="mt-6 inline-flex items-center gap-2.5 rounded-full border border-amber/60 bg-paper/10 px-5 py-2.5 text-sm font-medium text-paper transition-colors hover:border-amber hover:bg-paper/15"
         >
           <Globe size={17} className="text-amber" />
-          <span className="text-base leading-none">{current.flag}</span>
+          <Flag code={current.code} />
           {current.nativeName}
           <ChevronDown size={16} className="text-amber" />
         </button>
@@ -61,7 +62,7 @@ export function LanguageSwitch({ slug, lang, variant }: { slug: string; lang: st
           className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-navy/30 px-3 py-1.5 text-sm text-navy transition-colors hover:border-amber hover:text-amber"
         >
           <Globe size={15} className="shrink-0" />
-          <span className="leading-none">{current.flag}</span>
+          <Flag code={current.code} className="h-3.5 w-[1.15rem]" />
           <span className="font-medium uppercase">{current.code}</span>
         </button>
       )}
@@ -99,7 +100,7 @@ export function LanguageSwitch({ slug, lang, variant }: { slug: string; lang: st
                         active ? "border-amber bg-amber/10" : "border-border bg-panel hover:border-amber"
                       }`}
                     >
-                      <span className="text-xl leading-none">{l.flag}</span>
+                      <Flag code={l.code} className="h-5 w-[1.66rem]" />
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-medium text-ink">{l.nativeName}</span>
                         <span className="block truncate text-[11px] text-ink-soft">{l.englishName}</span>

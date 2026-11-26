@@ -40,3 +40,16 @@ export function getLanguage(code: string): Language {
 export function isValidLanguage(code: string): boolean {
   return LANGUAGES.some((l) => l.code === code);
 }
+
+// Flag *emoji* are unreliable: Windows renders the regional-indicator pair as
+// plain letters ("GB") instead of a flag. Real flag SVGs (from the
+// "flag-icons" package, MIT, bundled in public/flags/) look the same everywhere.
+const FLAG_COUNTRY: Record<string, string> = {
+  en: "gb", fr: "fr", de: "de", es: "es", it: "it", pt: "pt", nl: "nl", pl: "pl", sv: "se", el: "gr",
+  ru: "ru", tr: "tr", ar: "sa", zh: "cn", ja: "jp", ko: "kr", hi: "in", th: "th", vi: "vn", sw: "ke",
+};
+
+/** Path of the flag SVG for a language code. */
+export function flagSrc(languageCode: string): string {
+  return `/flags/${FLAG_COUNTRY[languageCode] ?? "gb"}.svg`;
+}

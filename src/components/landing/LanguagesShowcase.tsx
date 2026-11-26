@@ -1,5 +1,6 @@
 ﻿import { LANGUAGES } from "@/lib/languages";
 import { LandingDict } from "@/lib/landing-content";
+import { Flag } from "@/components/ui/Flag";
 
 export function LanguagesShowcase({ dict }: { dict: LandingDict["languagesSection"] }) {
   return (
@@ -13,7 +14,7 @@ export function LanguagesShowcase({ dict }: { dict: LandingDict["languagesSectio
               key={lang.code}
               className="flex items-center gap-3 rounded-lg border border-border bg-panel px-4 py-3 text-left"
             >
-              <span className="text-xl">{lang.flag}</span>
+              <Flag code={lang.code} className="h-5 w-[1.66rem]" />
               <div>
                 <p className="text-sm font-medium text-ink">{lang.nativeName}</p>
                 <p className="text-xs text-ink-soft">{lang.englishName}</p>

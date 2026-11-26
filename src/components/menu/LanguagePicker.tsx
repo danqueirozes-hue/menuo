@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { LANGUAGES } from "@/lib/languages";
 import { Logo } from "@/components/ui/Logo";
+import { Flag } from "@/components/ui/Flag";
 
 export function LanguagePicker({
   slug,
@@ -47,7 +48,7 @@ export function LanguagePicker({
             onClick={() => choose(lang.code)}
             className="flex flex-col items-center gap-2 rounded-lg border border-paper/15 bg-paper/5 py-4 transition-colors hover:border-amber hover:bg-amber/10"
           >
-            <span className="text-2xl">{lang.flag}</span>
+            <Flag code={lang.code} className="h-6 w-8" />
             <span className="text-xs text-paper/80">{lang.nativeName}</span>
           </button>
         ))}
