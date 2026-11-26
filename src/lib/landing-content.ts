@@ -81,6 +81,8 @@ export type LandingDict = {
   faq: { title: string; items: { q: string; a: string }[] };
   final: { title: string; human: string; humanEmail: string; whatsapp: string };
   footer: { tagline: string; cookies: string };
+  /** Floating live-chat button (Crisp). */
+  chat: { cta: string; label: string };
 };
 
 export const LANDING_CONTENT: Record<SiteLocale, LandingDict> = { en, it, pt, es, fr, de };

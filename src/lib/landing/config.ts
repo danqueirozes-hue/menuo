@@ -17,4 +17,7 @@ export const LANDING_CONFIG = {
    * WhatsApp button; the contact email is shown instead. */
   whatsappNumber: null as string | null,
   contactEmail: "contato@menuoglobal.com",
+  /** Crisp website ID (Crisp → Settings → Website settings → Setup
+   * instructions). Not a secret. null hides the floating chat button. */
+  crispWebsiteId: null as string | null,
 };

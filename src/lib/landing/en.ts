@@ -121,4 +121,5 @@ export const en: LandingDict = {
     whatsapp: "Message us on WhatsApp",
   },
   footer: { tagline: "One menu. Every language.", cookies: "Cookies" },
+  chat: { cta: "Talk to us now", label: "Live chat" },
 };

@@ -136,4 +136,5 @@ export const fr: LandingDict = {
     whatsapp: "Écrivez-nous sur WhatsApp",
   },
   footer: { tagline: "Un menu. Toutes les langues.", cookies: "Cookies" },
+  chat: { cta: "Parlez-nous maintenant", label: "Chat en direct" },
 };

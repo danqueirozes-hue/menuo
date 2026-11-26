@@ -11,6 +11,7 @@ import { Faq } from "@/components/landing/Faq";
 import { FinalCta } from "@/components/landing/FinalCta";
 import { Footer } from "@/components/landing/Footer";
 import { FunnelEvents } from "@/components/landing/FunnelEvents";
+import { CrispChat } from "@/components/landing/CrispChat";
 import { LANDING_CONTENT, SiteLocale } from "@/lib/landing-content";
 import { LANDING_CONFIG } from "@/lib/landing/config";
 import { LANDING_IMAGE_ALTS } from "@/lib/landing-seo";
@@ -37,6 +38,9 @@ export function LandingPage({ locale }: { locale: SiteLocale }) {
         <FinalCta dict={dict.final} cta={dict.cta} locale={locale} />
       </main>
       <FunnelEvents />
+      {LANDING_CONFIG.crispWebsiteId && (
+        <CrispChat websiteId={LANDING_CONFIG.crispWebsiteId} locale={locale} cta={dict.chat.cta} label={dict.chat.label} />
+      )}
       <Footer tagline={dict.footer.tagline} cookies={dict.footer.cookies} locale={locale} />
     </>
   );

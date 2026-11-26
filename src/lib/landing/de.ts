@@ -130,4 +130,5 @@ export const de: LandingDict = {
     whatsapp: "Auf WhatsApp schreiben",
   },
   footer: { tagline: "Eine Speisekarte. Jede Sprache.", cookies: "Cookies" },
+  chat: { cta: "Jetzt mit uns sprechen", label: "Live-Chat" },
 };

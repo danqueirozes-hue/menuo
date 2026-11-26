@@ -14,6 +14,7 @@ export type FunnelEvent =
   | "pricing_view"
   | "faq_open"
   | "whatsapp_click"
+  | "chat_open"
   | "cta_click"
   | "signup_start"
   | "signup_complete";
@@ -24,6 +25,7 @@ export const FUNNEL_EVENTS: FunnelEvent[] = [
   "pricing_view",
   "faq_open",
   "whatsapp_click",
+  "chat_open",
   "cta_click",
   "signup_start",
   "signup_complete",
