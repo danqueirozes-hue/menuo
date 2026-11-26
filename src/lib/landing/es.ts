@@ -84,6 +84,8 @@ export const es: LandingDict = {
     anchor: "Menos que dos cafés a la semana",
     fiscal: "Precios sin IVA · Factura a nombre de tu empresa (NIF/CIF)",
     noCommitment: "Sin permanencia: cancela cuando quieras",
+    securePayment: "Pago seguro con Stripe",
+    noChargeTrial: "Sin cargos durante 14 días",
   },
   faq: {
     title: "Preguntas frecuentes",

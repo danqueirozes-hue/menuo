@@ -84,6 +84,8 @@ export const it: LandingDict = {
     anchor: "Meno di due caffè a settimana",
     fiscal: "Prezzi IVA esclusa · Fattura intestata alla tua Partita IVA",
     noCommitment: "Nessun vincolo: disdici quando vuoi",
+    securePayment: "Pagamento sicuro con Stripe",
+    noChargeTrial: "Nessun addebito per 14 giorni",
   },
   faq: {
     title: "Domande frequenti",

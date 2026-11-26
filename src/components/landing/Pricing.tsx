@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { CalendarCheck, Check, Lock, RotateCcw } from "lucide-react";
 import { PLAN_ORDER, PLANS, formatPlanPrice, BillingInterval } from "@/lib/plans";
 import { LandingDict, SiteLocale, signupHref } from "@/lib/landing-content";
 
@@ -82,8 +82,22 @@ export function Pricing({ dict, cta, locale }: { dict: LandingDict["pricing"]; c
           })}
         </div>
 
-        <p className="mt-8 text-center text-sm text-ink">{dict.noCommitment}</p>
-        <p className="mt-1 text-center text-xs text-ink-soft">{dict.fiscal}</p>
+        {/* Trust strip: only claims that are true for every new account. */}
+        <ul className="mx-auto mt-10 flex w-fit flex-col items-start gap-3 text-sm text-ink sm:w-auto sm:flex-row sm:items-center sm:justify-center sm:gap-8">
+          {[
+            { icon: Lock, text: dict.securePayment },
+            { icon: CalendarCheck, text: dict.noChargeTrial },
+            { icon: RotateCcw, text: dict.noCommitment },
+          ].map(({ icon: Icon, text }) => (
+            <li key={text} className="inline-flex items-center gap-2">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-green/10 text-green">
+                <Icon size={16} />
+              </span>
+              {text}
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 text-center text-xs text-ink-soft">{dict.fiscal}</p>
       </div>
     </section>
   );

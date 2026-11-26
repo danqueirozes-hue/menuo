@@ -84,6 +84,8 @@ export const pt: LandingDict = {
     anchor: "Menos de 35 cêntimos por dia",
     fiscal: "Preços sem IVA · Fatura em nome da sua empresa (NIF)",
     noCommitment: "Sem fidelização: cancele quando quiser",
+    securePayment: "Pagamento seguro com Stripe",
+    noChargeTrial: "Nada cobrado durante 14 dias",
   },
   faq: {
     title: "Perguntas frequentes",

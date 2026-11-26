@@ -77,6 +77,8 @@ export type LandingDict = {
     anchor: string;
     fiscal: string;
     noCommitment: string;
+    securePayment: string;
+    noChargeTrial: string;
   };
   faq: { title: string; items: { q: string; a: string }[] };
   final: { title: string; human: string; humanEmail: string; whatsapp: string };

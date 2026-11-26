@@ -82,6 +82,8 @@ export const en: LandingDict = {
     anchor: "Less than a coffee a week",
     fiscal: "Prices exclude VAT · Invoice issued to your company",
     noCommitment: "No commitment: cancel anytime",
+    securePayment: "Secure payment with Stripe",
+    noChargeTrial: "Nothing charged for 14 days",
   },
   faq: {
     title: "Frequently asked questions",

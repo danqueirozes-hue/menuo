@@ -91,6 +91,8 @@ export const fr: LandingDict = {
     anchor: "Moins de deux cafés par semaine",
     fiscal: "Prix HT · Facture au nom de votre entreprise (n° de TVA)",
     noCommitment: "Sans engagement : résiliable à tout moment",
+    securePayment: "Paiement sécurisé par Stripe",
+    noChargeTrial: "Aucun prélèvement pendant 14 jours",
   },
   faq: {
     title: "Questions fréquentes",

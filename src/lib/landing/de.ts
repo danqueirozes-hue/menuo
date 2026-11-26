@@ -88,6 +88,8 @@ export const de: LandingDict = {
     anchor: "Weniger als ein Kaffee pro Woche",
     fiscal: "Preise zzgl. MwSt. · Rechnung auf Ihre Firma (USt-IdNr.)",
     noCommitment: "Keine Mindestlaufzeit: jederzeit kündbar",
+    securePayment: "Sichere Zahlung über Stripe",
+    noChargeTrial: "14 Tage keine Abbuchung",
   },
   faq: {
     title: "Häufige Fragen",
