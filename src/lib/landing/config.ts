@@ -19,5 +19,5 @@ export const LANDING_CONFIG = {
   contactEmail: "contato@menuoglobal.com",
   /** Crisp website ID (Crisp → Settings → Website settings → Setup
    * instructions). Not a secret. null hides the floating chat button. */
-  crispWebsiteId: null as string | null,
+  crispWebsiteId: "08c5c911-1d33-4111-8e0c-474acbe75921" as string | null,
 };
