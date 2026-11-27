@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 
 const GTM_ID = "GTM-53BW6Q23";
+/** Google tag of the Menuo Google Ads account (108-568-4878), loaded directly
+ * because that account has no access to the GTM container. */
+const GOOGLE_ADS_TAG_ID = "AW-17133329612";
 const STORAGE_KEY = "menuo_consent"; // "granted" | "denied"
 /** Dispatch this on window (e.g. from a footer link) to show the banner again. */
 export const OPEN_CONSENT_EVENT = "menuo:open-consent";
@@ -97,6 +100,14 @@ function loadGtm() {
   s.async = true;
   s.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`;
   document.head.appendChild(s);
+
+  // Google Ads tag, under the same consent state pushed above.
+  gtag("js", new Date());
+  gtag("config", GOOGLE_ADS_TAG_ID);
+  const ads = document.createElement("script");
+  ads.async = true;
+  ads.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_TAG_ID}`;
+  document.head.appendChild(ads);
 }
 
 export function CookieConsent() {
