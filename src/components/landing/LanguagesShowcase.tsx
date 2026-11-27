@@ -1,6 +1,7 @@
 ﻿import { LANGUAGES } from "@/lib/languages";
 import { LandingDict } from "@/lib/landing-content";
 import { Flag } from "@/components/ui/Flag";
+import { RiseOnView } from "@/components/landing/RiseOnView";
 
 export function LanguagesShowcase({ dict }: { dict: LandingDict["languagesSection"] }) {
   return (
@@ -8,11 +9,13 @@ export function LanguagesShowcase({ dict }: { dict: LandingDict["languagesSectio
       <div className="mx-auto max-w-6xl px-6 text-center">
         <h2 className="font-display text-3xl text-ink sm:text-4xl">{dict.title}</h2>
 
-        <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 lg:grid-cols-5">
-          {LANGUAGES.map((lang) => (
+        {/* The 20 languages arrive one after another as the grid scrolls in. */}
+        <RiseOnView threshold={0.15} className="mt-12 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 lg:grid-cols-5">
+          {LANGUAGES.map((lang, i) => (
             <div
               key={lang.code}
-              className="flex items-center gap-3 rounded-lg border border-border bg-panel px-4 py-3 text-left"
+              style={{ transitionDelay: `${i * 45}ms` }}
+              className="rise-item flex items-center gap-3 rounded-lg border border-border bg-panel px-4 py-3 text-left"
             >
               <Flag code={lang.code} className="h-5 w-[1.66rem]" />
               <div>
@@ -21,7 +24,7 @@ export function LanguagesShowcase({ dict }: { dict: LandingDict["languagesSectio
               </div>
             </div>
           ))}
-        </div>
+        </RiseOnView>
         <p className="mt-8 text-sm text-ink-soft">{dict.note}</p>
       </div>
     </section>

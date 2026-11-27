@@ -5,7 +5,16 @@ import { useEffect, useRef, type ReactNode } from "react";
 /** Reveals its children's `.rise-item` elements the first time the block
  * scrolls into view (the motion lives in globals.css; reduced-motion users get
  * them already in place). Without JS the items simply show. */
-export function RiseOnView({ className, children }: { className?: string; children: ReactNode }) {
+export function RiseOnView({
+  className,
+  children,
+  threshold = 0.35,
+}: {
+  className?: string;
+  children: ReactNode;
+  /** Share of the block that must be visible before it reveals (lower for tall grids). */
+  threshold?: number;
+}) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -19,11 +28,11 @@ export function RiseOnView({ className, children }: { className?: string; childr
           io.disconnect();
         }
       },
-      { threshold: 0.35 },
+      { threshold },
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [threshold]);
 
   return (
     <div ref={ref} className={className}>
