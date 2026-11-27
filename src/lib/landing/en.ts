@@ -59,6 +59,7 @@ export const en: LandingDict = {
   },
   names: {
     title: "Your dish names stay yours",
+    imageAlt: "A plate of cacio e pepe on a blue napkin",
     text: "Carbonara stays carbonara. MENUO keeps the original name and translates the description, so foreign guests understand what they order without losing authenticity. Every translation can be edited.",
     original: "Cacio e pepe",
     translations: [

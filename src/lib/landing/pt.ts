@@ -60,12 +60,13 @@ export const pt: LandingDict = {
   },
   names: {
     title: "O nome dos seus pratos continua a ser seu",
-    text: "O bacalhau à Brás continua a ser bacalhau à Brás. O MENUO mantém o nome original e traduz a descrição, para que o cliente estrangeiro perceba o que pede sem perder a autenticidade. Cada tradução pode ser editada.",
-    original: "Bacalhau à Brás",
+    imageAlt: "Um prato de cacio e pepe sobre um guardanapo azul",
+    text: "A carbonara continua a ser carbonara. O MENUO mantém o nome original e traduz a descrição, para que o cliente estrangeiro perceba o que pede sem perder a autenticidade. Cada tradução pode ser editada.",
+    original: "Cacio e pepe",
     translations: [
-      { lang: "EN", text: "Shredded salt cod with matchstick potatoes, egg and black olives" },
-      { lang: "DE", text: "Zerzupfter Stockfisch mit Kartoffelstroh, Ei und schwarzen Oliven" },
-      { lang: "FR", text: "Morue effilochée aux pommes paille, œuf et olives noires" },
+      { lang: "EN", text: "Tonnarelli with Pecorino Romano and black pepper" },
+      { lang: "DE", text: "Tonnarelli mit Pecorino Romano und schwarzem Pfeffer" },
+      { lang: "FR", text: "Tonnarelli au pecorino romano et poivre noir" },
     ],
   },
   languagesSection: { title: "20 idiomas, um só menu", note: "E mais a caminho." },

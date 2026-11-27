@@ -66,7 +66,13 @@ export type LandingDict = {
   };
   benefits: { title: string; items: Item[] };
   how: { title: string; steps: Item[]; note: string };
-  names: { title: string; text: string; original: string; translations: { lang: string; text: string }[] };
+  names: {
+    title: string;
+    imageAlt: string;
+    text: string;
+    original: string;
+    translations: { lang: string; text: string }[];
+  };
   languagesSection: { title: string; note: string };
   social: { title: string };
   pricing: PricingShared & {
